@@ -1,62 +1,113 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { MEDIA } from "src/shared/styles/breakpoints";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import { FinflowLogo } from "src/shared/ui/icons/FinflowLogo";
+import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
+import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
 
 export const Root = styled.div<{ $expanded: boolean }>`
   display: grid;
-  grid-template-columns: ${({ $expanded }) =>
-    $expanded ? "240px minmax(0, 1fr)" : "72px minmax(0, 1fr)"};
+  grid-template-columns: 0 minmax(0, 1fr);
   color: ${({ theme }) => theme.colors.textPrimary};
   background: ${({ theme }) => theme.colors.background};
-  transition: grid-template-columns ${({ theme }) => theme.transitions.normal};
+  transition: grid-template-columns ${({ theme }) => theme.transitions.slow};
   min-height: 100dvh;
   overflow-x: clip;
-`;
 
-export const BrandWrapper = styled.div<{ $expanded: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: ${({ $expanded }) =>
-    $expanded ? "space-between" : "center"};
-`;
-
-export const Sidebar = styled.aside<{ $expanded: boolean }>`
-  grid-column: 1;
-  width: 100%;
-  min-width: 0;
-  align-self: stretch;
-  padding: ${({ $expanded }) => ($expanded ? "32px 20px" : "32px 12px")};
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
-  transition: padding ${({ theme }) => theme.transitions.normal};
-  position: relative;
-  z-index: 20;
-
-  @media ${MEDIA.tablet} {
-    padding: ${({ $expanded }) => ($expanded ? "20px" : "20px 12px")};
-    border-right: 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    grid-template-columns: ${({ $expanded }) =>
+      $expanded ? "240px minmax(0, 1fr)" : "72px minmax(0, 1fr)"};
   }
 `;
 
-export const Brand = styled.div<{ $expanded: boolean }>`
-  display: ${({ $expanded }) => ($expanded ? "block" : "none")};
+export const BrandWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+`;
+
+export const Sidebar = styled.aside<{
+  $expanded: boolean;
+  $collapseBeforeHide: boolean;
+}>`
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  width: ${({ $expanded }) => ($expanded ? "min(240px, 100vw)" : "72px")};
+  min-width: 0;
+  padding: ${({ $expanded }) => ($expanded ? "20px" : "20px 12px")};
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.surface};
+  border-right: 1px solid ${({ theme }) => theme.colors.border};
+  transform: translateX(${({ $expanded }) => ($expanded ? "0" : "-100%")});
+  opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
+  visibility: ${({ $expanded }) => ($expanded ? "visible" : "hidden")};
+
+  transition: ${({ theme, $expanded, $collapseBeforeHide }) => {
+    const slow = theme.transitions.slow;
+    const normal = theme.transitions.normal;
+    const delay = $expanded || !$collapseBeforeHide ? "0ms" : "300ms";
+
+    return `
+    width ${slow},
+    padding ${slow},
+    transform ${slow} ${delay},
+    opacity ${normal} ${delay},
+    visibility ${normal} ${delay}
+  `;
+  }};
+
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    position: relative;
+    inset: auto;
+    grid-column: 1;
+    width: ${({ $expanded }) => ($expanded ? "240px" : "72px")};
+    align-self: stretch;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    border-right: 0;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+    transition:
+      width ${({ theme }) => theme.transitions.slow}
+        ${({ $expanded }) => ($expanded ? "0ms" : "180ms")},
+      padding ${({ theme }) => theme.transitions.slow}
+        ${({ $expanded }) => ($expanded ? "0ms" : "180ms")},
+      transform ${({ theme }) => theme.transitions.slow},
+      opacity ${({ theme }) => theme.transitions.normal},
+      visibility ${({ theme }) => theme.transitions.normal};
+  }
+
+  @media (min-width: ${BREAKPOINTS.tablet}px) {
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
+    border-bottom: 0;
+  }
+`;
+
+export const Brand = styled(FinflowLogo)<{ $expanded: boolean }>`
+  width: auto;
+  max-width: ${({ $expanded }) => ($expanded ? "108px" : "0")};
+  flex: 0 1 auto;
+  overflow: hidden;
   color: ${({ theme }) => theme.colors.primary};
-  font-size: 24px;
-  font-weight: 700;
+  opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
+  visibility: ${({ $expanded }) => ($expanded ? "visible" : "hidden")};
+
+  transition:
+    opacity ${({ theme }) => theme.transitions.normal}
+      ${({ $expanded }) => ($expanded ? "180ms" : "0ms")},
+    visibility ${({ theme }) => theme.transitions.normal}
+      ${({ $expanded }) => ($expanded ? "180ms" : "0ms")},
+    max-width ${({ theme }) => theme.transitions.slow}
+      ${({ $expanded }) => ($expanded ? "0ms" : "180ms")};
 `;
 
 export const Navigation = styled.nav`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  margin-top: 32px;
   overflow: hidden;
-
-  @media ${MEDIA.tablet} {
-    margin-top: 20px;
-  }
+  margin-top: 25px;
 `;
 
 export const NavigationLink = styled(NavLink)`
@@ -66,7 +117,7 @@ export const NavigationLink = styled(NavLink)`
 
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: 0;
   transition:
     color ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast};
@@ -101,25 +152,22 @@ export const NavigationLink = styled(NavLink)`
     box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.focusRing};
   }
 
-  @media ${MEDIA.tablet} {
-    gap: 0;
+  @media (min-width: ${BREAKPOINTS.tablet}px) {
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 export const MainContent = styled.main`
-  padding: 32px;
   grid-column: 2;
   min-width: 0;
-
-  @media ${MEDIA.tablet} {
-    padding: 20px 16px;
-  }
 `;
 
-export const CloseButton = styled.button`
-  padding: 5px;
+export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
+  width: 48px;
+  margin-left: ${($headerButton) => ($headerButton ? 0 : "auto")};
+  padding: 10px 12px;
   color: ${({ theme }) => theme.colors.textSecondary};
-  border-radius: ${({ theme }) => theme.radii.md};
+  border-radius: ${({ theme }) => theme.radii.sm};
   cursor: pointer;
   border: none;
   background: transparent;
@@ -131,12 +179,6 @@ export const CloseButton = styled.button`
     color ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast},
     box-shadow ${({ theme }) => theme.transitions.fast};
-
-  > svg {
-    width: 24px;
-    height: 24px;
-    flex: 0 0 24px;
-  }
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
@@ -152,17 +194,25 @@ export const CloseButton = styled.button`
     background-color: ${({ theme }) => theme.colors.interactiveFocus};
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.focusRing};
   }
+
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    display: ${({ $headerButton }) => ($headerButton ? "none" : "inline-flex")};
+  }
 `;
 
-// export const NavigationLabel = styled.span<{ $expanded: boolean }>`
-//   opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
-//   overflow: hidden;
-//   white-space: nowrap;
-//
-//   transition:
-//     opacity ${({ theme }) => theme.transitions.fast},
-//     max-width ${({ theme }) => theme.transitions.normal};
-// `;
+export const CloseIconStyled = styled(CloseIcon)`
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    display: none;
+  }
+`;
+
+export const ToggleIconStyled = styled(ToggleIcon)`
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    display: block;
+  }
+  display: none;
+`;
+
 export const NavigationLabel = styled.span<{ $expanded: boolean }>`
   min-width: 0;
   max-width: ${({ $expanded }) => ($expanded ? "160px" : "0")};
@@ -171,29 +221,28 @@ export const NavigationLabel = styled.span<{ $expanded: boolean }>`
   white-space: nowrap;
 
   transition:
-    opacity ${({ theme }) => theme.transitions.fast},
+    opacity ${({ theme }) => theme.transitions.normal},
     max-width ${({ theme }) => theme.transitions.normal};
+  transition-delay: ${({ $expanded }) => ($expanded ? "180ms" : "0ms")};
 `;
 
 export const Backdrop = styled.button<{ $visible: boolean }>`
-  display: none;
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  background: rgb(15 23 42 / 45%);
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
+  pointer-events: ${({ $visible }) => ($visible ? "auto" : "none")};
 
-  @media ${MEDIA.tablet} {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: 10;
+  transition:
+    opacity ${({ theme }) => theme.transitions.slow},
+    visibility ${({ theme }) => theme.transitions.slow};
 
-    padding: 0;
-    border: 0;
-    background: rgb(15 23 42 / 45%);
-
-    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-    visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
-    pointer-events: ${({ $visible }) => ($visible ? "auto" : "none")};
-
-    transition:
-      opacity ${({ theme }) => theme.transitions.normal},
-      visibility ${({ theme }) => theme.transitions.normal};
+  @media (min-width: ${BREAKPOINTS.tablet}px) {
+    display: none;
   }
 `;

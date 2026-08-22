@@ -1,11 +1,11 @@
 import { useCallback, useSyncExternalStore } from "react";
 
-const getServerSnapshot = () => false;
-
 export const useMediaQuery = (query: string) => {
   const subscribe = useCallback(
     (onStoreChange: () => void) => {
       const mediaQuery = window.matchMedia(query);
+
+      console.log("mediaQuery", mediaQuery);
 
       const handleChange = () => {
         onStoreChange();
@@ -25,5 +25,5 @@ export const useMediaQuery = (query: string) => {
     [query],
   );
 
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getSnapshot);
 };

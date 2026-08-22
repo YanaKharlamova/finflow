@@ -11,6 +11,14 @@ export const theme = {
     focusRing: "#4969a8",
   },
 
+  typography: {
+    pageTitle: {
+      fontSize: "20px",
+      fontWeight: 600,
+      lineHeight: 1.2,
+    },
+  },
+
   spacing: {
     xs: "4px",
     sm: "8px",
@@ -26,5 +34,6 @@ export const theme = {
   transitions: {
     fast: "150ms ease",
     normal: "250ms ease",
+    slow: "300ms ease-in-out",
   },
 } as const;
