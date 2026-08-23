@@ -1,3 +1,14 @@
+import {
+  ButtonStyled,
+  MobileLabel,
+  WideLabel,
+} from "src/pages/transactions/AddTransactionButton.styled";
+
 export const AddTransactionButton = () => {
-  return <button>add transaction btn</button>;
+  return (
+    <ButtonStyled type="button">
+      <MobileLabel>+ Add</MobileLabel>
+      <WideLabel>Add transaction</WideLabel>
+    </ButtonStyled>
+  );
 };

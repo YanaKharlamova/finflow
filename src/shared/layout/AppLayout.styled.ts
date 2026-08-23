@@ -15,6 +15,10 @@ export const Root = styled.div<{ $expanded: boolean }>`
   overflow-x: clip;
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  @media (min-width: ${BREAKPOINTS.desktopSm}px) {
     grid-template-columns: ${({ $expanded }) =>
       $expanded ? "240px minmax(0, 1fr)" : "72px minmax(0, 1fr)"};
   }
@@ -24,6 +28,7 @@ export const BrandWrapper = styled.div`
   display: flex;
   align-items: center;
   min-height: 32px;
+  justify-content: space-between;
 `;
 
 export const Sidebar = styled.aside<{
@@ -66,21 +71,13 @@ export const Sidebar = styled.aside<{
     transform: none;
     opacity: 1;
     visibility: visible;
-    border-right: 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
     transition:
-      width ${({ theme }) => theme.transitions.slow}
-        ${({ $expanded }) => ($expanded ? "0ms" : "180ms")},
-      padding ${({ theme }) => theme.transitions.slow}
-        ${({ $expanded }) => ($expanded ? "0ms" : "180ms")},
+      width ${({ theme }) => theme.transitions.slow},
+      padding ${({ theme }) => theme.transitions.slow},
       transform ${({ theme }) => theme.transitions.slow},
       opacity ${({ theme }) => theme.transitions.normal},
       visibility ${({ theme }) => theme.transitions.normal};
-  }
-
-  @media (min-width: ${BREAKPOINTS.tablet}px) {
-    border-right: 1px solid ${({ theme }) => theme.colors.border};
-    border-bottom: 0;
   }
 `;
 
@@ -117,7 +114,7 @@ export const NavigationLink = styled(NavLink)`
 
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: ${({ theme }) => theme.spacing.sm};
   transition:
     color ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast};
@@ -149,11 +146,7 @@ export const NavigationLink = styled(NavLink)`
   &:focus-visible {
     color: ${({ theme }) => theme.colors.primary};
     background: ${({ theme }) => theme.colors.interactiveFocus};
-    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.focusRing};
-  }
-
-  @media (min-width: ${BREAKPOINTS.tablet}px) {
-    gap: ${({ theme }) => theme.spacing.sm};
+    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
   }
 `;
 
@@ -164,7 +157,7 @@ export const MainContent = styled.main`
 
 export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
   width: 48px;
-  margin-left: ${($headerButton) => ($headerButton ? 0 : "auto")};
+  margin-left: ${({ $headerButton }) => ($headerButton ? 0 : "auto")};
   padding: 10px 12px;
   color: ${({ theme }) => theme.colors.textSecondary};
   border-radius: ${({ theme }) => theme.radii.sm};
@@ -172,6 +165,7 @@ export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
   border: none;
   background: transparent;
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
@@ -192,7 +186,7 @@ export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
   &:focus-visible {
     color: ${({ theme }) => theme.colors.primary};
     background-color: ${({ theme }) => theme.colors.interactiveFocus};
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.focusRing};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
@@ -242,7 +236,7 @@ export const Backdrop = styled.button<{ $visible: boolean }>`
     opacity ${({ theme }) => theme.transitions.slow},
     visibility ${({ theme }) => theme.transitions.slow};
 
-  @media (min-width: ${BREAKPOINTS.tablet}px) {
+  @media (min-width: ${BREAKPOINTS.desktopSm}px) {
     display: none;
   }
 `;

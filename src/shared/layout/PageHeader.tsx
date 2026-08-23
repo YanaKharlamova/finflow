@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
-import { PageNameBox, Root } from "src/shared/layout/PageHeader.styled";
+import {
+  PageNameBox,
+  PageTitleWrapper,
+  Root,
+} from "src/shared/layout/PageHeader.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { useOutletContext } from "react-router-dom";
 import { ToggleButton } from "src/shared/layout/AppLayout.styled";
@@ -21,19 +25,21 @@ export const PageHeader = ({ title, actions }: Props) => {
 
   return (
     <Root>
-      <ToggleButton
-        type="button"
-        aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
-        aria-expanded={sidebarExpanded}
-        onClick={handleToggleSidebar}
-        $headerButton
-      >
-        <ToggleIcon />
-      </ToggleButton>
+      <PageTitleWrapper>
+        <ToggleButton
+          type="button"
+          aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
+          aria-expanded={sidebarExpanded}
+          onClick={handleToggleSidebar}
+          $headerButton
+        >
+          <ToggleIcon />
+        </ToggleButton>
 
-      <PageNameBox>
-        <Typography>{title}</Typography>
-      </PageNameBox>
+        <PageNameBox>
+          <Typography>{title}</Typography>
+        </PageNameBox>
+      </PageTitleWrapper>
       {actions}
     </Root>
   );

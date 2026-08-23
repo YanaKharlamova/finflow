@@ -9,8 +9,9 @@ export const useResponsiveSidebar = () => {
 
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
   const tablet = useMediaQuery(
-    `(${BREAKPOINTS.mobileLg}px <= width < ${BREAKPOINTS.tablet}px)`,
+    `(${BREAKPOINTS.mobileLg}px <= width <= ${BREAKPOINTS.tablet}px)`,
   );
+  const overlay = useMediaQuery(`(width < ${BREAKPOINTS.desktopSm}px)`);
 
   const handleToggleSidebar = () => {
     if (mobile) {
@@ -57,7 +58,7 @@ export const useResponsiveSidebar = () => {
 
   const sidebarExpanded = getSidebarExpanded();
 
-  const backdropVisible = mobile && sidebarExpanded;
+  const backdropVisible = overlay && sidebarExpanded;
 
   return {
     sidebarExpanded,

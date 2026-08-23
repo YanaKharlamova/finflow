@@ -1,4 +1,4 @@
-import { Root } from "src/shared/layout/PageLayout.styled";
+import { Root } from "src/shared/layout/PageLayout.styled.ts";
 import type { ReactNode } from "react";
 import { PageHeader } from "src/shared/layout/PageHeader";
 

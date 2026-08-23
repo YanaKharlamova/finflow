@@ -8,7 +8,7 @@ export const theme = {
     border: "#dbe3f0",
     interactiveHover: "#e9eef7",
     interactiveFocus: "#dfe7f5",
-    focusRing: "#4969a8",
+    buttonFocus: "#4969a8",
   },
 
   typography: {
