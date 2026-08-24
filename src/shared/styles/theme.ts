@@ -17,6 +17,11 @@ export const theme = {
       fontWeight: 600,
       lineHeight: 1.2,
     },
+    pageTitleSm: {
+      fontSize: "18px",
+      fontWeight: 600,
+      lineHeight: 1.2,
+    },
   },
 
   spacing: {

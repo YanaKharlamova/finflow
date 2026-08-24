@@ -20,10 +20,6 @@ export const PageTitleWrapper = styled.div`
 `;
 
 export const PageNameBox = styled.div`
-  display: none;
-
-  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
 `;

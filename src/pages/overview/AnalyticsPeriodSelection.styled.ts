@@ -9,6 +9,16 @@ export const ContentStyled = styled(Select.Content)`
   border-radius: ${({ theme }) => theme.radii.sm};
   background: ${({ theme }) => theme.colors.surface};
   box-shadow: 0 8px 24px rgb(23 34 59 / 12%);
+
+  &[data-state="open"] {
+    animation: fade-in ${({ theme }) => theme.transitions.normal};
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
 `;
 
 export const SelectionStyled = styled(Select.Trigger)`

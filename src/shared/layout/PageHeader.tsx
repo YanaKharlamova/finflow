@@ -8,6 +8,8 @@ import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { useOutletContext } from "react-router-dom";
 import { ToggleButton } from "src/shared/layout/AppLayout.styled";
 import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
+import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 type OutletContext = {
   sidebarExpanded: boolean;
@@ -23,6 +25,8 @@ export const PageHeader = ({ title, actions }: Props) => {
   const { sidebarExpanded, handleToggleSidebar } =
     useOutletContext<OutletContext>();
 
+  const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
+
   return (
     <Root>
       <PageTitleWrapper>
@@ -37,7 +41,9 @@ export const PageHeader = ({ title, actions }: Props) => {
         </ToggleButton>
 
         <PageNameBox>
-          <Typography>{title}</Typography>
+          <Typography variant={mobile ? "pageTitleSm" : "pageTitle"}>
+            {title}
+          </Typography>
         </PageNameBox>
       </PageTitleWrapper>
       {actions}
