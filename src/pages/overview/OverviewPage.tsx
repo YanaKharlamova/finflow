@@ -1,15 +1,28 @@
 import { PageLayout } from "src/shared/layout/PageLayout";
 import { AddTransactionButton } from "src/pages/transactions/AddTransactionButton";
-import { AnalyticsPeriodSelection } from "src/pages/overview/AnalyticsPeriodSelection";
-import { Root } from "src/pages/overview/SelectionStyled.styled";
+import {
+  AnalyticsPeriodSelection,
+  type PeriodValue,
+} from "src/pages/overview/AnalyticsPeriodSelection";
+import { useState } from "react";
+import { Root } from "src/pages/overview/OverviewPage.styled";
+
+const DEFAULT_PERIOD: PeriodValue = "7d";
 
 export const OverviewPage = () => {
+  const [selectedPeriod, setSelectedPeriod] =
+    useState<PeriodValue>(DEFAULT_PERIOD);
+
   const selection = (
     <Root>
-      <AnalyticsPeriodSelection />
+      <AnalyticsPeriodSelection
+        selectedPeriod={selectedPeriod}
+        setSelectedPeriod={setSelectedPeriod}
+      />
       <AddTransactionButton />
     </Root>
   );
+
   return (
     <PageLayout title={"Overview"} actions={selection}>
       Page content 1

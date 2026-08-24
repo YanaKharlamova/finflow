@@ -130,7 +130,6 @@ export const NavigationLink = styled(NavLink)`
 
   &.active {
     color: ${({ theme }) => theme.colors.primary};
-    font-weight: 600;
     background: ${({ theme }) => theme.colors.background};
   }
 

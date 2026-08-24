@@ -5,8 +5,6 @@ export const useMediaQuery = (query: string) => {
     (onStoreChange: () => void) => {
       const mediaQuery = window.matchMedia(query);
 
-      console.log("mediaQuery", mediaQuery);
-
       const handleChange = () => {
         onStoreChange();
       };
