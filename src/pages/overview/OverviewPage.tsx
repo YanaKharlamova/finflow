@@ -6,6 +6,7 @@ import {
 } from "src/pages/overview/AnalyticsPeriodSelection";
 import { useState } from "react";
 import { Root } from "src/pages/overview/OverviewPage.styled";
+import { TransactionModal } from "src/shared/modals/TransactionModal";
 
 const DEFAULT_PERIOD: PeriodValue = "7d";
 
@@ -13,19 +14,28 @@ export const OverviewPage = () => {
   const [selectedPeriod, setSelectedPeriod] =
     useState<PeriodValue>(DEFAULT_PERIOD);
 
+  const [openTransactionModal, setOpenTransactionModal] = useState(false);
+
+  const handleToggleModal = (toggleState: boolean) => {
+    setOpenTransactionModal(toggleState);
+  };
+
   const selection = (
     <Root>
       <AnalyticsPeriodSelection
         selectedPeriod={selectedPeriod}
         setSelectedPeriod={setSelectedPeriod}
       />
-      <AddTransactionButton />
+      <AddTransactionButton onModalToggle={handleToggleModal} />
     </Root>
   );
 
   return (
     <PageLayout title={"Overview"} actions={selection}>
-      Page content 1
+      <TransactionModal
+        open={openTransactionModal}
+        onModalToggle={handleToggleModal}
+      />
     </PageLayout>
   );
 };

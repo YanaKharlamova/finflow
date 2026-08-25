@@ -115,9 +115,7 @@ export const NavigationLink = styled(NavLink)`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
-  transition:
-    color ${({ theme }) => theme.transitions.fast},
-    background-color ${({ theme }) => theme.transitions.fast};
+  transition: all ${({ theme }) => theme.transitions.fast};
 
   min-width: 0;
   overflow: hidden;
@@ -168,10 +166,7 @@ export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  transition:
-    color ${({ theme }) => theme.transitions.fast},
-    background-color ${({ theme }) => theme.transitions.fast},
-    box-shadow ${({ theme }) => theme.transitions.fast};
+  transition: all ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};

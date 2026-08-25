@@ -15,12 +15,27 @@ export const theme = {
     pageTitle: {
       fontSize: "20px",
       fontWeight: 600,
-      lineHeight: 1.2,
+      lineHeight: "28px",
     },
     pageTitleSm: {
       fontSize: "18px",
       fontWeight: 600,
-      lineHeight: 1.2,
+      lineHeight: "24px",
+    },
+    title: {
+      fontSize: "16px",
+      fontWeight: 400,
+      lineHeight: "24px",
+    },
+    caption: {
+      fontSize: "14px",
+      fontWeight: 500,
+      lineHeight: "20px",
+    },
+    bodyText: {
+      fontSize: "16px",
+      fontWeight: 400,
+      lineHeight: "24px",
     },
   },
 

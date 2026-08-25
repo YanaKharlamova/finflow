@@ -6,12 +6,22 @@ import {
 
 type TypographyProps = {
   variant?: TypographyVariant;
+  as?: "p" | "span" | "label";
+  htmlFor?: string;
   children: ReactNode;
 };
 
 export const Typography = ({
   variant = "pageTitle",
+  as,
+  htmlFor,
   children,
-}: TypographyProps) => {
-  return <TypographyText $variant={variant}>{children}</TypographyText>;
-};
+}: TypographyProps) => (
+  <TypographyText
+    as={as}
+    {...(as === "label" ? { htmlFor } : {})}
+    $variant={variant}
+  >
+    {children}
+  </TypographyText>
+);
