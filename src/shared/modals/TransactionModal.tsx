@@ -99,13 +99,18 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               onSubmit={handleSubmit}
             >
               <InputContainer>
-                <Typography variant="caption">Type</Typography>
+                <Typography
+                  variant="caption"
+                  id="transaction-type-label"
+                >
+                  Type
+                </Typography>
 
                 <SelectionContainer
                   value={transactionType}
                   onValueChange={handleTypeChange}
-                  aria-label="Transaction type"
                   orientation="horizontal"
+                  aria-labelledby="transaction-type-label"
                 >
                   <SelectionItem value={TRANSACTION_TYPES.income}>
                     <Typography variant="bodyText">Income</Typography>

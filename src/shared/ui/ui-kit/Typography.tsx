@@ -8,6 +8,7 @@ type TypographyProps = {
   variant?: TypographyVariant;
   as?: "p" | "span" | "label";
   htmlFor?: string;
+  id?: string;
   children: ReactNode;
 };
 
@@ -16,8 +17,10 @@ export const Typography = ({
   as,
   htmlFor,
   children,
+  id,
 }: TypographyProps) => (
   <TypographyText
+    id={id}
     as={as}
     {...(as === "label" ? { htmlFor } : {})}
     $variant={variant}
