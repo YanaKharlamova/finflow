@@ -8,10 +8,11 @@ import {
   FormContainer,
   SelectionContainer,
   SelectionItem,
-  InputContainer,
   InputStyled,
   ErrorMessage,
   ButtonGroup,
+  FieldsRow,
+  Field,
 } from "src/shared/modals/TransactionModal.styled";
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
@@ -32,13 +33,17 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     TRANSACTION_TYPES.expense,
   );
   const [title, setTitle] = useState("");
-
   const [hasTitleError, setHasTitleError] = useState(false);
+
+  const [transactionAmount, setTransactionAmount] = useState("");
+  const [transactionAmountError, setTransactionAmountError] = useState("");
 
   const handleClearForm = () => {
     setTitle("");
     setHasTitleError(false);
     setTransactionType(TRANSACTION_TYPES.expense);
+    setTransactionAmount("");
+    setTransactionAmountError("");
   };
 
   const handleOpenChange = (toggleState: boolean) => {
@@ -63,17 +68,48 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setTransactionType(type as TransactionType);
   };
 
+  const getAmountError = (value: string) => {
+    const amount = Number(value);
+
+    if (!value) return "Amount is required";
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return "Enter a positive amount";
+    }
+
+    return "";
+  };
+
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const normalizedTitle = title.trim();
+    const normalizedAmount = Number(transactionAmount);
 
-    if (!normalizedTitle) {
-      setHasTitleError(true);
+    const invalidTitle = !normalizedTitle;
+    const amountError = getAmountError(transactionAmount);
+
+    setTransactionAmountError(amountError);
+    setHasTitleError(invalidTitle);
+
+    if (invalidTitle || amountError) {
       return;
     }
 
     setHasTitleError(false);
+    setTransactionAmountError("");
+
+    console.log("normalizedTitle", normalizedTitle);
+    console.log("normalizedAmount", normalizedAmount);
+  };
+
+  const handleSetTransactionAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    const newAmountInput = e.currentTarget.value;
+
+    setTransactionAmount(newAmountInput);
+
+    const error = getAmountError(newAmountInput);
+    setTransactionAmountError(error);
   };
 
   return (
@@ -98,11 +134,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               noValidate
               onSubmit={handleSubmit}
             >
-              <InputContainer>
-                <Typography
-                  variant="caption"
-                  id="transaction-type-label"
-                >
+              <Field>
+                <Typography variant="caption" id="transaction-type-label">
                   Type
                 </Typography>
 
@@ -120,9 +153,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     <Typography variant="bodyText">Expense</Typography>
                   </SelectionItem>
                 </SelectionContainer>
-              </InputContainer>
+              </Field>
 
-              <InputContainer>
+              <Field>
                 <Typography
                   as="label"
                   htmlFor="transaction-title"
@@ -150,7 +183,49 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     Title is required!
                   </ErrorMessage>
                 ) : null}
-              </InputContainer>
+              </Field>
+
+              <FieldsRow>
+                <Field>
+                  <Typography
+                    as="label"
+                    htmlFor="transaction-amount"
+                    variant="caption"
+                  >
+                    Amount
+                  </Typography>
+
+                  <InputStyled
+                    type="number"
+                    inputMode="decimal"
+                    id="transaction-amount"
+                    aria-invalid={Boolean(transactionAmountError)}
+                    aria-describedby={
+                      transactionAmountError ? "amount-error" : undefined
+                    }
+                    value={transactionAmount}
+                    onChange={handleSetTransactionAmount}
+                    placeholder="$0.0"
+                    required
+                  />
+
+                  {transactionAmountError ? (
+                    <ErrorMessage id="amount-error" role="alert">
+                      {transactionAmountError}
+                    </ErrorMessage>
+                  ) : null}
+                </Field>
+
+                <Field>
+                  <Typography
+                    as="label"
+                    htmlFor="transaction-category"
+                    variant="caption"
+                  >
+                    Category
+                  </Typography>
+                </Field>
+              </FieldsRow>
             </FormContainer>
 
             <ButtonGroup>

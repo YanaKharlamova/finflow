@@ -61,7 +61,7 @@ export const FormContainer = styled.form`
   gap: ${({ theme }) => theme.spacing.md};
 `;
 
-export const InputContainer = styled.div`
+export const Field = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -150,6 +150,16 @@ export const ButtonGroup = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
 
   > button {
+    flex: 1;
+  }
+`;
+
+export const FieldsRow = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.md};
+  width: 100%;
+
+  > ${Field} {
     flex: 1;
   }
 `;
