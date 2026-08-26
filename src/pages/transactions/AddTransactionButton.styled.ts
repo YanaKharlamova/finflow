@@ -22,8 +22,7 @@ export const ButtonStyled = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.buttonFocus};
-    outline-offset: 2px;
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {

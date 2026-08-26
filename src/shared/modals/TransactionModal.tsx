@@ -17,11 +17,15 @@ import {
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { Button } from "src/shared/ui/ui-kit/Button";
+import { Select } from "src/shared/ui/ui-kit/Select";
 import { type ChangeEvent, type SubmitEvent, useState } from "react";
 import {
+  CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
+  type Category,
   type TransactionType,
-} from "src/shared/modals/TransactionModal.constants";
+} from "src/shared/modals/constants";
+import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 
 type Props = {
   open: boolean;
@@ -37,6 +41,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
   const [transactionAmount, setTransactionAmount] = useState("");
   const [transactionAmountError, setTransactionAmountError] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
+  const [hasCategoryError, setHasCategoryError] = useState(false);
 
   const handleClearForm = () => {
     setTitle("");
@@ -44,6 +50,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setTransactionType(TRANSACTION_TYPES.expense);
     setTransactionAmount("");
     setTransactionAmountError("");
+    setSelectedCategory("");
   };
 
   const handleOpenChange = (toggleState: boolean) => {
@@ -66,12 +73,15 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
   const handleTypeChange = (type: string) => {
     setTransactionType(type as TransactionType);
+    setSelectedCategory("");
   };
 
   const getAmountError = (value: string) => {
     const amount = Number(value);
 
-    if (!value) return "Amount is required";
+    if (!value) {
+      return "Amount is required";
+    }
 
     if (!Number.isFinite(amount) || amount <= 0) {
       return "Enter a positive amount";
@@ -88,19 +98,23 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
     const invalidTitle = !normalizedTitle;
     const amountError = getAmountError(transactionAmount);
+    const invalidCategory = !selectedCategory;
 
     setTransactionAmountError(amountError);
     setHasTitleError(invalidTitle);
+    setHasCategoryError(invalidCategory);
 
-    if (invalidTitle || amountError) {
+    if (invalidTitle || amountError || invalidCategory) {
       return;
     }
 
     setHasTitleError(false);
     setTransactionAmountError("");
+    setHasCategoryError(false);
 
     console.log("normalizedTitle", normalizedTitle);
     console.log("normalizedAmount", normalizedAmount);
+    console.log("category", selectedCategory);
   };
 
   const handleSetTransactionAmount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +124,11 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
     const error = getAmountError(newAmountInput);
     setTransactionAmountError(error);
+  };
+
+  const handleChangeCategory = (category: string) => {
+    setSelectedCategory(category as Category);
+    setHasCategoryError(false);
   };
 
   return (
@@ -224,6 +243,21 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   >
                     Category
                   </Typography>
+
+                  <Select
+                    id="transaction-category"
+                    variant={SELECT_VARIANTS.field}
+                    options={CATEGORY_OPTIONS[transactionType]}
+                    value={selectedCategory}
+                    onValueChange={handleChangeCategory}
+                    placeholder="Select category"
+                  />
+
+                  {hasCategoryError ? (
+                    <ErrorMessage id="transaction-category" role="alert">
+                      Category is required!
+                    </ErrorMessage>
+                  ) : null}
                 </Field>
               </FieldsRow>
             </FormContainer>

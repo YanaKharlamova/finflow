@@ -74,7 +74,18 @@ export const InputStyled = styled.input`
   border-radius: ${({ theme }) => theme.radii.sm};
   color: ${({ theme }) => theme.colors.textPrimary};
   background: ${({ theme }) => theme.colors.surface};
-  font: inherit;
+  font-size: ${({ theme }) => theme.typography.bodyText.fontSize};
+  line-height: ${({ theme }) => theme.typography.bodyText.lineHeight};
+
+  &[type="number"] {
+    appearance: textfield;
+  }
+
+  &[type="number"]::-webkit-inner-spin-button,
+  &[type="number"]::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
+  }
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.textSecondary};
@@ -85,8 +96,7 @@ export const InputStyled = styled.input`
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.buttonFocus};
-    outline-offset: 1px;
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
   }
 `;
 
