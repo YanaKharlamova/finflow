@@ -44,6 +44,10 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
   const [hasCategoryError, setHasCategoryError] = useState(false);
 
+  const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
+
+  const [transactionDate, setTransactionDate] = useState(todayStr);
+
   const handleClearForm = () => {
     setTitle("");
     setHasTitleError(false);
@@ -51,6 +55,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setTransactionAmount("");
     setTransactionAmountError("");
     setSelectedCategory("");
+    setHasCategoryError(false);
+    setTransactionDate(todayStr);
   };
 
   const handleOpenChange = (toggleState: boolean) => {
@@ -74,6 +80,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const handleTypeChange = (type: string) => {
     setTransactionType(type as TransactionType);
     setSelectedCategory("");
+    setHasCategoryError(false);
   };
 
   const getAmountError = (value: string) => {
@@ -90,8 +97,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     return "";
   };
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     const normalizedTitle = title.trim();
     const normalizedAmount = Number(transactionAmount);
@@ -115,6 +122,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     console.log("normalizedTitle", normalizedTitle);
     console.log("normalizedAmount", normalizedAmount);
     console.log("category", selectedCategory);
+    console.log("selected date", transactionDate);
   };
 
   const handleSetTransactionAmount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -129,6 +137,12 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const handleChangeCategory = (category: string) => {
     setSelectedCategory(category as Category);
     setHasCategoryError(false);
+  };
+
+  const handleSetTransactionDate = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = e.target.value;
+
+    setTransactionDate(selectedDate);
   };
 
   return (
@@ -246,6 +260,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
                   <Select
                     id="transaction-category"
+                    aria-describedby={
+                      hasCategoryError ? "category-error" : undefined
+                    }
                     variant={SELECT_VARIANTS.field}
                     options={CATEGORY_OPTIONS[transactionType]}
                     value={selectedCategory}
@@ -254,12 +271,22 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   />
 
                   {hasCategoryError ? (
-                    <ErrorMessage id="transaction-category" role="alert">
+                    <ErrorMessage id="category-error" role="alert">
                       Category is required!
                     </ErrorMessage>
                   ) : null}
                 </Field>
               </FieldsRow>
+
+              <Field>
+                <InputStyled
+                  type="date"
+                  id="transaction-date"
+                  value={transactionDate}
+                  onChange={handleSetTransactionDate}
+                  required
+                />
+              </Field>
             </FormContainer>
 
             <ButtonGroup>
