@@ -20,6 +20,8 @@ type Props = {
   onValueChange: (value: string) => void;
   placeholder?: string;
   ariaLabel?: string;
+  "aria-invalid"?: boolean;
+  "aria-describedby"?: string;
   id?: string;
   variant?: keyof typeof SELECT_VARIANTS;
 };
@@ -30,12 +32,20 @@ export const Select = ({
   onValueChange,
   placeholder,
   ariaLabel,
+  "aria-invalid": ariaInvalid,
+  "aria-describedby": ariaDescribedBy,
   id,
   variant = SELECT_VARIANTS.compact,
 }: Props) => {
   return (
     <RadixSelect.Root value={value} onValueChange={onValueChange}>
-      <Trigger id={id} aria-label={ariaLabel} $variant={variant}>
+      <Trigger
+        id={id}
+        aria-label={ariaLabel}
+        aria-invalid={ariaInvalid}
+        aria-describedby={ariaDescribedBy}
+        $variant={variant}
+      >
         <RadixSelect.Value placeholder={placeholder} />
         <ArrowIcon />
       </Trigger>

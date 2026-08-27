@@ -49,6 +49,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
 
   const [transactionDate, setTransactionDate] = useState(todayStr);
+  const [transactionDateError, setTransactionDateError] = useState("");
 
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
 
@@ -61,6 +62,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setSelectedCategory("");
     setHasCategoryError(false);
     setTransactionDate(todayStr);
+    setTransactionDateError("");
   };
 
   const handleOpenChange = (toggleState: boolean) => {
@@ -101,6 +103,18 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     return "";
   };
 
+  const getDateError = (value: string) => {
+    if (!value) {
+      return "Date is required!";
+    }
+
+    if (value > todayStr) {
+      return "Date cannot be in the future!";
+    }
+
+    return "";
+  };
+
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -110,18 +124,16 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     const invalidTitle = !normalizedTitle;
     const amountError = getAmountError(transactionAmount);
     const invalidCategory = !selectedCategory;
+    const dateError = getDateError(transactionDate);
 
     setTransactionAmountError(amountError);
     setHasTitleError(invalidTitle);
     setHasCategoryError(invalidCategory);
+    setTransactionDateError(dateError);
 
-    if (invalidTitle || amountError || invalidCategory) {
+    if (invalidTitle || amountError || invalidCategory || dateError) {
       return;
     }
-
-    setHasTitleError(false);
-    setTransactionAmountError("");
-    setHasCategoryError(false);
 
     console.log("normalizedTitle", normalizedTitle);
     console.log("normalizedAmount", normalizedAmount);
@@ -147,6 +159,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     const selectedDate = e.target.value;
 
     setTransactionDate(selectedDate);
+    setTransactionDateError(getDateError(selectedDate));
   };
 
   return (
@@ -260,6 +273,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
                   <Select
                     id="transaction-category"
+                    aria-invalid={hasCategoryError}
                     aria-describedby={
                       hasCategoryError ? "category-error" : undefined
                     }
@@ -277,13 +291,30 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               </FieldsRow>
 
               <Field>
+                <Typography
+                  as="label"
+                  htmlFor="transaction-date"
+                  variant="caption"
+                >
+                  Date
+                </Typography>
+
                 <InputStyled
                   type="date"
+                  max={todayStr}
                   id="transaction-date"
+                  aria-invalid={Boolean(transactionDateError)}
+                  aria-describedby={
+                    transactionDateError ? "date-error" : undefined
+                  }
                   value={transactionDate}
                   onChange={handleSetTransactionDate}
                   required
                 />
+
+                <ErrorMessage id="date-error" role="alert">
+                  {transactionDateError}
+                </ErrorMessage>
               </Field>
             </FormContainer>
 

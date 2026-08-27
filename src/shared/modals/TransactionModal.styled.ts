@@ -32,7 +32,6 @@ export const ModalContent = styled(Dialog.Content)`
 
   &:focus {
     outline: none;
-    border-radius: ${({ theme }) => theme.radii.md};
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
@@ -129,8 +128,7 @@ export const SelectionItem = styled(RadioGroup.Item)<{ $danger?: boolean }>`
   border: 1px solid ${({ $danger }) => ($danger ? "#e2c3c0" : "#b9d5c8")};
   border-radius: ${({ theme }) => theme.radii.sm};
   color: ${({ $danger }) => ($danger ? "#9b4a45" : "#3f725f")};
-  background: ${({ $danger, theme }) =>
-    $danger ? "#fcf8f7" : theme.colors.surface};
+  background: ${({ theme }) => theme.colors.surface};
   cursor: pointer;
 
   transition: all ${({ theme }) => theme.transitions.fast};
