@@ -13,18 +13,18 @@ export const theme = {
 
   typography: {
     pageTitle: {
-      fontSize: "20px",
+      fontSize: "26px",
       fontWeight: 600,
       lineHeight: "28px",
     },
     pageTitleSm: {
-      fontSize: "18px",
+      fontSize: "24px",
       fontWeight: 600,
       lineHeight: "24px",
     },
     title: {
-      fontSize: "16px",
-      fontWeight: 400,
+      fontSize: "20px",
+      fontWeight: 600,
       lineHeight: "24px",
     },
     caption: {

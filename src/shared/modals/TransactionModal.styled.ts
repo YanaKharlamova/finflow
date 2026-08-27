@@ -1,32 +1,44 @@
 import styled from "styled-components";
 import { Dialog, RadioGroup } from "radix-ui";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 export const ModalOverlay = styled(Dialog.Overlay)`
   position: fixed;
   inset: 0;
   z-index: 1000;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  padding: ${({ theme }) => theme.spacing.md};
   overflow-y: auto;
   background: rgb(15 23 42 / 45%);
+
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    padding: ${({ theme }) => theme.spacing.md};
+    align-items: center;
+  }
 `;
 
 export const ModalContent = styled(Dialog.Content)`
-  width: min(420px, 100%);
+  width: 100%;
   max-height: calc(100dvh - 32px);
   padding: ${({ theme }) => theme.spacing.lg};
   overflow-y: auto;
-  border-radius: ${({ theme }) => theme.radii.md};
+  border-radius: ${({ theme }) => `${theme.radii.md} ${theme.radii.md} 0 0`};
   background: ${({ theme }) => theme.colors.surface};
   box-shadow: 0 10px 30px rgb(15 23 42 / 15%);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${({ theme }) => theme.spacing.lg};
 
   &:focus {
     outline: none;
+    border-radius: ${({ theme }) => theme.radii.md};
+  }
+
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    padding: ${({ theme }) => theme.spacing.md};
+    width: min(420px, 100%);
+    border-radius: ${({ theme }) => `${theme.radii.md} ${theme.radii.md}`};
   }
 `;
 
@@ -34,7 +46,6 @@ export const ModalHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: green;
 `;
 
 export const ModalTitle = styled(Dialog.Title)`
@@ -56,7 +67,6 @@ export const IconButton = styled.button`
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  background-color: tan;
   width: 100%;
   gap: ${({ theme }) => theme.spacing.md};
 `;
@@ -101,8 +111,11 @@ export const InputStyled = styled.input`
 `;
 
 export const ErrorMessage = styled.span`
+  display: block;
+  min-height: 16px;
   color: #9b4a45;
   font-size: 12px;
+  line-height: 16px;
 `;
 
 export const SelectionContainer = styled(RadioGroup.Root)`
@@ -166,10 +179,14 @@ export const ButtonGroup = styled.div`
 
 export const FieldsRow = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 0;
   width: 100%;
 
   > ${Field} {
     flex: 1;
+  }
+
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    gap: ${({ theme }) => theme.spacing.md};
   }
 `;

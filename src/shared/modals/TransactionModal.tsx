@@ -26,6 +26,8 @@ import {
   type TransactionType,
 } from "src/shared/modals/constants";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
+import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 type Props = {
   open: boolean;
@@ -47,6 +49,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
 
   const [transactionDate, setTransactionDate] = useState(todayStr);
+
+  const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
 
   const handleClearForm = () => {
     setTitle("");
@@ -211,11 +215,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   required
                 />
 
-                {hasTitleError ? (
-                  <ErrorMessage id="title-error" role="alert">
-                    Title is required!
-                  </ErrorMessage>
-                ) : null}
+                <ErrorMessage id="title-error" role="alert">
+                  {hasTitleError ? "Title is required!" : null}
+                </ErrorMessage>
               </Field>
 
               <FieldsRow>
@@ -242,11 +244,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     required
                   />
 
-                  {transactionAmountError ? (
-                    <ErrorMessage id="amount-error" role="alert">
-                      {transactionAmountError}
-                    </ErrorMessage>
-                  ) : null}
+                  <ErrorMessage id="amount-error" role="alert">
+                    {transactionAmountError}
+                  </ErrorMessage>
                 </Field>
 
                 <Field>
@@ -267,14 +267,12 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     options={CATEGORY_OPTIONS[transactionType]}
                     value={selectedCategory}
                     onValueChange={handleChangeCategory}
-                    placeholder="Select category"
+                    placeholder={mobile ? "Category" : "Select category"}
                   />
 
-                  {hasCategoryError ? (
-                    <ErrorMessage id="category-error" role="alert">
-                      Category is required!
-                    </ErrorMessage>
-                  ) : null}
+                  <ErrorMessage id="category-error" role="alert">
+                    {hasCategoryError ? "Category is required!" : null}
+                  </ErrorMessage>
                 </Field>
               </FieldsRow>
 
