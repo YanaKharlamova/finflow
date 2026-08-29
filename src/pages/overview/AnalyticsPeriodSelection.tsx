@@ -21,16 +21,12 @@ export const AnalyticsPeriodSelection = ({
     label: mobile ? option.mobileLabel : option.desktopLabel,
   }));
 
-  const handleChange = (value: string) => {
-    setSelectedPeriod(value as PeriodValue);
-  };
-
   return (
     <Select
       ariaLabel="Analytics period"
       options={options}
       value={selectedPeriod}
-      onValueChange={handleChange}
+      onValueChange={setSelectedPeriod}
     />
   );
 };

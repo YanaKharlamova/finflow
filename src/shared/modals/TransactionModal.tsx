@@ -8,8 +8,6 @@ import {
   FormContainer,
   SelectionContainer,
   SelectionItem,
-  InputStyled,
-  ErrorMessage,
   ButtonGroup,
   FieldsRow,
   Field,
@@ -17,6 +15,7 @@ import {
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { Button } from "src/shared/ui/ui-kit/Button";
+import { Input } from "src/shared/ui/ui-kit/Input";
 import { Select } from "src/shared/ui/ui-kit/Select";
 import { type ChangeEvent, type SubmitEvent, useState } from "react";
 import {
@@ -150,8 +149,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setTransactionAmountError(error);
   };
 
-  const handleChangeCategory = (category: string) => {
-    setSelectedCategory(category as Category);
+  const handleChangeCategory = (category: Category) => {
+    setSelectedCategory(category);
     setHasCategoryError(false);
   };
 
@@ -214,10 +213,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   Title
                 </Typography>
 
-                <InputStyled
+                <Input
                   id="transaction-title"
-                  aria-invalid={hasTitleError}
-                  aria-describedby={hasTitleError ? "title-error" : undefined}
+                  error={hasTitleError ? "Title is required!" : ""}
                   value={title}
                   onChange={handleSetTitle}
                   placeholder={
@@ -227,10 +225,6 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   }
                   required
                 />
-
-                <ErrorMessage id="title-error" role="alert">
-                  {hasTitleError ? "Title is required!" : null}
-                </ErrorMessage>
               </Field>
 
               <FieldsRow>
@@ -243,23 +237,16 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     Amount
                   </Typography>
 
-                  <InputStyled
+                  <Input
                     type="number"
                     inputMode="decimal"
                     id="transaction-amount"
-                    aria-invalid={Boolean(transactionAmountError)}
-                    aria-describedby={
-                      transactionAmountError ? "amount-error" : undefined
-                    }
+                    error={transactionAmountError}
                     value={transactionAmount}
                     onChange={handleSetTransactionAmount}
                     placeholder="$0.0"
                     required
                   />
-
-                  <ErrorMessage id="amount-error" role="alert">
-                    {transactionAmountError}
-                  </ErrorMessage>
                 </Field>
 
                 <Field>
@@ -273,9 +260,8 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
                   <Select
                     id="transaction-category"
-                    aria-invalid={hasCategoryError}
-                    aria-describedby={
-                      hasCategoryError ? "category-error" : undefined
+                    error={
+                      hasCategoryError ? "Category is required!" : ""
                     }
                     variant={SELECT_VARIANTS.field}
                     options={CATEGORY_OPTIONS[transactionType]}
@@ -283,10 +269,6 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     onValueChange={handleChangeCategory}
                     placeholder={mobile ? "Category" : "Select category"}
                   />
-
-                  <ErrorMessage id="category-error" role="alert">
-                    {hasCategoryError ? "Category is required!" : null}
-                  </ErrorMessage>
                 </Field>
               </FieldsRow>
 
@@ -299,22 +281,15 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   Date
                 </Typography>
 
-                <InputStyled
+                <Input
                   type="date"
                   max={todayStr}
                   id="transaction-date"
-                  aria-invalid={Boolean(transactionDateError)}
-                  aria-describedby={
-                    transactionDateError ? "date-error" : undefined
-                  }
+                  error={transactionDateError}
                   value={transactionDate}
                   onChange={handleSetTransactionDate}
                   required
                 />
-
-                <ErrorMessage id="date-error" role="alert">
-                  {transactionDateError}
-                </ErrorMessage>
               </Field>
             </FormContainer>
 

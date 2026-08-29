@@ -76,47 +76,6 @@ export const Field = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const InputStyled = styled.input`
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.sm};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  background: ${({ theme }) => theme.colors.surface};
-  font-size: ${({ theme }) => theme.typography.bodyText.fontSize};
-  line-height: ${({ theme }) => theme.typography.bodyText.lineHeight};
-
-  &[type="number"] {
-    appearance: textfield;
-  }
-
-  &[type="number"]::-webkit-inner-spin-button,
-  &[type="number"]::-webkit-outer-spin-button {
-    margin: 0;
-    appearance: none;
-  }
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.textSecondary};
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
-  }
-`;
-
-export const ErrorMessage = styled.span`
-  display: block;
-  min-height: 16px;
-  color: #9b4a45;
-  font-size: 12px;
-  line-height: 16px;
-`;
-
 export const SelectionContainer = styled(RadioGroup.Root)`
   width: 100%;
   display: flex;

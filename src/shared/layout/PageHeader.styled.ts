@@ -6,10 +6,10 @@ export const Root = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.md} ${theme.spacing.md} 4px`};
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} 4px`};
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    padding: ${({ theme }) => `${theme.spacing.md}`};
+    padding: 12px 10px;
   }
 `;
 
