@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
 export const Root = styled.section`
-  background: rgb(163 243 163 / 0.6);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 10px 0;
-  padding: 5px 10px;
+  margin: 10px;
+  padding: ${({ theme }) => `${theme.spacing.md} 10px`};
   gap: 5px;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
 `;
 
 export const SearchField = styled.label`
@@ -17,10 +19,10 @@ export const SearchField = styled.label`
   padding: 10px 12px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.sm};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
 
   &:focus-within {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 
   > svg {

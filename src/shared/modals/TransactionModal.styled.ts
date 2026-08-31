@@ -24,7 +24,7 @@ export const ModalContent = styled(Dialog.Content)`
   padding: ${({ theme }) => theme.spacing.lg};
   overflow-y: auto;
   border-radius: ${({ theme }) => `${theme.radii.md} ${theme.radii.md} 0 0`};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
   box-shadow: 0 10px 30px rgb(15 23 42 / 15%);
   display: flex;
   flex-direction: column;
@@ -87,7 +87,7 @@ export const SelectionItem = styled(RadioGroup.Item)<{ $danger?: boolean }>`
   border: 1px solid ${({ $danger }) => ($danger ? "#e2c3c0" : "#b9d5c8")};
   border-radius: ${({ theme }) => theme.radii.sm};
   color: ${({ $danger }) => ($danger ? "#9b4a45" : "#3f725f")};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
   cursor: pointer;
 
   transition: all ${({ theme }) => theme.transitions.fast};

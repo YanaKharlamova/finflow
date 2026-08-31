@@ -12,7 +12,10 @@ export const TransactionFiltersBlock = () => {
       <SearchField>
         <SearchIcon />
 
-        <TransactionSearch type={"search"} />
+        <TransactionSearch
+          type={"search"}
+          placeholder={"Search transactions by title..."}
+        />
       </SearchField>
 
       <TransactionsFilters />

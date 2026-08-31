@@ -11,17 +11,11 @@ export const TRANSACTION_TYPE_OPTIONS = [
   { value: "expense", label: "Expense", mobileLabel: "Expense" },
 ] as const;
 
-export type TransactionTypeFilter =
-  (typeof TRANSACTION_TYPE_OPTIONS)[number]["value"];
-
 export const TRANSACTION_CATEGORY_OPTIONS = [
   { value: ALL_FILTER_VALUE, label: "All categories" },
   ...CATEGORY_OPTIONS[TRANSACTION_TYPES.income],
   ...CATEGORY_OPTIONS[TRANSACTION_TYPES.expense],
 ] as const;
-
-export type TransactionCategoryFilter =
-  (typeof TRANSACTION_CATEGORY_OPTIONS)[number]["value"];
 
 export const TRANSACTION_SORT_OPTIONS = [
   { value: "newest", label: "Newest first", mobileLabel: "Newest" },
@@ -38,5 +32,10 @@ export const TRANSACTION_SORT_OPTIONS = [
   },
 ] as const;
 
-export type TransactionSort =
-  (typeof TRANSACTION_SORT_OPTIONS)[number]["value"];
+export const TABLE_COLUMNS = [
+  { label: "Date", width: 18, align: "left" },
+  { label: "Transaction", width: 34, align: "left" },
+  { label: "Category", width: 18, align: "left" },
+  { label: "Amount", width: 18, align: "right" },
+  { label: "Actions", width: 12, align: "right" },
+] as const;

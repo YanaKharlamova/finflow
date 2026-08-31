@@ -7,14 +7,14 @@ export const ButtonStyled = styled.button`
   min-height: 44px;
   border: 0;
   border-radius: ${({ theme }) => theme.radii.md};
-  color: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.white};
   background: ${({ theme }) => theme.colors.primary};
   font-weight: 600;
   cursor: pointer;
   transition: background-color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.buttonFocus};
+    background: ${({ theme }) => theme.colors.primaryHover};
   }
 
   &:focus {
@@ -22,7 +22,7 @@ export const ButtonStyled = styled.button`
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {

@@ -6,7 +6,7 @@ export const InputStyled = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.sm};
   color: ${({ theme }) => theme.colors.textPrimary};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.typography.bodyText.fontSize};
   line-height: ${({ theme }) => theme.typography.bodyText.lineHeight};
 
@@ -29,6 +29,6 @@ export const InputStyled = styled.input`
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 `;

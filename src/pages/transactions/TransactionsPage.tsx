@@ -3,6 +3,7 @@ import { AddTransactionButton } from "src/pages/transactions/AddTransactionButto
 import { useState } from "react";
 import { TransactionModal } from "src/shared/modals/TransactionModal";
 import { TransactionFiltersBlock } from "src/pages/transactions/TransactionFiltersBlock";
+import { TransactionsContent } from "src/pages/transactions/TransactionsContent";
 
 export const TransactionsPage = () => {
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
@@ -13,12 +14,12 @@ export const TransactionsPage = () => {
 
   return (
     <PageLayout
-      title={"Transaction"}
+      title={"Transactions"}
       actions={<AddTransactionButton onModalToggle={handleToggleModal} />}
     >
       <TransactionFiltersBlock />
 
-      {/*<TransactionsContent>*/}
+      <TransactionsContent />
 
       <TransactionModal
         open={openTransactionModal}

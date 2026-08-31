@@ -1,19 +1,21 @@
-import { Root } from "src/pages/transactions/TransactionsFilters.styled.ts";
+import { Root } from "src/pages/transactions/TransactionsFilters.styled";
 import { Select } from "src/shared/ui/ui-kit/Select";
 import {
   ALL_FILTER_VALUE,
   TRANSACTION_CATEGORY_OPTIONS,
   TRANSACTION_SORT_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
-  type TransactionCategoryFilter,
-  type TransactionSort,
-  type TransactionTypeFilter,
 } from "src/pages/transactions/constants";
 import { type ChangeEvent, useState } from "react";
 import { Input } from "src/shared/ui/ui-kit/Input";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import {
+  type TransactionSort,
+  type TransactionCategoryFilter,
+  type TransactionTypeFilter,
+} from "src/pages/transactions/types";
 
 export const TransactionsFilters = () => {
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);

@@ -5,22 +5,22 @@ export type ButtonVariant = "primary" | "secondary";
 const variantStyles = {
   primary: css`
     border-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.surface};
+    color: ${({ theme }) => theme.colors.white};
     background: ${({ theme }) => theme.colors.primary};
 
     &:hover {
-      background: ${({ theme }) => theme.colors.buttonFocus};
-      border-color: ${({ theme }) => theme.colors.buttonFocus};
+      background: ${({ theme }) => theme.colors.primaryHover};
+      border-color: ${({ theme }) => theme.colors.primaryHover};
     }
   `,
   secondary: css`
     border-color: ${({ theme }) => theme.colors.border};
     color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.surface};
+    background: ${({ theme }) => theme.colors.white};
 
     &:hover {
-      background: ${({ theme }) => theme.colors.interactiveHover};
-      border-color: ${({ theme }) => theme.colors.interactiveHover};
+      background: ${({ theme }) => theme.colors.secondaryHover};
+      border-color: ${({ theme }) => theme.colors.secondaryHover};
     }
   `,
 };
@@ -41,7 +41,7 @@ export const ButtonStyled = styled.button<{ $variant: ButtonVariant }>`
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 
   &:disabled {

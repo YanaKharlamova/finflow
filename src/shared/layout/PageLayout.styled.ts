@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Root = styled.div`
-  background-color: beige;
-  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: ${({ theme }) => theme.colors.background};
+  gap: 5px;
 `;

@@ -1,14 +1,20 @@
 export const theme = {
   colors: {
-    background: "#f5f7fb",
-    surface: "#ffffff",
+    background: "rgb(245 247 251 / 0.55)",
+    white: "#ffffff",
     primary: "#142b5f",
+    primaryHover: "#4969a8",
+    primaryFocus: "#4969a8",
+    secondary: "#f5f7fb",
+    secondaryHover: "#e9eef7",
+    secondaryFocus: "#dfe7f5",
     textPrimary: "#17223b",
     textSecondary: "#68758f",
     border: "#dbe3f0",
-    interactiveHover: "#e9eef7",
-    interactiveFocus: "#dfe7f5",
-    buttonFocus: "#4969a8",
+    success: "#206c50",
+    successBackground: "#edf5f1",
+    danger: "#9b4a45",
+    dangerBackground: "#f8eeee",
   },
 
   typography: {
@@ -27,9 +33,14 @@ export const theme = {
       fontWeight: 600,
       lineHeight: "24px",
     },
+    subtitle: {
+      fontSize: "18px",
+      fontWeight: 500,
+      lineHeight: "24px",
+    },
     caption: {
       fontSize: "14px",
-      fontWeight: 500,
+      fontWeight: 400,
       lineHeight: "20px",
     },
     bodyText: {

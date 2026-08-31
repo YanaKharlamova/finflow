@@ -31,14 +31,14 @@ export const Trigger = styled(RadixSelect.Trigger)<{
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.sm};
   color: ${({ theme }) => theme.colors.textPrimary};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
   cursor: pointer;
 
   ${({ $variant }) => triggerVariants[$variant]}
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 `;
 
@@ -54,7 +54,7 @@ export const Content = styled(RadixSelect.Content)`
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.sm};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
   box-shadow: 0 8px 24px rgb(23 34 59 / 12%);
 
   &[data-state="open"] {
@@ -85,10 +85,10 @@ export const Item = styled(RadixSelect.Item)`
 
   &[data-highlighted] {
     outline: none;
-    background: ${({ theme }) => theme.colors.interactiveHover};
+    background: ${({ theme }) => theme.colors.secondaryHover};
   }
 
   &[data-state="checked"] {
-    background: ${({ theme }) => theme.colors.interactiveFocus};
+    background: ${({ theme }) => theme.colors.secondaryFocus};
   }
 `;

@@ -42,7 +42,7 @@ export const Sidebar = styled.aside<{
   min-width: 0;
   padding: ${({ $expanded }) => ($expanded ? "20px" : "20px 12px")};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.white};
   border-right: 1px solid ${({ theme }) => theme.colors.border};
   transform: translateX(${({ $expanded }) => ($expanded ? "0" : "-100%")});
   opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
@@ -128,12 +128,12 @@ export const NavigationLink = styled(NavLink)`
 
   &.active {
     color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.background};
+    background: ${({ theme }) => theme.colors.secondary};
   }
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.interactiveHover};
+    background: ${({ theme }) => theme.colors.secondaryHover};
   }
 
   &:focus {
@@ -142,8 +142,8 @@ export const NavigationLink = styled(NavLink)`
 
   &:focus-visible {
     color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.interactiveFocus};
-    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    background: ${({ theme }) => theme.colors.secondaryFocus};
+    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 `;
 
@@ -170,7 +170,7 @@ export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
-    background-color: ${({ theme }) => theme.colors.interactiveHover};
+    background-color: ${({ theme }) => theme.colors.secondaryHover};
   }
 
   &:focus {
@@ -179,8 +179,8 @@ export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
 
   &:focus-visible {
     color: ${({ theme }) => theme.colors.primary};
-    background-color: ${({ theme }) => theme.colors.interactiveFocus};
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.buttonFocus};
+    background-color: ${({ theme }) => theme.colors.secondaryFocus};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
