@@ -22,11 +22,11 @@ import {
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
   type Category,
-  type TransactionType,
 } from "src/shared/modals/constants";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import type { TransactionType } from "src/pages/transactions/types";
 
 type Props = {
   open: boolean;
@@ -260,9 +260,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
                   <Select
                     id="transaction-category"
-                    error={
-                      hasCategoryError ? "Category is required!" : ""
-                    }
+                    error={hasCategoryError ? "Category is required!" : ""}
                     variant={SELECT_VARIANTS.field}
                     options={CATEGORY_OPTIONS[transactionType]}
                     value={selectedCategory}

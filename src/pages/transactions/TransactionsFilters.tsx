@@ -6,30 +6,32 @@ import {
   TRANSACTION_SORT_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from "src/pages/transactions/constants";
-import { type ChangeEvent, useState } from "react";
 import { Input } from "src/shared/ui/ui-kit/Input";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
-import {
-  type TransactionSort,
-  type TransactionCategoryFilter,
-  type TransactionTypeFilter,
+import type {
+  TransactionFilterData,
+  TransactionFilterUpdate,
 } from "src/pages/transactions/types";
 
-export const TransactionsFilters = () => {
+type Options = {
+  filterData: TransactionFilterData;
+  onFilterChange: (data: TransactionFilterUpdate) => void;
+};
+
+export const TransactionsFilters = ({
+  filterData,
+  onFilterChange,
+}: Options) => {
+  const {
+    transactionType = ALL_FILTER_VALUE,
+    category = ALL_FILTER_VALUE,
+    date = "",
+    sort = "newest",
+  } = filterData;
+
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
-
-  const [transactionType, setTransactionType] =
-    useState<TransactionTypeFilter>(ALL_FILTER_VALUE);
-  const [category, setCategory] =
-    useState<TransactionCategoryFilter>(ALL_FILTER_VALUE);
-  const [date, setDate] = useState("");
-  const [sort, setSort] = useState<TransactionSort>("newest");
-
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDate(event.target.value);
-  };
 
   const typeOptions = TRANSACTION_TYPE_OPTIONS.map((option) => ({
     value: option.value,
@@ -58,7 +60,9 @@ export const TransactionsFilters = () => {
         ariaLabel="Filter by transaction type"
         options={typeOptions}
         value={transactionType}
-        onValueChange={setTransactionType}
+        onValueChange={(transactionType) =>
+          onFilterChange({ transactionType })
+        }
         variant={SELECT_VARIANTS.field}
       />
 
@@ -66,7 +70,7 @@ export const TransactionsFilters = () => {
         ariaLabel="Filter by category"
         options={categoryOptions}
         value={category}
-        onValueChange={setCategory}
+        onValueChange={(category) => onFilterChange({ category })}
         variant={SELECT_VARIANTS.field}
       />
 
@@ -77,14 +81,14 @@ export const TransactionsFilters = () => {
         max={todayStr}
         value={date}
         error={dateError}
-        onChange={handleDateChange}
+        onChange={(event) => onFilterChange({ date: event.target.value })}
       />
 
       <Select
         ariaLabel="Sort transactions"
         options={sortOptions}
         value={sort}
-        onValueChange={setSort}
+        onValueChange={(sort) => onFilterChange({ sort })}
         variant={SELECT_VARIANTS.field}
       />
     </Root>

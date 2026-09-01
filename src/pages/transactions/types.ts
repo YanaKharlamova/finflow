@@ -1,4 +1,4 @@
-import type { Category, TransactionType } from "src/shared/modals/constants";
+import { type Category, TRANSACTION_TYPES } from "src/shared/modals/constants";
 import {
   TRANSACTION_SORT_OPTIONS,
   TRANSACTION_CATEGORY_OPTIONS,
@@ -17,6 +17,9 @@ export type Transaction = {
   currency: Currency;
 };
 
+export type TransactionType =
+  (typeof TRANSACTION_TYPES)[keyof typeof TRANSACTION_TYPES];
+
 export type TransactionSort =
   (typeof TRANSACTION_SORT_OPTIONS)[number]["value"];
 
@@ -25,3 +28,13 @@ export type TransactionCategoryFilter =
 
 export type TransactionTypeFilter =
   (typeof TRANSACTION_TYPE_OPTIONS)[number]["value"];
+
+export type TransactionFilterData = {
+  transactionType: TransactionTypeFilter;
+  category: TransactionCategoryFilter;
+  date: string;
+  sort: TransactionSort;
+  search: string;
+};
+
+export type TransactionFilterUpdate = Partial<TransactionFilterData>;

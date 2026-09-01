@@ -6,9 +6,16 @@ import {
 } from "src/pages/transactions/TransactionsContent.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TransactionsTable } from "src/pages/transactions/TransactionsTable";
+import { getTransactions } from "src/pages/transactions/helpers/getTransactions";
+import type { TransactionFilterData } from "src/pages/transactions/types";
 
-export const TransactionsContent = () => {
-  const hasTransactions = TRANSACTIONS_MOCK;
+type Props = { filters: TransactionFilterData };
+
+export const TransactionsContent = ({ filters }: Props) => {
+  const transactions = getTransactions({
+    transactions: TRANSACTIONS_MOCK,
+    filters,
+  });
 
   const transactionsEmptyState = (
     <NoTransactionsWrapper>
@@ -24,8 +31,8 @@ export const TransactionsContent = () => {
     </NoTransactionsWrapper>
   );
 
-  return hasTransactions ? (
-    <TransactionsTable options={TRANSACTIONS_MOCK} />
+  return transactions.length ? (
+    <TransactionsTable options={transactions} />
   ) : (
     transactionsEmptyState
   );
