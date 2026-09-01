@@ -9,6 +9,7 @@ import type {
   TransactionFilterData,
   TransactionFilterUpdate,
 } from "src/pages/transactions/types";
+import { TRANSACTIONS_MOCK } from "src/pages/transactions/mock";
 
 export const TransactionsPage = () => {
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
@@ -42,7 +43,10 @@ export const TransactionsPage = () => {
         onFilterChange={handleFilterChange}
       />
 
-      <TransactionsContent filters={filterData} />
+      <TransactionsContent
+        filters={filterData}
+        transactions={TRANSACTIONS_MOCK}
+      />
 
       <TransactionModal
         open={openTransactionModal}

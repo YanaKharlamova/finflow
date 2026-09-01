@@ -1,4 +1,3 @@
-import { TRANSACTIONS_MOCK } from "src/pages/transactions/mock";
 import { ReceiptIcon } from "src/shared/ui/icons/ReceiptIcon";
 import {
   NoTransactionsWrapper,
@@ -7,17 +6,41 @@ import {
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TransactionsTable } from "src/pages/transactions/TransactionsTable";
 import { getTransactions } from "src/pages/transactions/helpers/getTransactions";
-import type { TransactionFilterData } from "src/pages/transactions/types";
+import type {
+  Transaction,
+  TransactionFilterData,
+} from "src/pages/transactions/types";
+import { SearchListIcon } from "src/shared/ui/icons/SearchListIcon";
 
-type Props = { filters: TransactionFilterData };
+type Props = { filters: TransactionFilterData; transactions: Transaction[] };
 
-export const TransactionsContent = ({ filters }: Props) => {
-  const transactions = getTransactions({
-    transactions: TRANSACTIONS_MOCK,
+export const TransactionsContent = ({ filters, transactions }: Props) => {
+  const transactionsFiltered: Transaction[] = getTransactions({
+    transactions,
     filters,
   });
 
-  const transactionsEmptyState = (
+  if (transactionsFiltered.length) {
+    return <TransactionsTable options={transactionsFiltered} />;
+  }
+
+  if (transactions.length) {
+    return (
+      <NoTransactionsWrapper>
+        <SearchListIcon />
+
+        <TextWrapper>
+          <Typography variant={"bodyText"}>No transactions found</Typography>
+
+          <Typography variant={"caption"}>
+            Try adjusting your search or filters
+          </Typography>
+        </TextWrapper>
+      </NoTransactionsWrapper>
+    );
+  }
+
+  return (
     <NoTransactionsWrapper>
       <ReceiptIcon />
 
@@ -29,11 +52,5 @@ export const TransactionsContent = ({ filters }: Props) => {
         </Typography>
       </TextWrapper>
     </NoTransactionsWrapper>
-  );
-
-  return transactions.length ? (
-    <TransactionsTable options={transactions} />
-  ) : (
-    transactionsEmptyState
   );
 };

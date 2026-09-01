@@ -25,6 +25,7 @@ export const TransactionFiltersBlock = ({
         <SearchIcon />
 
         <TransactionSearch
+          value={filterData.search}
           type={"search"}
           placeholder={"Search transactions by title..."}
           onChange={(e) => onFilterChange({ search: e.target.value })}
