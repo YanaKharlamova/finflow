@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-export const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
+export const ArrowDownIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="24"
     height="24"
@@ -10,7 +10,7 @@ export const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       fill="currentColor"
-      d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+      d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
     />
   </svg>
 );

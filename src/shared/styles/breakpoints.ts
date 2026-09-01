@@ -1,8 +1,8 @@
 export const BREAKPOINTS = {
+  mobile: 320,
+  mobileLg: 576,
   tablet: 768,
-} as const;
-
-export const MEDIA = {
-  tablet: `(max-width: ${BREAKPOINTS.tablet}px)`,
-  desktop: `(min-width: ${BREAKPOINTS.tablet + 1}px)`,
+  tabletLg: 1024,
+  desktopSm: 1280,
+  desktopLg: 1440,
 } as const;

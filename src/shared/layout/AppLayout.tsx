@@ -1,61 +1,48 @@
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
 
 import {
   Backdrop,
   Brand,
   BrandWrapper,
-  CloseButton,
+  CloseIconStyled,
   MainContent,
   Navigation,
   NavigationLabel,
   NavigationLink,
   Root,
   Sidebar,
+  ToggleButton,
+  ToggleIconStyled,
 } from "src/shared/layout/AppLayout.styled";
-import { SidebarIcon } from "src/shared/ui/icons/CloseIcon";
 
-import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
-import { MEDIA } from "src/shared/styles/breakpoints";
 import { BarChartIcon } from "src/shared/ui/icons/BarChartIcon";
 import { CardSettingsIcon } from "src/shared/ui/icons/CardSettingsIcon";
+import { useResponsiveSidebar } from "src/shared/layout/hooks/useResponsiveSidebar";
 
 export const AppLayout = () => {
-  const compact = useMediaQuery(MEDIA.tablet);
-
-  const [mobileExpanded, setMobileExpanded] = useState(false);
-  const [desktopExpanded, setDesktopExpanded] = useState(true);
-
-  const sidebarExpanded = compact ? mobileExpanded : desktopExpanded;
-
-  const backdropVisible = compact && sidebarExpanded;
-
-  const handleToggleSidebar = () => {
-    if (compact) {
-      setMobileExpanded((current) => !current);
-    } else {
-      setDesktopExpanded((current) => !current);
-    }
-  };
-
-  const handleCloseSidebar = () => {
-    setMobileExpanded(false);
-  };
+  const {
+    sidebarExpanded,
+    tabletExpanded,
+    handleToggleSidebar,
+    handleCloseSidebar,
+    backdropVisible,
+  } = useResponsiveSidebar();
 
   return (
     <Root $expanded={sidebarExpanded}>
-      <Sidebar $expanded={sidebarExpanded}>
-        <BrandWrapper $expanded={sidebarExpanded}>
-          <Brand $expanded={sidebarExpanded}>Finflow</Brand>
+      <Sidebar $expanded={sidebarExpanded} $collapseBeforeHide={tabletExpanded}>
+        <BrandWrapper>
+          <Brand $expanded={sidebarExpanded} />
 
-          <CloseButton
+          <ToggleButton
             type="button"
             aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
             aria-expanded={sidebarExpanded}
             onClick={handleToggleSidebar}
           >
-            <SidebarIcon />
-          </CloseButton>
+            <ToggleIconStyled />
+            <CloseIconStyled />
+          </ToggleButton>
         </BrandWrapper>
 
         <Navigation aria-label="Main navigation">
@@ -85,7 +72,7 @@ export const AppLayout = () => {
       />
 
       <MainContent>
-        <Outlet />
+        <Outlet context={{ sidebarExpanded, handleToggleSidebar }} />
       </MainContent>
     </Root>
   );
