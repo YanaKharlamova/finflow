@@ -13,7 +13,7 @@ import {
   TableRow,
   TableStyled,
   TransactionCell,
-  TypeLabel,
+  TypeBadge,
 } from "src/pages/transactions/TransactionsTable.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TABLE_COLUMNS } from "src/pages/transactions/constants";
@@ -62,9 +62,9 @@ export const TransactionsTable = ({ options }: Props) => {
                   <Typography variant="subtitle" as="span">
                     {title}
                   </Typography>
-                  <TypeLabel variant="caption" as="span" $danger={expenseType}>
+                  <TypeBadge variant={expenseType ? "danger" : "primary"}>
                     {type}
-                  </TypeLabel>
+                  </TypeBadge>
                 </TransactionCell>
 
                 <CategoryCell>

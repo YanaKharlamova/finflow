@@ -26,13 +26,21 @@ export const TransactionsContent = ({ filters, transactions }: Props) => {
 
   if (transactions.length) {
     return (
-      <NoTransactionsWrapper>
+      <NoTransactionsWrapper
+        direction="column"
+        align="center"
+        justify="center"
+      >
         <SearchListIcon />
 
-        <TextWrapper>
-          <Typography variant={"bodyText"}>No transactions found</Typography>
+        <TextWrapper
+          direction="column"
+          align="center"
+          justify="center"
+        >
+          <Typography variant="bodyText">No transactions found</Typography>
 
-          <Typography variant={"caption"}>
+          <Typography variant="caption">
             Try adjusting your search or filters
           </Typography>
         </TextWrapper>
@@ -41,13 +49,21 @@ export const TransactionsContent = ({ filters, transactions }: Props) => {
   }
 
   return (
-    <NoTransactionsWrapper>
+    <NoTransactionsWrapper
+      direction="column"
+      align="center"
+      justify="center"
+    >
       <ReceiptIcon />
 
-      <TextWrapper>
-        <Typography variant={"bodyText"}>No transactions yet</Typography>
+      <TextWrapper
+        direction="column"
+        align="center"
+        justify="center"
+      >
+        <Typography variant="bodyText">No transactions yet</Typography>
 
-        <Typography variant={"caption"}>
+        <Typography variant="caption">
           Add your first transaction to start tracking your finances.
         </Typography>
       </TextWrapper>

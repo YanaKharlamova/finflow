@@ -5,8 +5,9 @@ import {
   type PeriodValue,
 } from "src/pages/overview/AnalyticsPeriodSelection";
 import { useState } from "react";
-import { Root } from "src/pages/overview/OverviewPage.styled";
 import { TransactionModal } from "src/shared/modals/TransactionModal";
+import { OverviewTransactionsCards } from "src/pages/overview/OverviewTransactionsCards";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 const DEFAULT_PERIOD: PeriodValue = "7d";
 
@@ -21,17 +22,19 @@ export const OverviewPage = () => {
   };
 
   const selection = (
-    <Root>
+    <Flex gap="sm">
       <AnalyticsPeriodSelection
         selectedPeriod={selectedPeriod}
         setSelectedPeriod={setSelectedPeriod}
       />
       <AddTransactionButton onModalToggle={handleToggleModal} />
-    </Root>
+    </Flex>
   );
 
   return (
-    <PageLayout title={"Overview"} actions={selection}>
+    <PageLayout title="Overview" actions={selection}>
+      <OverviewTransactionsCards />
+
       <TransactionModal
         open={openTransactionModal}
         onModalToggle={handleToggleModal}

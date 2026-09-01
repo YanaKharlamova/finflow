@@ -1,12 +1,9 @@
 import styled from "styled-components";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
-export const NoTransactionsWrapper = styled.div`
+export const NoTransactionsWrapper = styled(Flex)`
   flex: 1;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
   svg {
     width: 50px;
@@ -14,11 +11,7 @@ export const NoTransactionsWrapper = styled.div`
   }
 `;
 
-export const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+export const TextWrapper = styled(Flex)`
   max-width: 300px;
   margin: 0 20px;
   text-align: center;

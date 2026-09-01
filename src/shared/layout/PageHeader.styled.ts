@@ -12,14 +12,3 @@ export const Root = styled.header`
     padding: 12px 10px;
   }
 `;
-
-export const PageTitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const PageNameBox = styled.div`
-  display: flex;
-  align-items: center;
-`;

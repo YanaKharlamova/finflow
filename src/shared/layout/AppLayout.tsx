@@ -31,7 +31,7 @@ export const AppLayout = () => {
   return (
     <Root $expanded={sidebarExpanded}>
       <Sidebar $expanded={sidebarExpanded} $collapseBeforeHide={tabletExpanded}>
-        <BrandWrapper>
+        <BrandWrapper align="center" justify="space-between">
           <Brand $expanded={sidebarExpanded} />
 
           <ToggleButton

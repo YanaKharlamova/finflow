@@ -1,10 +1,7 @@
 import type { ReactNode } from "react";
-import {
-  PageNameBox,
-  PageTitleWrapper,
-  Root,
-} from "src/shared/layout/PageHeader.styled";
+import { Root } from "src/shared/layout/PageHeader.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { useOutletContext } from "react-router-dom";
 import { ToggleButton } from "src/shared/layout/AppLayout.styled";
 import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
@@ -29,7 +26,7 @@ export const PageHeader = ({ title, actions }: Props) => {
 
   return (
     <Root>
-      <PageTitleWrapper>
+      <Flex align="center">
         <ToggleButton
           type="button"
           aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
@@ -40,12 +37,10 @@ export const PageHeader = ({ title, actions }: Props) => {
           <ToggleIcon />
         </ToggleButton>
 
-        <PageNameBox>
-          <Typography variant={mobile ? "pageTitleSm" : "pageTitle"}>
-            {title}
-          </Typography>
-        </PageNameBox>
-      </PageTitleWrapper>
+        <Typography variant={mobile ? "pageTitleSm" : "pageTitle"}>
+          {title}
+        </Typography>
+      </Flex>
       {actions}
     </Root>
   );

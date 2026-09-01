@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
-import { Typography } from "src/shared/ui/ui-kit/Typography";
+import { Badge } from "src/shared/ui/ui-kit/Badge";
 
 const cellStyles = css`
   padding: 0;
@@ -162,18 +162,7 @@ export const MobileLabel = styled.span`
   }
 `;
 
-export const TypeLabel = styled(Typography)<{ $danger: boolean }>`
-  flex: 0 0 auto;
-  white-space: nowrap;
-  padding: 5px ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.radii.sm};
-  color: ${({ theme, $danger }) =>
-    $danger ? theme.colors.danger : theme.colors.success};
-  background: transparent;
-  font-weight: 400;
-  border: 1px solid
-    ${({ theme, $danger }) => ($danger ? theme.colors.danger : theme.colors.success)};
-
+export const TypeBadge = styled(Badge)`
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     margin-left: ${({ theme }) => theme.spacing.sm};
   }

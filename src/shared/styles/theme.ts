@@ -25,7 +25,7 @@ export const theme = {
     },
     pageTitleSm: {
       fontSize: "24px",
-      fontWeight: 600,
+      fontWeight: 500,
       lineHeight: "24px",
     },
     title: {
@@ -35,7 +35,7 @@ export const theme = {
     },
     subtitle: {
       fontSize: "18px",
-      fontWeight: 500,
+      fontWeight: 400,
       lineHeight: "24px",
     },
     caption: {

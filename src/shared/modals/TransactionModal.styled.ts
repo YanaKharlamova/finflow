@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Dialog, RadioGroup } from "radix-ui";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 export const ModalOverlay = styled(Dialog.Overlay)`
   position: fixed;
@@ -70,12 +71,6 @@ export const FormContainer = styled.form`
   gap: ${({ theme }) => theme.spacing.md};
 `;
 
-export const Field = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs};
-`;
-
 export const SelectionContainer = styled(RadioGroup.Root)`
   width: 100%;
   display: flex;
@@ -125,21 +120,16 @@ export const SelectionItem = styled(RadioGroup.Item)<{ $danger?: boolean }>`
   }
 `;
 
-export const ButtonGroup = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.spacing.sm};
-
+export const ButtonGroup = styled(Flex)`
   > button {
     flex: 1;
   }
 `;
 
-export const FieldsRow = styled.div`
-  display: flex;
-  gap: 0;
+export const FieldsRow = styled(Flex)`
   width: 100%;
 
-  > ${Field} {
+  > div {
     flex: 1;
   }
 

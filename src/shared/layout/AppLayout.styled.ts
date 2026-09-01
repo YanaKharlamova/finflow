@@ -4,6 +4,7 @@ import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import { FinflowLogo } from "src/shared/ui/icons/FinflowLogo";
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 export const Root = styled.div<{ $expanded: boolean }>`
   display: grid;
@@ -24,11 +25,8 @@ export const Root = styled.div<{ $expanded: boolean }>`
   }
 `;
 
-export const BrandWrapper = styled.div`
-  display: flex;
-  align-items: center;
+export const BrandWrapper = styled(Flex)`
   min-height: 32px;
-  justify-content: space-between;
 `;
 
 export const Sidebar = styled.aside<{

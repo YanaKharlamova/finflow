@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import {
   TypographyText,
+  type TypographyColor,
   type TypographyVariant,
 } from "src/shared/ui/ui-kit/Typography.styled";
 
 type TypographyProps = {
   variant?: TypographyVariant;
+  color?: TypographyColor;
   as?: "p" | "span" | "label";
   htmlFor?: string;
   id?: string;
@@ -14,6 +16,7 @@ type TypographyProps = {
 
 export const Typography = ({
   variant = "pageTitle",
+  color = "primary",
   as,
   htmlFor,
   children,
@@ -24,6 +27,7 @@ export const Typography = ({
     as={as}
     {...(as === "label" ? { htmlFor } : {})}
     $variant={variant}
+    $color={color}
   >
     {children}
   </TypographyText>
