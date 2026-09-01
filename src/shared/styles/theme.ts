@@ -8,6 +8,8 @@ export const theme = {
     secondary: "#f5f7fb",
     secondaryHover: "#e9eef7",
     secondaryFocus: "#dfe7f5",
+    tertiary: "#294f7d",
+    tertiaryBackground: "#eaf4ff",
     textPrimary: "#17223b",
     textSecondary: "#68758f",
     border: "#dbe3f0",

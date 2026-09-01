@@ -1,4 +1,7 @@
-import { Root } from "src/shared/layout/PageLayout.styled";
+import {
+  PageContentContainer,
+  Root,
+} from "src/shared/layout/PageLayout.styled";
 import type { ReactNode } from "react";
 import { PageHeader } from "src/shared/layout/PageHeader";
 
@@ -11,8 +14,10 @@ type Props = {
 export const PageLayout = ({ title, actions, children }: Props) => {
   return (
     <Root direction="column" gap="xs">
-      <PageHeader title={title} actions={actions} />
-      {children}
+      <PageContentContainer>
+        <PageHeader title={title} actions={actions} />
+        {children}
+      </PageContentContainer>
     </Root>
   );
 };

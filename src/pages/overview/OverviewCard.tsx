@@ -26,7 +26,7 @@ export const OverviewCard = ({
 }: Props) => {
   return (
     <Root direction="column" gap="md">
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="flex-start">
         <Flex align="center" gap="sm">
           {icon}
           <Typography color="secondary" variant="subtitle">
@@ -34,10 +34,10 @@ export const OverviewCard = ({
           </Typography>
         </Flex>
 
-        {badgeText ? <Badge>{badgeText}</Badge> : null}
+        {badgeText ? <Badge variant="tertiary">{badgeText}</Badge> : null}
       </Flex>
 
-      <Flex direction="column" gap="sm">
+      <Flex direction="column" gap="sm" justify="space-between">
         <Typography variant="pageTitleSm" color={cardAccent}>
           {amount} {currency}
         </Typography>

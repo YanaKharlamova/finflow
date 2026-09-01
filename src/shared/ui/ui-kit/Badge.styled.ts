@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export type BadgeVariant = "primary" | "danger";
+export type BadgeVariant = "primary" | "danger" | "tertiary";
 
 const variantStyles = {
   primary: css`
@@ -10,6 +10,11 @@ const variantStyles = {
   danger: css`
     color: ${({ theme }) => theme.colors.danger};
     border-color: ${({ theme }) => theme.colors.danger};
+  `,
+  tertiary: css`
+    color: ${({ theme }) => theme.colors.tertiary};
+    background-color: ${({ theme }) => theme.colors.tertiaryBackground};
+    border: none;
   `,
 };
 
