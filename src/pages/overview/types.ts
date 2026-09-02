@@ -4,3 +4,10 @@ export type OverviewSummary = {
   incomeMinor: number;
   expensesMinor: number;
 };
+
+export type CashFlowPoint = {
+  label: string;
+  incomeMinor: number;
+  expensesMinor: number;
+  netMinor: number;
+};

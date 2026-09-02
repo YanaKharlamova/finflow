@@ -4,7 +4,6 @@ export const Root = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 10px;
   padding: ${({ theme }) => `${theme.spacing.md} 10px`};
   gap: 5px;
   background: ${({ theme }) => theme.colors.white};

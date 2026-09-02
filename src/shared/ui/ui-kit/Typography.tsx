@@ -8,7 +8,7 @@ import {
 type TypographyProps = {
   variant?: TypographyVariant;
   color?: TypographyColor;
-  as?: "p" | "span" | "label";
+  as?: "p" | "span" | "label" | "h1" | "h2" | "h3";
   htmlFor?: string;
   id?: string;
   children: ReactNode;

@@ -7,7 +7,12 @@ export const Root = styled(Flex)`
 `;
 
 export const PageContentContainer = styled.div`
+  box-sizing: border-box;
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
+  padding: ${({ theme }) => theme.spacing.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
 `;

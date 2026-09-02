@@ -15,9 +15,8 @@ const cellStyles = css`
 
 export const TableStyled = styled.table`
   display: block;
-  width: calc(100% - 20px);
+  width: 100%;
   border-collapse: collapse;
-  margin: 0 10px;
 
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     display: table;

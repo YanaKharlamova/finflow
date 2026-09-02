@@ -4,8 +4,6 @@ import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 export const Root = styled(Flex)`
   min-width: 0;
-  margin: 10px;
-
   gap: ${({ theme }) => theme.spacing.sm};
 
   @media (min-width: ${BREAKPOINTS.tablet}px) {

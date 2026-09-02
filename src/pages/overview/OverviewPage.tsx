@@ -8,6 +8,9 @@ import { useState } from "react";
 import { TransactionModal } from "src/shared/modals/TransactionModal";
 import { OverviewTransactionsCards } from "src/pages/overview/OverviewTransactionsCards";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
+import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
+import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
+import type { Currency } from "src/pages/transactions/types";
 
 const DEFAULT_PERIOD: PeriodValue = "7d";
 
@@ -34,6 +37,12 @@ export const OverviewPage = () => {
   return (
     <PageLayout title="Overview" actions={selection}>
       <OverviewTransactionsCards />
+
+      <OverviewCashFlow
+        data={MOCK_OVERVIEW_RESPONSE.cashFlow}
+        currency={MOCK_OVERVIEW_RESPONSE.summary.currency as Currency}
+        onModalToggle={handleToggleModal}
+      />
 
       <TransactionModal
         open={openTransactionModal}

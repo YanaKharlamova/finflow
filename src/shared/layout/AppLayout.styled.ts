@@ -152,7 +152,6 @@ export const ToggleButton = styled.button`
     background-color: ${({ theme }) => theme.colors.secondaryFocus};
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
-
 `;
 
 export const NavigationLabel = styled.span<{ $expanded: boolean }>`
