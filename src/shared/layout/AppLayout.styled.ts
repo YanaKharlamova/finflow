@@ -1,13 +1,11 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
-import { FinflowLogo } from "src/shared/ui/icons/FinflowLogo";
-import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
-import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
 
 export const Root = styled.div<{ $expanded: boolean }>`
   display: grid;
   grid-template-columns: 0 minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   color: ${({ theme }) => theme.colors.textPrimary};
   background: ${({ theme }) => theme.colors.background};
   transition: grid-template-columns ${({ theme }) => theme.transitions.slow};
@@ -24,25 +22,19 @@ export const Root = styled.div<{ $expanded: boolean }>`
   }
 `;
 
-export const BrandWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  min-height: 32px;
-  justify-content: space-between;
-`;
-
 export const Sidebar = styled.aside<{
   $expanded: boolean;
   $collapseBeforeHide: boolean;
 }>`
-  position: fixed;
-  inset: 0 auto 0 0;
+  position: relative;
+  grid-row: 2;
+  grid-column: 1;
   z-index: 20;
   width: ${({ $expanded }) => ($expanded ? "min(240px, 100vw)" : "72px")};
   min-width: 0;
   padding: ${({ $expanded }) => ($expanded ? "20px" : "20px 12px")};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.primary};
   border-right: 1px solid ${({ theme }) => theme.colors.border};
   transform: translateX(${({ $expanded }) => ($expanded ? "0" : "-100%")});
   opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
@@ -63,9 +55,6 @@ export const Sidebar = styled.aside<{
   }};
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    position: relative;
-    inset: auto;
-    grid-column: 1;
     width: ${({ $expanded }) => ($expanded ? "240px" : "72px")};
     align-self: stretch;
     transform: none;
@@ -81,35 +70,16 @@ export const Sidebar = styled.aside<{
   }
 `;
 
-export const Brand = styled(FinflowLogo)<{ $expanded: boolean }>`
-  width: auto;
-  max-width: ${({ $expanded }) => ($expanded ? "108px" : "0")};
-  flex: 0 1 auto;
-  overflow: hidden;
-  color: ${({ theme }) => theme.colors.primary};
-  opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
-  visibility: ${({ $expanded }) => ($expanded ? "visible" : "hidden")};
-
-  transition:
-    opacity ${({ theme }) => theme.transitions.normal}
-      ${({ $expanded }) => ($expanded ? "180ms" : "0ms")},
-    visibility ${({ theme }) => theme.transitions.normal}
-      ${({ $expanded }) => ($expanded ? "180ms" : "0ms")},
-    max-width ${({ theme }) => theme.transitions.slow}
-      ${({ $expanded }) => ($expanded ? "0ms" : "180ms")};
-`;
-
 export const Navigation = styled.nav`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
   overflow: hidden;
-  margin-top: 25px;
 `;
 
 export const NavigationLink = styled(NavLink)`
   padding: 10px 12px;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.radii.sm};
 
   display: flex;
@@ -148,13 +118,13 @@ export const NavigationLink = styled(NavLink)`
 `;
 
 export const MainContent = styled.main`
+  grid-row: 2;
   grid-column: 2;
   min-width: 0;
 `;
 
-export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
+export const ToggleButton = styled.button`
   width: 48px;
-  margin-left: ${({ $headerButton }) => ($headerButton ? 0 : "auto")};
   padding: 10px 12px;
   color: ${({ theme }) => theme.colors.textSecondary};
   border-radius: ${({ theme }) => theme.radii.sm};
@@ -182,23 +152,6 @@ export const ToggleButton = styled.button<{ $headerButton?: boolean }>`
     background-color: ${({ theme }) => theme.colors.secondaryFocus};
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
-
-  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    display: ${({ $headerButton }) => ($headerButton ? "none" : "inline-flex")};
-  }
-`;
-
-export const CloseIconStyled = styled(CloseIcon)`
-  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    display: none;
-  }
-`;
-
-export const ToggleIconStyled = styled(ToggleIcon)`
-  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    display: block;
-  }
-  display: none;
 `;
 
 export const NavigationLabel = styled.span<{ $expanded: boolean }>`
@@ -216,9 +169,11 @@ export const NavigationLabel = styled.span<{ $expanded: boolean }>`
 
 export const Backdrop = styled.button<{ $visible: boolean }>`
   display: block;
-  position: fixed;
-  inset: 0;
+  grid-row: 2;
+  grid-column: 1 / -1;
   z-index: 10;
+  width: 100%;
+  height: 100%;
   padding: 0;
   border: 0;
   background: rgb(15 23 42 / 45%);

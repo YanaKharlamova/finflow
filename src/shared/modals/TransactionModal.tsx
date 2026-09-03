@@ -10,7 +10,6 @@ import {
   SelectionItem,
   ButtonGroup,
   FieldsRow,
-  Field,
 } from "src/shared/modals/TransactionModal.styled";
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
@@ -27,6 +26,7 @@ import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import type { TransactionType } from "src/pages/transactions/types";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 type Props = {
   open: boolean;
@@ -183,7 +183,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               noValidate
               onSubmit={handleSubmit}
             >
-              <Field>
+              <Flex direction="column" gap="xs">
                 <Typography variant="caption" id="transaction-type-label">
                   Type
                 </Typography>
@@ -202,9 +202,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     <Typography variant="bodyText">Expense</Typography>
                   </SelectionItem>
                 </SelectionContainer>
-              </Field>
+              </Flex>
 
-              <Field>
+              <Flex direction="column" gap="xs">
                 <Typography
                   as="label"
                   htmlFor="transaction-title"
@@ -225,10 +225,10 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   }
                   required
                 />
-              </Field>
+              </Flex>
 
               <FieldsRow>
-                <Field>
+                <Flex direction="column" gap="xs">
                   <Typography
                     as="label"
                     htmlFor="transaction-amount"
@@ -247,9 +247,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     placeholder="$0.0"
                     required
                   />
-                </Field>
+                </Flex>
 
-                <Field>
+                <Flex direction="column" gap="xs">
                   <Typography
                     as="label"
                     htmlFor="transaction-category"
@@ -267,10 +267,10 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     onValueChange={handleChangeCategory}
                     placeholder={mobile ? "Category" : "Select category"}
                   />
-                </Field>
+                </Flex>
               </FieldsRow>
 
-              <Field>
+              <Flex direction="column" gap="xs">
                 <Typography
                   as="label"
                   htmlFor="transaction-date"
@@ -288,10 +288,10 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   onChange={handleSetTransactionDate}
                   required
                 />
-              </Field>
+              </Flex>
             </FormContainer>
 
-            <ButtonGroup>
+            <ButtonGroup gap="sm">
               <Dialog.Close asChild>
                 <Button type="button" variant="secondary">
                   Cancel

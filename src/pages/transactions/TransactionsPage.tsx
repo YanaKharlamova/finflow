@@ -35,7 +35,7 @@ export const TransactionsPage = () => {
 
   return (
     <PageLayout
-      title={"Transactions"}
+      title="Transactions"
       actions={<AddTransactionButton onModalToggle={handleToggleModal} />}
     >
       <TransactionFiltersBlock

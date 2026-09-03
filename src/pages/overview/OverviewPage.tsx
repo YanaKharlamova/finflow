@@ -5,8 +5,13 @@ import {
   type PeriodValue,
 } from "src/pages/overview/AnalyticsPeriodSelection";
 import { useState } from "react";
-import { Root } from "src/pages/overview/OverviewPage.styled";
 import { TransactionModal } from "src/shared/modals/TransactionModal";
+import { OverviewTransactionsCards } from "src/pages/overview/OverviewTransactionsCards";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
+import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
+import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
+import type { Currency } from "src/pages/transactions/types";
+import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesByCategory";
 
 const DEFAULT_PERIOD: PeriodValue = "7d";
 
@@ -21,17 +26,31 @@ export const OverviewPage = () => {
   };
 
   const selection = (
-    <Root>
+    <Flex gap="sm">
       <AnalyticsPeriodSelection
         selectedPeriod={selectedPeriod}
         setSelectedPeriod={setSelectedPeriod}
       />
       <AddTransactionButton onModalToggle={handleToggleModal} />
-    </Root>
+    </Flex>
   );
 
   return (
-    <PageLayout title={"Overview"} actions={selection}>
+    <PageLayout title="Overview" actions={selection}>
+      <OverviewTransactionsCards />
+
+      <OverviewCashFlow
+        data={MOCK_OVERVIEW_RESPONSE.cashFlow}
+        currency={MOCK_OVERVIEW_RESPONSE.summary.currency as Currency}
+        onModalToggle={handleToggleModal}
+      />
+
+      <OverviewExpensesByCategory
+        data={MOCK_OVERVIEW_RESPONSE.expensesByCategory}
+        totalExpensesMinor={MOCK_OVERVIEW_RESPONSE.summary.expensesMinor}
+        currency={MOCK_OVERVIEW_RESPONSE.summary.currency as Currency}
+      />
+
       <TransactionModal
         open={openTransactionModal}
         onModalToggle={handleToggleModal}

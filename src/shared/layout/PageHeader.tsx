@@ -1,51 +1,50 @@
 import type { ReactNode } from "react";
 import {
-  PageNameBox,
-  PageTitleWrapper,
+  Brand,
+  PageTitle,
   Root,
 } from "src/shared/layout/PageHeader.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
-import { useOutletContext } from "react-router-dom";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { ToggleButton } from "src/shared/layout/AppLayout.styled";
 import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
+import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
-
-type OutletContext = {
-  sidebarExpanded: boolean;
-  handleToggleSidebar: () => void;
-};
 
 type Props = {
   title: string;
   actions: ReactNode;
+  sidebarExpanded: boolean;
+  onToggleSidebar: () => void;
 };
 
-export const PageHeader = ({ title, actions }: Props) => {
-  const { sidebarExpanded, handleToggleSidebar } =
-    useOutletContext<OutletContext>();
-
+export const PageHeader = ({
+  title,
+  actions,
+  sidebarExpanded,
+  onToggleSidebar,
+}: Props) => {
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
 
   return (
     <Root>
-      <PageTitleWrapper>
+      <Flex align="center">
+        <Brand />
+
         <ToggleButton
           type="button"
           aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
           aria-expanded={sidebarExpanded}
-          onClick={handleToggleSidebar}
-          $headerButton
+          onClick={onToggleSidebar}
         >
-          <ToggleIcon />
+          {mobile && sidebarExpanded ? <CloseIcon /> : <ToggleIcon />}
         </ToggleButton>
 
-        <PageNameBox>
-          <Typography variant={mobile ? "pageTitleSm" : "pageTitle"}>
-            {title}
-          </Typography>
-        </PageNameBox>
-      </PageTitleWrapper>
+        <PageTitle>
+          <Typography variant="pageTitle">{title}</Typography>
+        </PageTitle>
+      </Flex>
       {actions}
     </Root>
   );

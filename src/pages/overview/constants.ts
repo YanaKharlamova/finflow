@@ -20,3 +20,17 @@ export const PERIOD_OPTIONS = [
     mobileLabel: "This year",
   },
 ] as const;
+
+export const EXPENSE_CATEGORY_COLORS = {
+  housing: "#4C76BD",
+  food: "#E97866",
+  transport: "#D7A13F",
+  "other-expense": "#7A8799",
+};
+
+export const EXPENSE_CATEGORY_LABELS = {
+  housing: "Housing",
+  food: "Food",
+  transport: "Transport",
+  "other-expense": "Other",
+};

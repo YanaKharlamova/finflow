@@ -8,6 +8,8 @@ export const theme = {
     secondary: "#f5f7fb",
     secondaryHover: "#e9eef7",
     secondaryFocus: "#dfe7f5",
+    tertiary: "#294f7d",
+    tertiaryBackground: "#eaf4ff",
     textPrimary: "#17223b",
     textSecondary: "#68758f",
     border: "#dbe3f0",
@@ -25,7 +27,7 @@ export const theme = {
     },
     pageTitleSm: {
       fontSize: "24px",
-      fontWeight: 600,
+      fontWeight: 500,
       lineHeight: "24px",
     },
     title: {
@@ -35,7 +37,7 @@ export const theme = {
     },
     subtitle: {
       fontSize: "18px",
-      fontWeight: 500,
+      fontWeight: 400,
       lineHeight: "24px",
     },
     caption: {

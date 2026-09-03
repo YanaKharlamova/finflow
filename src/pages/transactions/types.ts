@@ -38,3 +38,9 @@ export type TransactionFilterData = {
 };
 
 export type TransactionFilterUpdate = Partial<TransactionFilterData>;
+
+// GET /transactions
+export type TransactionsResponse = {
+  items: Transaction[];
+  total: number;
+};

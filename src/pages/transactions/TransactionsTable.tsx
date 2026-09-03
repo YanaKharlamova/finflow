@@ -13,10 +13,11 @@ import {
   TableRow,
   TableStyled,
   TransactionCell,
-  TypeLabel,
+  TypeBadge,
 } from "src/pages/transactions/TransactionsTable.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TABLE_COLUMNS } from "src/pages/transactions/constants";
+import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
 
 type Props = {
   options: Transaction[];
@@ -50,7 +51,7 @@ export const TransactionsTable = ({ options }: Props) => {
             const amountFormatted = new Intl.NumberFormat("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
-            }).format(amountMinor / 100);
+            }).format(convertMinorToMajorUnits(amountMinor));
 
             return (
               <TableRow key={id}>
@@ -62,9 +63,9 @@ export const TransactionsTable = ({ options }: Props) => {
                   <Typography variant="subtitle" as="span">
                     {title}
                   </Typography>
-                  <TypeLabel variant="caption" as="span" $danger={expenseType}>
+                  <TypeBadge variant={expenseType ? "danger" : "primary"}>
                     {type}
-                  </TypeLabel>
+                  </TypeBadge>
                 </TransactionCell>
 
                 <CategoryCell>
