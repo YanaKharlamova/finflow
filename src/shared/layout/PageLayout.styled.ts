@@ -10,6 +10,7 @@ export const PageContentContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
   max-width: 1440px;
+  flex: 1;
   margin-inline: auto;
   padding: ${({ theme }) => theme.spacing.md};
   display: flex;
