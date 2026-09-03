@@ -13,6 +13,7 @@ import {
 import type { CashFlowPoint } from "src/pages/overview/types";
 import { useTheme } from "styled-components";
 import type { Currency } from "src/pages/transactions/types";
+import { formatCurrencyToMajorUnits } from "src/shared/helpers/formatCurrencyToMajorUnits";
 
 type Props = {
   data: CashFlowPoint[];
@@ -22,15 +23,8 @@ type Props = {
 export const OverviewCashFlowChart = ({ data, currency }: Props) => {
   const theme = useTheme();
 
-  const currencyFormatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
-    notation: "compact",
-    maximumFractionDigits: 1,
-  });
-
   const formatYAxisValue = (value: number) =>
-    currencyFormatter.format(value / 100);
+    formatCurrencyToMajorUnits({ currency, amount: value });
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -89,7 +83,13 @@ export const OverviewCashFlowChart = ({ data, currency }: Props) => {
             color: theme.colors.textPrimary,
             fontWeight: 600,
           }}
-          formatter={(value) => currencyFormatter.format(Number(value) / 100)}
+          formatter={(value) => {
+            const amount = Number(value);
+
+            return Number.isFinite(amount)
+              ? formatCurrencyToMajorUnits({ currency, amount })
+              : "-";
+          }}
         />
 
         <Bar

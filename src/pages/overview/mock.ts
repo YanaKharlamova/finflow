@@ -1,4 +1,8 @@
-import type { CashFlowPoint } from "src/pages/overview/types";
+import type {
+  CashFlowPoint,
+  ExpenseCategoryPoint,
+  OverviewSummary,
+} from "src/pages/overview/types";
 
 const CASH_FLOW_MOCK: CashFlowPoint[] = [
   {
@@ -45,13 +49,34 @@ const CASH_FLOW_MOCK: CashFlowPoint[] = [
   },
 ];
 
-export const MOCK_OVERVIEW_RESPONSE = {
-  summary: {
-    currency: "USD",
-    currentBalanceMinor: 1_248_050,
-    incomeMinor: 425_000,
-    expensesMinor: 298_040,
+const EXPENSE_CATEGORY_MOCK: ExpenseCategoryPoint[] = [
+  {
+    category: "housing",
+    amountMinor: 120_000,
   },
+  {
+    category: "food",
+    amountMinor: 86_450,
+  },
+  {
+    category: "transport",
+    amountMinor: 48_740,
+  },
+  {
+    category: "other-expense",
+    amountMinor: 42_850,
+  },
+];
 
+const SUMMARY_MOCK: OverviewSummary = {
+  currency: "USD",
+  currentBalanceMinor: 1_248_050,
+  incomeMinor: 425_000,
+  expensesMinor: 298_040,
+};
+
+export const MOCK_OVERVIEW_RESPONSE = {
+  summary: SUMMARY_MOCK,
   cashFlow: CASH_FLOW_MOCK,
+  expensesByCategory: EXPENSE_CATEGORY_MOCK,
 };

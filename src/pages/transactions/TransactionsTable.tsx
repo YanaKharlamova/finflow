@@ -17,6 +17,7 @@ import {
 } from "src/pages/transactions/TransactionsTable.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TABLE_COLUMNS } from "src/pages/transactions/constants";
+import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
 
 type Props = {
   options: Transaction[];
@@ -50,7 +51,7 @@ export const TransactionsTable = ({ options }: Props) => {
             const amountFormatted = new Intl.NumberFormat("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
-            }).format(amountMinor / 100);
+            }).format(convertMinorToMajorUnits(amountMinor));
 
             return (
               <TableRow key={id}>

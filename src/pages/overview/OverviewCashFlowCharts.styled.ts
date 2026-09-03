@@ -22,10 +22,12 @@ export const Header = styled.header`
 `;
 
 export const Chart = styled.div`
+  position: relative;
   width: 100%;
   height: 280px;
+  flex: 1;
 
   @media (min-width: ${BREAKPOINTS.tablet}px) {
-    height: 320px;
+    height: 350px;
   }
 `;

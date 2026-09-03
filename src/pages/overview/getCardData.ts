@@ -1,10 +1,11 @@
 import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
+import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
 
 const formatAmount = (amount: number) =>
   new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount / 100);
+  }).format(convertMinorToMajorUnits(amount));
 
 export const getCardData = () => {
   const {

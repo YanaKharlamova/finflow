@@ -1,3 +1,5 @@
+import type { ExpenseCategory } from "src/shared/modals/constants";
+
 export type OverviewSummary = {
   currency: string;
   currentBalanceMinor: number;
@@ -10,4 +12,9 @@ export type CashFlowPoint = {
   incomeMinor: number;
   expensesMinor: number;
   netMinor: number;
+};
+
+export type ExpenseCategoryPoint = {
+  category: ExpenseCategory;
+  amountMinor: number;
 };
