@@ -7,7 +7,7 @@ import {
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { CashFlowEmptyState } from "src/pages/overview/CashFlowEmptyState";
 import { OverviewCashFlowChart } from "src/pages/overview/OverviewCashFlowChart";
-import type { Currency } from "src/pages/transactions/types";
+import type { Currency } from "src/shared/types/transaction";
 
 type Props = {
   data: CashFlowPoint[];

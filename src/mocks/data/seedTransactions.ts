@@ -1,6 +1,6 @@
-import type { Transaction } from "src/pages/transactions/types";
+import type { Transaction } from "src/shared/types/transaction";
 
-export const TRANSACTIONS_MOCK: Transaction[] = [
+export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-1",
     title: "Monthly salary",

@@ -1,11 +1,23 @@
-import { type Category, TRANSACTION_TYPES } from "src/shared/modals/constants";
-import {
-  TRANSACTION_SORT_OPTIONS,
+import type {
+  CATEGORY_OPTIONS,
+  TRANSACTION_TYPES,
+} from "src/shared/modals/constants";
+import type {
   TRANSACTION_CATEGORY_OPTIONS,
+  TRANSACTION_SORT_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from "src/pages/transactions/constants";
 
 export type Currency = "USD";
+
+export type TransactionType =
+  (typeof TRANSACTION_TYPES)[keyof typeof TRANSACTION_TYPES];
+
+export type Category =
+  (typeof CATEGORY_OPTIONS)[TransactionType][number]["value"];
+
+export type ExpenseCategory =
+  (typeof CATEGORY_OPTIONS)["expense"][number]["value"];
 
 export type Transaction = {
   id: string;
@@ -16,9 +28,6 @@ export type Transaction = {
   amountMinor: number;
   currency: Currency;
 };
-
-export type TransactionType =
-  (typeof TRANSACTION_TYPES)[keyof typeof TRANSACTION_TYPES];
 
 export type TransactionSort =
   (typeof TRANSACTION_SORT_OPTIONS)[number]["value"];
@@ -39,8 +48,20 @@ export type TransactionFilterData = {
 
 export type TransactionFilterUpdate = Partial<TransactionFilterData>;
 
+export type TransactionsParams = {
+  search?: string;
+  type?: TransactionType;
+  category?: Category;
+  date?: string;
+  sort?: TransactionSort;
+  page: number;
+  limit: number;
+};
+
 // GET /transactions
 export type TransactionsResponse = {
   items: Transaction[];
   total: number;
+  page: number;
+  limit: number;
 };

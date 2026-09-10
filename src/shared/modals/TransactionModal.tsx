@@ -20,12 +20,14 @@ import { type ChangeEvent, type SubmitEvent, useState } from "react";
 import {
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
-  type Category,
 } from "src/shared/modals/constants";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
-import type { TransactionType } from "src/pages/transactions/types";
+import type {
+  Category,
+  TransactionType,
+} from "src/shared/types/transaction";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 type Props = {

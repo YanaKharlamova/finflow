@@ -1,4 +1,4 @@
-import type { ExpenseCategory } from "src/shared/modals/constants";
+import type { ExpenseCategory } from "src/shared/types/transaction";
 
 export type OverviewSummary = {
   currency: string;

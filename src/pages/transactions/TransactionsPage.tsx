@@ -8,11 +8,19 @@ import { ALL_FILTER_VALUE } from "src/pages/transactions/constants";
 import type {
   TransactionFilterData,
   TransactionFilterUpdate,
-} from "src/pages/transactions/types";
-import { TRANSACTIONS_MOCK } from "src/pages/transactions/mock";
+} from "src/shared/types/transaction";
+import { SEED_TRANSACTIONS } from "src/mocks/data/seedTransactions";
+import { useGetTransactionsQuery } from "src/api/transactionsApi";
 
 export const TransactionsPage = () => {
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
+
+  const { data } = useGetTransactionsQuery({
+    page: 2,
+    limit: 2,
+  });
+
+  const transactions = data?.items ?? [];
 
   const [filterData, setFilterData] = useState<TransactionFilterData>({
     transactionType: ALL_FILTER_VALUE,
@@ -45,7 +53,7 @@ export const TransactionsPage = () => {
 
       <TransactionsContent
         filters={filterData}
-        transactions={TRANSACTIONS_MOCK}
+        transactions={SEED_TRANSACTIONS}
       />
 
       <TransactionModal

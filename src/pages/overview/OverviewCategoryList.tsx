@@ -1,7 +1,7 @@
 import type { ExpenseCategoryPoint } from "src/pages/overview/types";
 import { Bullet, Root } from "src/pages/overview/OverviewCategoryList.styled";
 import { formatCurrencyToMajorUnits } from "src/shared/helpers/formatCurrencyToMajorUnits";
-import type { Currency } from "src/pages/transactions/types";
+import type { Currency } from "src/shared/types/transaction";
 import {
   EXPENSE_CATEGORY_COLORS,
   EXPENSE_CATEGORY_LABELS,

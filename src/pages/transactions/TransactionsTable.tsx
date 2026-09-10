@@ -1,4 +1,4 @@
-import type { Transaction } from "src/pages/transactions/types";
+import type { Transaction } from "src/shared/types/transaction";
 import { TRANSACTION_TYPES } from "src/shared/modals/constants";
 import {
   ActionButton,

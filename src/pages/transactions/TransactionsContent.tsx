@@ -9,7 +9,7 @@ import { getTransactions } from "src/pages/transactions/helpers/getTransactions"
 import type {
   Transaction,
   TransactionFilterData,
-} from "src/pages/transactions/types";
+} from "src/shared/types/transaction";
 import { SearchListIcon } from "src/shared/ui/icons/SearchListIcon";
 
 type Props = { filters: TransactionFilterData; transactions: Transaction[] };

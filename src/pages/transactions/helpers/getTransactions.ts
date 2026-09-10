@@ -1,7 +1,7 @@
 import type {
   Transaction,
   TransactionFilterData,
-} from "src/pages/transactions/types";
+} from "src/shared/types/transaction";
 import { ALL_FILTER_VALUE } from "src/pages/transactions/constants";
 
 type Options = {

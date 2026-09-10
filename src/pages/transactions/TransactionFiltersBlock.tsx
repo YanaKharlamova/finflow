@@ -8,7 +8,7 @@ import { TransactionsFilters } from "src/pages/transactions/TransactionsFilters"
 import type {
   TransactionFilterData,
   TransactionFilterUpdate,
-} from "src/pages/transactions/types";
+} from "src/shared/types/transaction";
 
 type Options = {
   filterData: TransactionFilterData;

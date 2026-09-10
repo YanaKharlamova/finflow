@@ -10,7 +10,7 @@ import { OverviewTransactionsCards } from "src/pages/overview/OverviewTransactio
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
 import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
-import type { Currency } from "src/pages/transactions/types";
+import type { Currency } from "src/shared/types/transaction";
 import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesByCategory";
 
 const DEFAULT_PERIOD: PeriodValue = "7d";
