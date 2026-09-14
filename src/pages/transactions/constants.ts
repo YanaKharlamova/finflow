@@ -5,6 +5,8 @@ import {
 
 export const ALL_FILTER_VALUE = "all";
 
+export const DEFAULT_PAGE_SIZE = 10;
+
 export const TRANSACTION_TYPE_OPTIONS = [
   { value: ALL_FILTER_VALUE, label: "All types", mobileLabel: "Type" },
   { value: "income", label: "Income", mobileLabel: "Income" },

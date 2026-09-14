@@ -12,32 +12,43 @@ import type {
 } from "src/shared/types/transaction";
 import { SearchListIcon } from "src/shared/ui/icons/SearchListIcon";
 
-type Props = { filters: TransactionFilterData; transactions: Transaction[] };
+type Props = {
+  filters: TransactionFilterData;
+  transactions: Transaction[];
+  pagesAmount: number;
+  onPageChange: (page: number) => void;
+  currentPage: number;
+};
 
-export const TransactionsContent = ({ filters, transactions }: Props) => {
+export const TransactionsContent = ({
+  filters,
+  transactions,
+  currentPage,
+  pagesAmount,
+  onPageChange,
+}: Props) => {
   const transactionsFiltered: Transaction[] = getTransactions({
     transactions,
     filters,
   });
 
   if (transactionsFiltered.length) {
-    return <TransactionsTable options={transactionsFiltered} />;
+    return (
+      <TransactionsTable
+        options={transactionsFiltered}
+        currentPage={currentPage}
+        pagesAmount={pagesAmount}
+        onPageChange={onPageChange}
+      />
+    );
   }
 
   if (transactions.length) {
     return (
-      <NoTransactionsWrapper
-        direction="column"
-        align="center"
-        justify="center"
-      >
+      <NoTransactionsWrapper direction="column" align="center" justify="center">
         <SearchListIcon />
 
-        <TextWrapper
-          direction="column"
-          align="center"
-          justify="center"
-        >
+        <TextWrapper direction="column" align="center" justify="center">
           <Typography variant="bodyText">No transactions found</Typography>
 
           <Typography variant="caption">
@@ -49,18 +60,10 @@ export const TransactionsContent = ({ filters, transactions }: Props) => {
   }
 
   return (
-    <NoTransactionsWrapper
-      direction="column"
-      align="center"
-      justify="center"
-    >
+    <NoTransactionsWrapper direction="column" align="center" justify="center">
       <ReceiptIcon />
 
-      <TextWrapper
-        direction="column"
-        align="center"
-        justify="center"
-      >
+      <TextWrapper direction="column" align="center" justify="center">
         <Typography variant="bodyText">No transactions yet</Typography>
 
         <Typography variant="caption">

@@ -18,75 +18,93 @@ import {
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TABLE_COLUMNS } from "src/pages/transactions/constants";
 import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
+import { TransactionsPagination } from "src/pages/transactions/TransactionsPagination";
 
 type Props = {
   options: Transaction[];
+  currentPage: number;
+  pagesAmount: number;
+  onPageChange: (page: number) => void;
 };
 
-export const TransactionsTable = ({ options }: Props) => {
+export const TransactionsTable = ({
+  options,
+  currentPage,
+  pagesAmount,
+  onPageChange,
+}: Props) => {
   return (
-    <TableStyled aria-label="Transactions">
-      <TableHead>
-        <tr>
-          {TABLE_COLUMNS.map(({ label, align, width }) => (
-            <HeaderCell key={label} scope="col" $align={align} $width={width}>
-              {label}
-            </HeaderCell>
-          ))}
-        </tr>
-      </TableHead>
-      <TableBody>
-        {options.map(
-          ({ id, date, title, category, amountMinor, type, currency }) => {
-            const formattedDate = new Intl.DateTimeFormat("en-US", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            }).format(new Date(`${date}T00:00:00`));
+    <Flex direction="column" gap="xs">
+      <TableStyled aria-label="Transactions">
+        <TableHead>
+          <tr>
+            {TABLE_COLUMNS.map(({ label, align, width }) => (
+              <HeaderCell key={label} scope="col" $align={align} $width={width}>
+                {label}
+              </HeaderCell>
+            ))}
+          </tr>
+        </TableHead>
+        <TableBody>
+          {options.map(
+            ({ id, date, title, category, amountMinor, type, currency }) => {
+              const formattedDate = new Intl.DateTimeFormat("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              }).format(new Date(`${date}T00:00:00`));
 
-            const categoryFormatted = category.split("-").join(" ");
+              const categoryFormatted = category.split("-").join(" ");
 
-            const expenseType = type === TRANSACTION_TYPES.expense;
+              const expenseType = type === TRANSACTION_TYPES.expense;
 
-            const amountFormatted = new Intl.NumberFormat("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }).format(convertMinorToMajorUnits(amountMinor));
+              const amountFormatted = new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(convertMinorToMajorUnits(amountMinor));
 
-            return (
-              <TableRow key={id}>
-                <DateCell>
-                  <time dateTime={date}>{formattedDate}</time>
-                </DateCell>
+              return (
+                <TableRow key={id}>
+                  <DateCell>
+                    <time dateTime={date}>{formattedDate}</time>
+                  </DateCell>
 
-                <TransactionCell scope="row">
-                  <Typography variant="subtitle" as="span">
-                    {title}
-                  </Typography>
-                  <TypeBadge variant={expenseType ? "danger" : "primary"}>
-                    {type}
-                  </TypeBadge>
-                </TransactionCell>
+                  <TransactionCell scope="row">
+                    <Typography variant="subtitle" as="span">
+                      {title}
+                    </Typography>
+                    <TypeBadge variant={expenseType ? "danger" : "primary"}>
+                      {type}
+                    </TypeBadge>
+                  </TransactionCell>
 
-                <CategoryCell>
-                  <MobileLabel>Category: </MobileLabel>
-                  {categoryFormatted}
-                </CategoryCell>
+                  <CategoryCell>
+                    <MobileLabel>Category: </MobileLabel>
+                    {categoryFormatted}
+                  </CategoryCell>
 
-                <AmountCell $danger={expenseType}>
-                  {amountFormatted} {currency}
-                </AmountCell>
+                  <AmountCell $danger={expenseType}>
+                    {amountFormatted} {currency}
+                  </AmountCell>
 
-                <ActionsCell>
-                  <ActionButton type="button" aria-label={`Delete ${title}`}>
-                    Delete
-                  </ActionButton>
-                </ActionsCell>
-              </TableRow>
-            );
-          },
-        )}
-      </TableBody>
-    </TableStyled>
+                  <ActionsCell>
+                    <ActionButton type="button" aria-label={`Delete ${title}`}>
+                      Delete
+                    </ActionButton>
+                  </ActionsCell>
+                </TableRow>
+              );
+            },
+          )}
+        </TableBody>
+      </TableStyled>
+
+      <TransactionsPagination
+        currentPage={currentPage}
+        pagesAmount={pagesAmount}
+        onPageChange={onPageChange}
+      />
+    </Flex>
   );
 };

@@ -2,10 +2,10 @@ import type {
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
 } from "src/shared/modals/constants";
-import type {
-  TRANSACTION_CATEGORY_OPTIONS,
-  TRANSACTION_SORT_OPTIONS,
-  TRANSACTION_TYPE_OPTIONS,
+import {
+  type TRANSACTION_CATEGORY_OPTIONS,
+  type TRANSACTION_SORT_OPTIONS,
+  type TRANSACTION_TYPE_OPTIONS,
 } from "src/pages/transactions/constants";
 
 export type Currency = "USD";
@@ -50,8 +50,8 @@ export type TransactionFilterUpdate = Partial<TransactionFilterData>;
 
 export type TransactionsParams = {
   search?: string;
-  type?: TransactionType;
-  category?: Category;
+  type?: TransactionTypeFilter;
+  category?: TransactionCategoryFilter;
   date?: string;
   sort?: TransactionSort;
   page: number;

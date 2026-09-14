@@ -13,6 +13,12 @@ const cellStyles = css`
   }
 `;
 
+export const cardStyles = css`
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.white};
+`;
+
 export const TableStyled = styled.table`
   display: block;
   width: 100%;
@@ -21,12 +27,10 @@ export const TableStyled = styled.table`
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     display: table;
     table-layout: fixed;
-    border: 1px solid ${({ theme }) => theme.colors.border};
-    border-radius: ${({ theme }) => theme.radii.md};
+    ${cardStyles};
     border-spacing: 0;
     border-collapse: separate;
     overflow: hidden;
-    background: ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -67,9 +71,7 @@ export const TableRow = styled.tr`
   align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.xs};
   padding: 20px ${({ theme }) => theme.spacing.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.white};
+  ${cardStyles};
 
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     display: table-row;
