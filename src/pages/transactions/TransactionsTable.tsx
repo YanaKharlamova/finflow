@@ -19,6 +19,7 @@ import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajor
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { TransactionsPagination } from "src/pages/transactions/TransactionsPagination";
 import { TransactionsTableHeader } from "src/pages/transactions/TransactionsTableHeader";
+import { useDeleteTransactionMutation } from "src/api/transactionsApi";
 
 type Props = {
   options: Transaction[];
@@ -33,6 +34,9 @@ export const TransactionsTable = ({
   pagesAmount,
   onPageChange,
 }: Props) => {
+  const [deleteTransaction, { isLoading, originalArgs }] =
+    useDeleteTransactionMutation();
+
   return (
     <Flex direction="column" gap="xs">
       <TableStyled aria-label="Transactions">
@@ -50,6 +54,8 @@ export const TransactionsTable = ({
               const categoryFormatted = category.split("-").join(" ");
 
               const expenseType = type === TRANSACTION_TYPES.expense;
+
+              const deleteLoading = isLoading && originalArgs === id;
 
               const amountFormatted = new Intl.NumberFormat("en-US", {
                 minimumFractionDigits: 2,
@@ -81,7 +87,12 @@ export const TransactionsTable = ({
                   </AmountCell>
 
                   <ActionsCell>
-                    <Button variant="danger" aria-label={`Delete ${title}`}>
+                    <Button
+                      disabled={deleteLoading}
+                      variant="danger"
+                      aria-label={`Delete ${title}`}
+                      onClick={() => deleteTransaction(id)}
+                    >
                       Delete
                     </Button>
                   </ActionsCell>

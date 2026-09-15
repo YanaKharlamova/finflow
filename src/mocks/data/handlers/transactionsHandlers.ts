@@ -122,4 +122,22 @@ export const transactionsHandlers = [
 
     return HttpResponse.json(transaction, { status: 201 });
   }),
+  http.delete("/api/transactions/:id", async ({ params }) => {
+    await delay(600);
+
+    const { id } = params;
+
+    const elToDeleteIndex = transactions.findIndex((tr) => tr.id === id);
+
+    if (elToDeleteIndex === -1) {
+      return HttpResponse.json(
+        { error: "Transaction not found" },
+        { status: 404 },
+      );
+    }
+
+    transactions.splice(elToDeleteIndex, 1);
+
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];
