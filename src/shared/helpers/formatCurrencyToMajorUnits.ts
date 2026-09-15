@@ -1,4 +1,4 @@
-import type { Currency } from "src/pages/transactions/types";
+import type { Currency } from "src/shared/types/transaction";
 import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
 
 type Options = {

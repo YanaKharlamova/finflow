@@ -1,5 +1,3 @@
-import type { TransactionType } from "src/pages/transactions/types";
-
 export const TRANSACTION_TYPES = {
   income: "income",
   expense: "expense",
@@ -18,9 +16,3 @@ export const CATEGORY_OPTIONS = {
     { value: "other-expense", label: "Other" },
   ],
 } as const;
-
-export type Category =
-  (typeof CATEGORY_OPTIONS)[TransactionType][number]["value"];
-
-export type ExpenseCategory =
-  (typeof CATEGORY_OPTIONS)[typeof TRANSACTION_TYPES.expense][number]["value"];

@@ -11,6 +11,7 @@ type TypographyProps = {
   as?: "p" | "span" | "label" | "h1" | "h2" | "h3";
   htmlFor?: string;
   id?: string;
+  shimmer?: boolean;
   children: ReactNode;
 };
 
@@ -21,13 +22,16 @@ export const Typography = ({
   htmlFor,
   children,
   id,
+  shimmer = false,
 }: TypographyProps) => (
   <TypographyText
     id={id}
     as={as}
+    aria-hidden={shimmer || undefined}
     {...(as === "label" ? { htmlFor } : {})}
     $variant={variant}
     $color={color}
+    $shimmer={shimmer}
   >
     {children}
   </TypographyText>

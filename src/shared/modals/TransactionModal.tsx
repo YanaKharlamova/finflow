@@ -17,15 +17,16 @@ import { Button } from "src/shared/ui/ui-kit/Button";
 import { Input } from "src/shared/ui/ui-kit/Input";
 import { Select } from "src/shared/ui/ui-kit/Select";
 import { type ChangeEvent, type SubmitEvent, useState } from "react";
+import { useAddTransactionMutation } from "src/api/transactionsApi";
+
 import {
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
-  type Category,
 } from "src/shared/modals/constants";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
-import type { TransactionType } from "src/pages/transactions/types";
+import type { Category, TransactionType } from "src/shared/types/transaction";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 type Props = {
@@ -50,6 +51,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const [transactionDate, setTransactionDate] = useState(todayStr);
   const [transactionDateError, setTransactionDateError] = useState("");
 
+  const [addTransaction, { isError, isLoading, reset }] =
+    useAddTransactionMutation();
+
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
 
   const handleClearForm = () => {
@@ -69,6 +73,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
     if (!toggleState) {
       handleClearForm();
+      reset();
     }
   };
 
@@ -134,10 +139,13 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
       return;
     }
 
-    console.log("normalizedTitle", normalizedTitle);
-    console.log("normalizedAmount", normalizedAmount);
-    console.log("category", selectedCategory);
-    console.log("selected date", transactionDate);
+    addTransaction({
+      title: normalizedTitle,
+      amount: normalizedAmount,
+      category: selectedCategory,
+      date: transactionDate,
+      type: transactionType,
+    });
   };
 
   const handleSetTransactionAmount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -224,6 +232,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                       : "e.g. Monthly salary"
                   }
                   required
+                  reserveErrorSpace
                 />
               </Flex>
 
@@ -246,6 +255,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     onChange={handleSetTransactionAmount}
                     placeholder="$0.0"
                     required
+                    reserveErrorSpace
                   />
                 </Flex>
 
@@ -266,6 +276,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                     value={selectedCategory}
                     onValueChange={handleChangeCategory}
                     placeholder={mobile ? "Category" : "Select category"}
+                    reserveErrorSpace
                   />
                 </Flex>
               </FieldsRow>
@@ -287,9 +298,18 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   value={transactionDate}
                   onChange={handleSetTransactionDate}
                   required
+                  reserveErrorSpace
                 />
               </Flex>
             </FormContainer>
+
+            <Flex aria-live="polite" justify="center">
+              {isError ? (
+                <Typography color="danger" variant="caption">
+                  Something went wrong! Please try again.
+                </Typography>
+              ) : null}
+            </Flex>
 
             <ButtonGroup gap="sm">
               <Dialog.Close asChild>
@@ -298,7 +318,11 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                 </Button>
               </Dialog.Close>
 
-              <Button type="submit" form="transaction-form">
+              <Button
+                type="submit"
+                form="transaction-form"
+                disabled={isLoading}
+              >
                 Add transaction
               </Button>
             </ButtonGroup>

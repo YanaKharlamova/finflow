@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import type { theme } from "src/shared/styles/theme";
 
 export type TypographyVariant = keyof typeof theme.typography;
@@ -14,6 +14,7 @@ const colorMap = {
 type TypographyTextProps = {
   $variant: TypographyVariant;
   $color: TypographyColor;
+  $shimmer: boolean;
 };
 
 export const TypographyText = styled.p<TypographyTextProps>`
@@ -24,4 +25,13 @@ export const TypographyText = styled.p<TypographyTextProps>`
     theme.typography[$variant].fontWeight};
   line-height: ${({ theme, $variant }) =>
     theme.typography[$variant].lineHeight};
+
+  ${({ $shimmer, theme }) =>
+    $shimmer &&
+    css`
+      color: transparent;
+      border-radius: ${theme.radii.sm};
+      background: ${theme.colors.secondaryHover};
+      user-select: none;
+    `};
 `;

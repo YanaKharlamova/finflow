@@ -22,6 +22,7 @@ type Props<Value extends string> = {
   placeholder?: string;
   ariaLabel?: string;
   error?: string;
+  reserveErrorSpace?: boolean;
   id?: string;
   variant?: keyof typeof SELECT_VARIANTS;
 };
@@ -33,6 +34,7 @@ export const Select = <Value extends string>({
   placeholder,
   ariaLabel,
   error,
+  reserveErrorSpace,
   id,
   variant = SELECT_VARIANTS.compact,
 }: Props<Value>) => {
@@ -69,7 +71,7 @@ export const Select = <Value extends string>({
         </RadixSelect.Portal>
       </RadixSelect.Root>
 
-      {error ? (
+      {error || reserveErrorSpace ? (
         <ErrorMessage id={errorId} role="alert">
           {error}
         </ErrorMessage>

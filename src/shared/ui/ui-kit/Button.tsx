@@ -6,12 +6,24 @@ import {
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
+  shimmer?: boolean;
 };
 
 export const Button = ({
   variant = "primary",
   type = "button",
+  shimmer = false,
+  disabled,
   ...props
 }: Props) => {
-  return <ButtonStyled $variant={variant} type={type} {...props} />;
+  return (
+    <ButtonStyled
+      {...props}
+      type={type}
+      aria-hidden={shimmer || props["aria-hidden"]}
+      disabled={shimmer || disabled}
+      $variant={variant}
+      $shimmer={shimmer}
+    />
+  );
 };

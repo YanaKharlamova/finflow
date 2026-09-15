@@ -13,7 +13,7 @@ import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import type {
   TransactionFilterData,
   TransactionFilterUpdate,
-} from "src/pages/transactions/types";
+} from "src/shared/types/transaction";
 
 type Options = {
   filterData: TransactionFilterData;

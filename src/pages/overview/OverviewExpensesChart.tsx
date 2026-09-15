@@ -9,7 +9,7 @@ import {
 
 import { useTheme } from "styled-components";
 import { formatCurrencyToMajorUnits } from "src/shared/helpers/formatCurrencyToMajorUnits";
-import type { Currency } from "src/pages/transactions/types";
+import type { Currency } from "src/shared/types/transaction";
 import type { ExpenseCategoryPoint } from "src/pages/overview/types";
 import {
   CategoryChart,

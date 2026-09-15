@@ -22,21 +22,21 @@ export const ModalOverlay = styled(Dialog.Overlay)`
 export const ModalContent = styled(Dialog.Content)`
   width: 100%;
   max-height: calc(100dvh - 32px);
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) =>
+    `${theme.spacing.lg} ${theme.spacing.lg} ${theme.spacing.md}`};
   overflow-y: auto;
   border-radius: ${({ theme }) => `${theme.radii.md} ${theme.radii.md} 0 0`};
   background: ${({ theme }) => theme.colors.white};
   box-shadow: 0 10px 30px rgb(15 23 42 / 15%);
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.sm};
 
   &:focus {
     outline: none;
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    padding: ${({ theme }) => theme.spacing.md};
     width: min(420px, 100%);
     border-radius: ${({ theme }) => `${theme.radii.md} ${theme.radii.md}`};
   }
@@ -68,7 +68,7 @@ export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 10px;
 `;
 
 export const SelectionContainer = styled(RadioGroup.Root)`

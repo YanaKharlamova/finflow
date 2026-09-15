@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import { Badge } from "src/shared/ui/ui-kit/Badge";
 
-const cellStyles = css`
+export const cellStyles = css`
   padding: 0;
   text-align: left;
 
@@ -13,6 +13,12 @@ const cellStyles = css`
   }
 `;
 
+export const cardStyles = css`
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.white};
+`;
+
 export const TableStyled = styled.table`
   display: block;
   width: 100%;
@@ -21,34 +27,11 @@ export const TableStyled = styled.table`
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     display: table;
     table-layout: fixed;
-    border: 1px solid ${({ theme }) => theme.colors.border};
-    border-radius: ${({ theme }) => theme.radii.md};
+    ${cardStyles};
     border-spacing: 0;
     border-collapse: separate;
     overflow: hidden;
-    background: ${({ theme }) => theme.colors.white};
   }
-`;
-
-export const TableHead = styled.thead`
-  display: none;
-
-  @media (min-width: ${BREAKPOINTS.tabletLg}px) {
-    display: table-header-group;
-  }
-`;
-
-export const HeaderCell = styled.th<{
-  $align: "left" | "right";
-  $width: number;
-}>`
-  ${cellStyles};
-  text-align: ${({ $align }) => $align};
-  color: ${({ theme }) => theme.colors.textSecondary};
-  background: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.typography.caption.fontSize};
-  font-weight: 600;
-  width: ${({ $width }) => $width}%;
 `;
 
 export const TableBody = styled.tbody`
@@ -67,9 +50,7 @@ export const TableRow = styled.tr`
   align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.xs};
   padding: 20px ${({ theme }) => theme.spacing.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.white};
+  ${cardStyles};
 
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     display: table-row;
@@ -143,19 +124,9 @@ export const AmountCell = styled.td<{ $danger?: boolean }>`
 export const ActionsCell = styled.td`
   ${cellStyles};
   order: 5;
-  align-self: flex-start;
-
-  &:last-of-type {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  @media (min-width: ${BREAKPOINTS.tabletLg}px) {
-    text-align: left;
-  }
 `;
 
-export const MobileLabel = styled.span`
+export const CategoryLabel = styled.span`
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     display: none;
   }
@@ -164,19 +135,5 @@ export const MobileLabel = styled.span`
 export const TypeBadge = styled(Badge)`
   @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     margin-left: ${({ theme }) => theme.spacing.sm};
-  }
-`;
-
-export const ActionButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-  border: 0;
-  border-radius: ${({ theme }) => theme.radii.sm};
-  color: ${({ theme }) => theme.colors.danger};
-  background: ${({ theme }) => theme.colors.dangerBackground};
-  cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.white};
-    background: ${({ theme }) => theme.colors.danger};
   }
 `;

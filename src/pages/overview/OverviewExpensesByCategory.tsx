@@ -1,5 +1,5 @@
 import type { ExpenseCategoryPoint } from "src/pages/overview/types";
-import type { Currency } from "src/pages/transactions/types";
+import type { Currency } from "src/shared/types/transaction";
 import { Header, Root } from "src/pages/overview/OverviewCashFlowCharts.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 
