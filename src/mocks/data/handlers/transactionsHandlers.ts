@@ -1,6 +1,5 @@
 import { http, HttpResponse, delay } from "msw";
 
-import { SEED_TRANSACTIONS } from "src/mocks/data/seedTransactions";
 import type {
   Transaction,
   TransactionsResponse,
@@ -9,8 +8,13 @@ import {
   ALL_FILTER_VALUE,
   DEFAULT_PAGE_SIZE,
 } from "src/pages/transactions/constants";
-
-const FIRST_PAGE = 1;
+import {
+  DEFAULT_CURRENCY,
+  FIRST_PAGE,
+  transactions,
+} from "src/mocks/data/handlers/constants";
+import { isValidTransaction } from "src/mocks/data/handlers/types";
+import { parsePositiveInteger } from "src/mocks/data/handlers/helpers";
 
 type Options = {
   search: string;
@@ -19,24 +23,13 @@ type Options = {
   date: string;
 };
 
-const parsePositiveInteger = (
-  value: string | null,
-  fallback: number,
-): number => {
-  const parsedValue = Number(value);
-
-  return Number.isInteger(parsedValue) && parsedValue > 0
-    ? parsedValue
-    : fallback;
-};
-
 const filterTransactions = ({
   search,
   type: typeFilter,
   category: categoryFilter,
   date: dateFilter,
-}: Options): Transaction[] =>
-  SEED_TRANSACTIONS.filter(
+}: Options): Transaction[] => {
+  return transactions.filter(
     ({
       title,
       type: transactionType,
@@ -49,6 +42,7 @@ const filterTransactions = ({
         transactionCategory === categoryFilter) &&
       (!dateFilter || transactionDate === dateFilter),
   );
+};
 
 export const transactionsHandlers = [
   http.get("/api/transactions", async ({ request }) => {
@@ -103,5 +97,29 @@ export const transactionsHandlers = [
     };
 
     return HttpResponse.json(response);
+  }),
+  http.post("/api/transactions", async ({ request }) => {
+    await delay(600);
+
+    const newTransaction = await request.json();
+
+    if (!isValidTransaction(newTransaction)) {
+      return HttpResponse.json(
+        { error: "Invalid transaction data" },
+        { status: 400 },
+      );
+    }
+
+    const transaction: Transaction = {
+      ...newTransaction,
+      id: crypto.randomUUID(),
+      title: newTransaction.title.trim(),
+      currency: DEFAULT_CURRENCY,
+      amountMinor: newTransaction.amount * 100,
+    };
+
+    transactions.push(transaction);
+
+    return HttpResponse.json(transaction, { status: 201 });
   }),
 ];

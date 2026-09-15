@@ -4,9 +4,10 @@ import { InputStyled } from "src/shared/ui/ui-kit/Input.styled";
 
 type Props = ComponentPropsWithoutRef<"input"> & {
   error?: string;
+  reserveErrorSpace?: boolean;
 };
 
-export const Input = ({ error, id, ...props }: Props) => {
+export const Input = ({ error, reserveErrorSpace, id, ...props }: Props) => {
   const errorId = id ? `${id}-error` : undefined;
 
   return (
@@ -18,7 +19,7 @@ export const Input = ({ error, id, ...props }: Props) => {
         aria-describedby={error ? errorId : undefined}
       />
 
-      {error ? (
+      {error || reserveErrorSpace ? (
         <ErrorMessage id={errorId} role="alert">
           {error}
         </ErrorMessage>

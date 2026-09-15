@@ -58,7 +58,6 @@ export type TransactionsParams = {
   limit: number;
 };
 
-// GET /transactions
 export type TransactionsResponse = {
   items: Transaction[];
   total: number;
