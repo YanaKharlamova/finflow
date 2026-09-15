@@ -5,37 +5,66 @@ import {
 } from "src/pages/transactions/TransactionsContent.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { TransactionsTable } from "src/pages/transactions/TransactionsTable";
-import { getTransactions } from "src/pages/transactions/helpers/getTransactions";
-import type {
-  Transaction,
-  TransactionFilterData,
-} from "src/shared/types/transaction";
+import type { Transaction } from "src/shared/types/transaction";
 import { SearchListIcon } from "src/shared/ui/icons/SearchListIcon";
+import { TransactionTableSkeleton } from "src/pages/transactions/TransactionTableSkeleton";
+import { NoResultsIcon } from "src/shared/ui/icons/NoResultsIcon";
+import { Button } from "src/shared/ui/ui-kit/Button";
 
 type Props = {
-  filters: TransactionFilterData;
   transactions: Transaction[];
   pagesAmount: number;
-  onPageChange: (page: number) => void;
   currentPage: number;
+  dataInitialLoading: boolean;
+  dataError: boolean;
+  hasActiveFilters: boolean;
+  onPageChange: (page: number) => void;
+  handleReloadData: () => void;
 };
 
 export const TransactionsContent = ({
-  filters,
   transactions,
   currentPage,
   pagesAmount,
+  dataInitialLoading,
+  dataError,
+  hasActiveFilters,
+  handleReloadData,
   onPageChange,
 }: Props) => {
-  const transactionsFiltered: Transaction[] = getTransactions({
-    transactions,
-    filters,
-  });
+  const hasData = transactions.length > 0;
 
-  if (transactionsFiltered.length) {
+  if (dataInitialLoading) {
+    return <TransactionTableSkeleton onPageChange={onPageChange} />;
+  }
+
+  if (dataError) {
+    return (
+      <NoTransactionsWrapper direction="column" align="center" justify="center">
+        <NoResultsIcon />
+
+        <TextWrapper
+          direction="column"
+          align="center"
+          justify="center"
+          gap="sm"
+        >
+          <Typography variant="bodyText">Couldn’t load transactions</Typography>
+
+          <Typography variant="caption">
+            Something went wrong while loading your transactions.
+          </Typography>
+
+          <Button onClick={() => handleReloadData()}>Try again</Button>
+        </TextWrapper>
+      </NoTransactionsWrapper>
+    );
+  }
+
+  if (hasData) {
     return (
       <TransactionsTable
-        options={transactionsFiltered}
+        options={transactions}
         currentPage={currentPage}
         pagesAmount={pagesAmount}
         onPageChange={onPageChange}
@@ -43,7 +72,7 @@ export const TransactionsContent = ({
     );
   }
 
-  if (transactions.length) {
+  if (hasActiveFilters) {
     return (
       <NoTransactionsWrapper direction="column" align="center" justify="center">
         <SearchListIcon />

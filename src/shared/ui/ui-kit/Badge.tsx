@@ -6,8 +6,18 @@ import {
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
   variant?: BadgeVariant;
+  shimmer?: boolean;
 };
 
-export const Badge = ({ variant = "primary", ...props }: Props) => (
-  <BadgeStyled $variant={variant} {...props} />
+export const Badge = ({
+  variant = "primary",
+  shimmer = false,
+  ...props
+}: Props) => (
+  <BadgeStyled
+    {...props}
+    aria-hidden={shimmer || props["aria-hidden"]}
+    $variant={variant}
+    $shimmer={shimmer}
+  />
 );

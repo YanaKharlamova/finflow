@@ -50,6 +50,11 @@ export const theme = {
       fontWeight: 400,
       lineHeight: "24px",
     },
+    inherit: {
+      fontSize: "inherit",
+      fontWeight: "inherit",
+      lineHeight: "inherit",
+    },
   },
 
   spacing: {

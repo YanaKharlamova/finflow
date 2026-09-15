@@ -18,7 +18,10 @@ const variantStyles = {
   `,
 };
 
-export const BadgeStyled = styled.span<{ $variant: BadgeVariant }>`
+export const BadgeStyled = styled.span<{
+  $variant: BadgeVariant;
+  $shimmer: boolean;
+}>`
   display: inline-flex;
   align-items: center;
   flex: 0 0 auto;
@@ -32,4 +35,13 @@ export const BadgeStyled = styled.span<{ $variant: BadgeVariant }>`
   white-space: nowrap;
 
   ${({ $variant }) => variantStyles[$variant]};
+
+  ${({ $shimmer, theme }) =>
+    $shimmer &&
+    css`
+      color: transparent;
+      border-color: transparent;
+      background: ${theme.colors.secondaryHover};
+      user-select: none;
+    `};
 `;

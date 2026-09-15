@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, delay } from "msw";
 
 import { SEED_TRANSACTIONS } from "src/mocks/data/seedTransactions";
 import type {
@@ -51,7 +51,9 @@ const filterTransactions = ({
   );
 
 export const transactionsHandlers = [
-  http.get("/api/transactions", ({ request }) => {
+  http.get("/api/transactions", async ({ request }) => {
+    await delay(600);
+
     const url = new URL(request.url);
 
     const page = parsePositiveInteger(url.searchParams.get("page"), FIRST_PAGE);

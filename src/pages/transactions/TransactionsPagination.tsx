@@ -12,12 +12,14 @@ type Props = {
   currentPage: number;
   pagesAmount: number;
   onPageChange: (page: number) => void;
+  shimmer?: boolean;
 };
 
 export const TransactionsPagination = ({
   currentPage,
   pagesAmount,
   onPageChange,
+  shimmer,
 }: Props) => {
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
 
@@ -30,18 +32,20 @@ export const TransactionsPagination = ({
         aria-label="Previous page"
         disabled={prevDisabled}
         variant="secondary"
+        shimmer={shimmer}
         onClick={() => onPageChange(currentPage - 1)}
       >
         {mobile ? <ChevronLeftIcon /> : "Previous"}
       </PaginationButton>
 
-      <PageStatus variant="bodyText">
+      <PageStatus variant="bodyText" shimmer={shimmer}>
         Page {currentPage} of {pagesAmount}
       </PageStatus>
 
       <PaginationButton
         aria-label="Next page"
         disabled={nextDisabled}
+        shimmer={shimmer}
         onClick={() => onPageChange(currentPage + 1)}
       >
         {mobile ? <ChevronRightIcon /> : "Next"}
