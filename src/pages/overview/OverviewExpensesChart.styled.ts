@@ -1,7 +1,7 @@
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import styled from "styled-components";
-import { Chart } from "src/pages/overview/OverviewCashFlowCharts.styled.ts";
-import { Flex } from "src/shared/ui/ui-kit/Flex.tsx";
+import { Chart } from "src/pages/overview/OverviewCashFlowCharts.styled";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
 export const Content = styled.div`
   min-width: 0;

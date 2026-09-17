@@ -5,6 +5,7 @@ import type {
 } from "src/shared/types/transaction";
 
 import {
+  AMOUNT_PATTERN,
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
 } from "src/shared/modals/constants";
@@ -16,6 +17,13 @@ type NewTransaction = Omit<Transaction, "id" | "currency" | "amountMinor"> & {
 
 const hasText = (value: unknown): value is string =>
   isString(value) && Boolean(value.trim());
+
+const isValidAmount = (value: unknown): value is number =>
+  isNumber(value) &&
+  Number.isFinite(value) &&
+  value > 0 &&
+  AMOUNT_PATTERN.test(String(value)) &&
+  Number.isSafeInteger(Math.round(value * 100));
 
 const isTransactionType = (value: unknown): value is TransactionType =>
   value === TRANSACTION_TYPES.income || value === TRANSACTION_TYPES.expense;
@@ -39,8 +47,6 @@ export const isValidTransaction = (value: unknown): value is NewTransaction => {
     hasText(date) &&
     isTransactionType(type) &&
     isCategory(category, type) &&
-    isNumber(amount) &&
-    Number.isFinite(amount) &&
-    amount > 0
+    isValidAmount(amount)
   );
 };

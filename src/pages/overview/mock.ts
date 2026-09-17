@@ -8,71 +8,71 @@ const CASH_FLOW_MOCK: CashFlowPoint[] = [
   {
     label: "Aug 27",
     incomeMinor: 0,
-    expensesMinor: 45_000,
-    netMinor: -45_000,
+    expensesMinor: 45000,
+    netMinor: -45000,
   },
   {
     label: "Aug 28",
-    incomeMinor: 425_000,
-    expensesMinor: 32_000,
-    netMinor: 393_000,
+    incomeMinor: 425000,
+    expensesMinor: 32000,
+    netMinor: 393000,
   },
   {
     label: "Aug 29",
     incomeMinor: 0,
-    expensesMinor: 8_645,
-    netMinor: -8_645,
+    expensesMinor: 8645,
+    netMinor: -8645,
   },
   {
     label: "Aug 30",
     incomeMinor: 0,
-    expensesMinor: 120_000,
-    netMinor: -120_000,
+    expensesMinor: 120000,
+    netMinor: -120000,
   },
   {
     label: "Aug 31",
     incomeMinor: 0,
-    expensesMinor: 24_500,
-    netMinor: -24_500,
+    expensesMinor: 24500,
+    netMinor: -24500,
   },
   {
     label: "Sep 1",
     incomeMinor: 0,
-    expensesMinor: 32_895,
-    netMinor: -32_895,
+    expensesMinor: 32895,
+    netMinor: -32895,
   },
   {
     label: "Sep 2",
     incomeMinor: 0,
-    expensesMinor: 35_000,
-    netMinor: -35_000,
+    expensesMinor: 35000,
+    netMinor: -35000,
   },
 ];
 
 const EXPENSE_CATEGORY_MOCK: ExpenseCategoryPoint[] = [
   {
     category: "housing",
-    amountMinor: 120_000,
+    amountMinor: 120000,
   },
   {
     category: "food",
-    amountMinor: 86_450,
+    amountMinor: 86450,
   },
   {
     category: "transport",
-    amountMinor: 48_740,
+    amountMinor: 48740,
   },
   {
     category: "other-expense",
-    amountMinor: 42_850,
+    amountMinor: 42850,
   },
 ];
 
 const SUMMARY_MOCK: OverviewSummary = {
   currency: "USD",
-  currentBalanceMinor: 1_248_050,
-  incomeMinor: 425_000,
-  expensesMinor: 298_040,
+  currentBalanceMinor: 1248050,
+  incomeMinor: 425000,
+  expensesMinor: 298040,
 };
 
 export const MOCK_OVERVIEW_RESPONSE = {

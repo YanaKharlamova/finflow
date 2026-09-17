@@ -25,7 +25,10 @@ export const transactionsApi = baseApi.injectEndpoints({
         body: params,
       }),
 
-      invalidatesTags: [{ type: "Transaction", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Transaction", id: "LIST" },
+        { type: "Overview", id: "LIST" },
+      ],
     }),
     deleteTransaction: builder.mutation<void, Transaction["id"]>({
       query: (id) => ({
@@ -33,7 +36,10 @@ export const transactionsApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
 
-      invalidatesTags: [{ type: "Transaction", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Transaction", id: "LIST" },
+        { type: "Overview", id: "LIST" },
+      ],
     }),
   }),
 });

@@ -20,6 +20,7 @@ import { type ChangeEvent, type SubmitEvent, useState } from "react";
 import { useAddTransactionMutation } from "src/api/transactionsApi";
 
 import {
+  AMOUNT_PATTERN,
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
 } from "src/shared/modals/constants";
@@ -68,13 +69,22 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setTransactionDateError("");
   };
 
-  const handleOpenChange = (toggleState: boolean) => {
-    onModalToggle(toggleState);
+  const closeModal = () => {
+    onModalToggle(false);
+    handleClearForm();
+    reset();
+  };
 
+  const handleOpenChange = (toggleState: boolean) => {
     if (!toggleState) {
-      handleClearForm();
-      reset();
+      if (!isLoading) {
+        closeModal();
+      }
+
+      return;
     }
+
+    onModalToggle(true);
   };
 
   const handleSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +114,10 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
       return "Enter a positive amount";
     }
 
+    if (!AMOUNT_PATTERN.test(value)) {
+      return "Use up to 2 decimal places";
+    }
+
     return "";
   };
 
@@ -119,7 +133,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     return "";
   };
 
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const normalizedTitle = title.trim();
@@ -139,13 +153,19 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
       return;
     }
 
-    addTransaction({
-      title: normalizedTitle,
-      amount: normalizedAmount,
-      category: selectedCategory,
-      date: transactionDate,
-      type: transactionType,
-    });
+    try {
+      await addTransaction({
+        title: normalizedTitle,
+        amount: normalizedAmount,
+        category: selectedCategory,
+        date: transactionDate,
+        type: transactionType,
+      }).unwrap();
+
+      closeModal();
+    } catch {
+      return;
+    }
   };
 
   const handleSetTransactionAmount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -180,7 +200,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               </ModalTitle>
 
               <Dialog.Close asChild>
-                <IconButton aria-label="close">
+                <IconButton aria-label="close" disabled={isLoading}>
                   <CloseIcon />
                 </IconButton>
               </Dialog.Close>
@@ -249,6 +269,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   <Input
                     type="number"
                     inputMode="decimal"
+                    step="0.01"
                     id="transaction-amount"
                     error={transactionAmountError}
                     value={transactionAmount}
@@ -313,7 +334,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
             <ButtonGroup gap="sm">
               <Dialog.Close asChild>
-                <Button type="button" variant="secondary">
+                <Button type="button" variant="secondary" disabled={isLoading}>
                   Cancel
                 </Button>
               </Dialog.Close>
