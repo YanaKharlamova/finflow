@@ -1,18 +1,16 @@
 import styled from "styled-components";
-import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
 
-export const Root = styled(Flex)`
+export const Root = styled(Flex).attrs({
+  direction: "column",
+  gap: "sm",
+})`
   min-width: 0;
-  gap: ${({ theme }) => theme.spacing.sm};
 
   @media (min-width: ${BREAKPOINTS.tablet}px) {
     flex-flow: row wrap;
     gap: ${({ theme }) => theme.spacing.md};
-
-    > * {
-      flex: 1;
-    }
 
     > :first-child {
       flex-basis: 100%;

@@ -11,6 +11,7 @@ import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesB
 import type { PeriodValue } from "src/pages/overview/types";
 import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "src/pages/overview/constants";
 import { useSearchParams } from "react-router";
+import { useGetOverviewQuery } from "src/api/overviewApi";
 
 export const OverviewPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +21,9 @@ export const OverviewPage = () => {
     ({ value }) => value === periodParam,
   )?.value;
   const selectedPeriod = periodFromUrl ?? DEFAULT_PERIOD;
+
+  const { data, isLoading, isFetching, isError } =
+    useGetOverviewQuery(selectedPeriod);
 
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
@@ -75,7 +79,12 @@ export const OverviewPage = () => {
 
   return (
     <PageLayout title="Overview" actions={selection}>
-      <OverviewTransactionsCards />
+      <OverviewTransactionsCards
+        data={data?.summary}
+        dataLoading={isLoading}
+        dataFetching={isFetching}
+        hasDataError={isError}
+      />
 
       <OverviewCashFlow
         data={MOCK_OVERVIEW_RESPONSE.cashFlow}
