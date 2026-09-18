@@ -27,6 +27,18 @@ export const CategoryChart = styled(Chart)`
   }
 `;
 
+export const CategoryListSkeleton = styled.div`
+  width: 100%;
+  height: 196px;
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.secondaryHover};
+
+  @media (min-width: ${BREAKPOINTS.tabletLg}px) {
+    max-width: 600px;
+    flex: 0 1 52%;
+  }
+`;
+
 export const ChartTotal = styled(Flex)`
   position: absolute;
   top: 50%;

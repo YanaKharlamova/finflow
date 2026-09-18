@@ -1,26 +1,20 @@
-import type { ExpenseCategoryPoint } from "src/pages/overview/types";
-import type { Currency } from "src/shared/types/transaction";
 import { Header, Root } from "src/pages/overview/OverviewCashFlowCharts.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
+import {
+  ExpensesByCategoryContent,
+  type ExpensesByCategoryContentProps,
+} from "src/pages/overview/ExpensesByCategoryContent";
 
-import { OverviewChartDataEmptyState } from "src/pages/overview/OverviewChartDataEmptyState";
-import { OverviewExpensesChart } from "src/pages/overview/OverviewExpensesChart";
-
-type Props = {
-  data: ExpenseCategoryPoint[];
-  totalExpensesMinor: number;
-  currency: Currency;
-};
-
-export const OverviewExpensesByCategory = ({
-  data,
-  totalExpensesMinor,
-  currency,
-}: Props) => {
-  const hasChartData = data.length > 0;
+export const OverviewExpensesByCategory = (
+  props: ExpensesByCategoryContentProps,
+) => {
+  const { dataLoading, dataFetching } = props;
 
   return (
-    <Root aria-labelledby="expenses-by-category-title">
+    <Root
+      aria-labelledby="expenses-by-category-title"
+      aria-busy={dataLoading || dataFetching}
+    >
       <Header>
         <Typography id="expenses-by-category-title" as="h2" variant="subtitle">
           Expenses by category
@@ -31,15 +25,7 @@ export const OverviewExpensesByCategory = ({
         </Typography>
       </Header>
 
-      {hasChartData ? (
-        <OverviewExpensesChart
-          totalExpensesMinor={totalExpensesMinor}
-          currency={currency}
-          data={data}
-        />
-      ) : (
-        <OverviewChartDataEmptyState />
-      )}
+      <ExpensesByCategoryContent {...props} />
     </Root>
   );
 };

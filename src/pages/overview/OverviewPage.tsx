@@ -6,7 +6,6 @@ import { TransactionModal } from "src/shared/modals/TransactionModal";
 import { OverviewTransactionsCards } from "src/pages/overview/OverviewTransactionsCards";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
-import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
 import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesByCategory";
 import type { PeriodValue } from "src/pages/overview/types";
 import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "src/pages/overview/constants";
@@ -22,8 +21,9 @@ export const OverviewPage = () => {
   )?.value;
   const selectedPeriod = periodFromUrl ?? DEFAULT_PERIOD;
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetOverviewQuery(selectedPeriod);
+  const showSkeleton = isLoading || (isFetching && !data);
 
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
@@ -81,21 +81,29 @@ export const OverviewPage = () => {
     <PageLayout title="Overview" actions={selection}>
       <OverviewTransactionsCards
         data={data?.summary}
-        dataLoading={isLoading}
+        dataLoading={showSkeleton}
         dataFetching={isFetching}
         hasDataError={isError}
       />
 
       <OverviewCashFlow
-        data={MOCK_OVERVIEW_RESPONSE.cashFlow}
-        currency={MOCK_OVERVIEW_RESPONSE.summary.currency}
+        data={data?.cashFlow}
+        dataLoading={showSkeleton}
+        dataFetching={isFetching}
+        hasDataError={isError}
+        currency={data?.summary?.currency}
         onModalToggle={handleToggleModal}
+        onRetry={refetch}
       />
 
       <OverviewExpensesByCategory
-        data={MOCK_OVERVIEW_RESPONSE.expensesByCategory}
-        totalExpensesMinor={MOCK_OVERVIEW_RESPONSE.summary.expensesMinor}
-        currency={MOCK_OVERVIEW_RESPONSE.summary.currency}
+        data={data?.expensesByCategory}
+        dataLoading={showSkeleton}
+        dataFetching={isFetching}
+        hasDataError={isError}
+        currency={data?.summary?.currency}
+        totalExpensesMinor={data?.summary?.expensesMinor}
+        onRetry={refetch}
       />
 
       <TransactionModal

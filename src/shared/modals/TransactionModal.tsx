@@ -29,6 +29,7 @@ import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import type { Category, TransactionType } from "src/shared/types/transaction";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
+import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
 
 type Props = {
   open: boolean;
@@ -47,7 +48,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
   const [hasCategoryError, setHasCategoryError] = useState(false);
 
-  const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
+  const todayStr = formatLocalDate(new Date());
 
   const [transactionDate, setTransactionDate] = useState(todayStr);
   const [transactionDateError, setTransactionDateError] = useState("");

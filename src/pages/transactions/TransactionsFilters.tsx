@@ -14,6 +14,7 @@ import type {
   TransactionFilterData,
   TransactionFilterUpdate,
 } from "src/shared/types/transaction";
+import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
 
 type Options = {
   filterData: TransactionFilterData;
@@ -49,7 +50,7 @@ export const TransactionsFilters = ({
     label: mobile ? option.mobileLabel : option.label,
   }));
 
-  const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
+  const todayStr = formatLocalDate(new Date());
 
   const dateError =
     date && date > todayStr ? "Date cannot be in the future" : "";

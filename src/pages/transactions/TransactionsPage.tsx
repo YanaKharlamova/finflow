@@ -47,9 +47,9 @@ export const TransactionsPage = () => {
       sort,
     });
 
-  const dataLoading = isLoading || isFetching;
+  const showSkeleton = isLoading || (isFetching && !data);
 
-  const dataReady = data !== undefined && !dataLoading && !isError;
+  const dataReady = data && !isFetching && !isError;
 
   const transactions = data?.items ?? [];
 
@@ -129,7 +129,7 @@ export const TransactionsPage = () => {
         transactions={transactions}
         pagesAmount={pagesAmount}
         currentPage={currentPage}
-        dataInitialLoading={isLoading}
+        dataInitialLoading={showSkeleton}
         dataError={isError}
         hasActiveFilters={hasActiveFilters}
         onPageChange={handleSetPageParam}

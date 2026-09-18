@@ -1,10 +1,20 @@
 import type { Transaction } from "src/shared/types/transaction";
+import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
+
+const today = new Date();
+
+const getDateDaysAgo = (days: number): string => {
+  const date = new Date(today);
+  date.setDate(date.getDate() - days);
+
+  return formatLocalDate(date);
+};
 
 export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-1",
     title: "Monthly salary",
-    date: "2026-08-25",
+    date: getDateDaysAgo(0),
     type: "income",
     category: "salary",
     amountMinor: 425000,
@@ -13,7 +23,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-2",
     title: "Grocery shopping",
-    date: "2026-08-24",
+    date: getDateDaysAgo(1),
     type: "expense",
     category: "food",
     amountMinor: 8645,
@@ -22,7 +32,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-3",
     title: "Apartment rent",
-    date: "2026-08-20",
+    date: getDateDaysAgo(5),
     type: "expense",
     category: "housing",
     amountMinor: 120000,
@@ -31,7 +41,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-4",
     title: "Website project",
-    date: "2026-08-18",
+    date: getDateDaysAgo(7),
     type: "income",
     category: "freelance",
     amountMinor: 98000,
@@ -40,7 +50,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-5",
     title: "Monthly transport pass",
-    date: "2026-08-15",
+    date: getDateDaysAgo(10),
     type: "expense",
     category: "transport",
     amountMinor: 4500,
@@ -49,7 +59,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-6",
     title: "Electricity bill",
-    date: "2026-08-12",
+    date: getDateDaysAgo(13),
     type: "expense",
     category: "other-expense",
     amountMinor: 3275,
@@ -58,7 +68,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-7",
     title: "Dinner with friends",
-    date: "2026-08-09",
+    date: getDateDaysAgo(16),
     type: "expense",
     category: "food",
     amountMinor: 7250,
@@ -67,7 +77,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-8",
     title: "Performance bonus",
-    date: "2026-08-05",
+    date: getDateDaysAgo(20),
     type: "income",
     category: "other-income",
     amountMinor: 50000,
@@ -76,7 +86,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-9",
     title: "Taxi ride",
-    date: "2026-08-03",
+    date: getDateDaysAgo(22),
     type: "expense",
     category: "transport",
     amountMinor: 1890,
@@ -85,7 +95,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-10",
     title: "Home insurance",
-    date: "2026-08-01",
+    date: getDateDaysAgo(24),
     type: "expense",
     category: "housing",
     amountMinor: 15400,
@@ -94,7 +104,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-11",
     title: "Consulting session",
-    date: "2026-07-28",
+    date: getDateDaysAgo(28),
     type: "income",
     category: "freelance",
     amountMinor: 35000,
@@ -103,7 +113,7 @@ export const SEED_TRANSACTIONS: Transaction[] = [
   {
     id: "transaction-12",
     title: "Online subscription",
-    date: "2026-07-25",
+    date: getDateDaysAgo(31),
     type: "expense",
     category: "other-expense",
     amountMinor: 1299,
