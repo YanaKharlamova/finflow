@@ -42,7 +42,7 @@ export const CashFlowContent = ({
         justify="center"
         gap="sm"
       >
-        <Typography color="danger" variant="bodyText">
+        <Typography color="primary" variant="bodyText">
           Failed to load cash flow
         </Typography>
 

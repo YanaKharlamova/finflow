@@ -49,7 +49,7 @@ export const OverviewCard = ({
           {amount}
           {currency ? ` ${currency}` : null}
         </Typography>
-        <Typography variant="caption" color="secondary">
+        <Typography variant="caption" color="secondary" shimmer={dataFetching}>
           {subtitle}
         </Typography>
       </Flex>

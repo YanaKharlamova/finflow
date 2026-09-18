@@ -26,7 +26,7 @@ export const OverviewTransactionsCards = ({
   }
 
   if (hasDataError || !data) {
-    return <OverviewCardsError />;
+    return <OverviewCardsError dataFetching={dataFetching} />;
   }
 
   const { currency, currentTotalBalance, income, expenses } = getCardData(data);

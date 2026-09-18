@@ -81,7 +81,7 @@ export const OverviewPage = () => {
     <PageLayout title="Overview" actions={selection}>
       <OverviewTransactionsCards
         data={data?.summary}
-        dataLoading={showSkeleton}
+        dataLoading={isLoading}
         dataFetching={isFetching}
         hasDataError={isError}
       />
