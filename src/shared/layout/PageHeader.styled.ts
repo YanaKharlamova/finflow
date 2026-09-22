@@ -5,8 +5,11 @@ import { FinflowLogoSmall } from "src/shared/ui/icons/FinflowLogoSmall";
 import { Button } from "src/shared/ui/ui-kit/Button";
 
 export const Root = styled.header`
+  position: sticky;
+  top: 0;
   grid-row: 1;
   grid-column: 1 / -1;
+  z-index: 30;
   box-sizing: border-box;
   width: 100%;
   min-height: 64px;
@@ -16,13 +19,21 @@ export const Root = styled.header`
   gap: ${({ theme }) => theme.spacing.xs};
   padding: 10px ${({ theme }) => theme.spacing.sm};
   background: ${({ theme }) => theme.colors.white};
+  box-shadow: 0 2px 6px rgb(23 34 59 / 8%);
 `;
 
 export const BrandContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-right: 12px;
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
+  gap: 12px;
+
+  &::after {
+    width: 1px;
+    height: 24px;
+    flex: 0 0 1px;
+    background: ${({ theme }) => theme.colors.border};
+    content: "";
+  }
 `;
 
 export const Brand = styled(FinflowLogo)`

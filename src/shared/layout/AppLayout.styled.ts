@@ -26,10 +26,13 @@ export const Sidebar = styled.aside<{
   $expanded: boolean;
   $collapseBeforeHide: boolean;
 }>`
-  position: relative;
+  position: sticky;
+  top: 64px;
   grid-row: 2;
   grid-column: 1;
   z-index: 20;
+  height: calc(100dvh - 64px);
+  align-self: start;
   width: ${({ $expanded }) => ($expanded ? "min(240px, 100vw)" : "72px")};
   min-width: 0;
   padding: ${({ $expanded }) => ($expanded ? "20px" : "20px 12px")};
@@ -56,7 +59,6 @@ export const Sidebar = styled.aside<{
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
     width: ${({ $expanded }) => ($expanded ? "240px" : "72px")};
-    align-self: stretch;
     transform: none;
     opacity: 1;
     visibility: visible;

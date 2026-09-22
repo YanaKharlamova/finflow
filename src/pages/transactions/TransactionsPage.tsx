@@ -13,9 +13,12 @@ import type {
   TransactionFilterUpdate,
 } from "src/shared/types/transaction";
 import { useGetTransactionsQuery } from "src/api/transactionsApi";
-import { useSearchParams } from "react-router";
+import { useOutletContext, useSearchParams } from "react-router";
+import type { AppLayoutContext } from "src/shared/layout/AppLayout";
 
 export const TransactionsPage = () => {
+  const { backdropVisible, handleCloseSidebar } =
+    useOutletContext<AppLayoutContext>();
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -73,6 +76,10 @@ export const TransactionsPage = () => {
   };
 
   const handleToggleModal = (toggleState: boolean) => {
+    if (toggleState && backdropVisible) {
+      handleCloseSidebar();
+    }
+
     setOpenTransactionModal(toggleState);
   };
 

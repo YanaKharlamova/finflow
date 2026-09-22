@@ -9,10 +9,13 @@ import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
 import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesByCategory";
 import type { PeriodValue } from "src/pages/overview/types";
 import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "src/pages/overview/constants";
-import { useSearchParams } from "react-router";
+import { useOutletContext, useSearchParams } from "react-router";
 import { useGetOverviewQuery } from "src/api/overviewApi";
+import type { AppLayoutContext } from "src/shared/layout/AppLayout";
 
 export const OverviewPage = () => {
+  const { backdropVisible, handleCloseSidebar } =
+    useOutletContext<AppLayoutContext>();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const periodParam = searchParams.get("period");
@@ -28,6 +31,10 @@ export const OverviewPage = () => {
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
   const handleToggleModal = (toggleState: boolean) => {
+    if (toggleState && backdropVisible) {
+      handleCloseSidebar();
+    }
+
     setOpenTransactionModal(toggleState);
   };
 
