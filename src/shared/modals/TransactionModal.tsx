@@ -210,6 +210,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
             <FormContainer
               id="transaction-form"
               noValidate
+              autoComplete="off"
               onSubmit={handleSubmit}
             >
               <Flex direction="column" gap="xs">

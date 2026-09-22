@@ -1,6 +1,10 @@
 import type { ReactNode } from "react";
 import {
+  Actions,
   Brand,
+  BrandContainer,
+  BrandSmall,
+  DemoDataButton,
   PageTitle,
   Root,
 } from "src/shared/layout/PageHeader.styled";
@@ -26,11 +30,12 @@ export const PageHeader = ({
   onToggleSidebar,
 }: Props) => {
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
+  const compact = useMediaQuery(`(width <= ${BREAKPOINTS.tablet}px)`);
 
   return (
     <Root>
       <Flex align="center">
-        <Brand />
+        <BrandContainer>{compact ? <BrandSmall /> : <Brand />}</BrandContainer>
 
         <ToggleButton
           type="button"
@@ -41,11 +46,19 @@ export const PageHeader = ({
           {mobile && sidebarExpanded ? <CloseIcon /> : <ToggleIcon />}
         </ToggleButton>
 
-        <PageTitle>
-          <Typography variant="pageTitle">{title}</Typography>
-        </PageTitle>
+        {compact ? null : (
+          <PageTitle>
+            <Typography variant="title">{title}</Typography>
+          </PageTitle>
+        )}
       </Flex>
-      {actions}
+
+      <Actions>
+        <DemoDataButton variant="secondary">
+          {compact ? "Demo" : "Add demo data"}
+        </DemoDataButton>
+        {actions}
+      </Actions>
     </Root>
   );
 };

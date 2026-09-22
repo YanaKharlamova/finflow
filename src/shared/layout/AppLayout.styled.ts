@@ -138,9 +138,8 @@ export const ToggleButton = styled.button`
   flex: 0 0 auto;
   transition: all ${({ theme }) => theme.transitions.fast};
 
-  &:hover {
+  &:hover svg {
     color: ${({ theme }) => theme.colors.primary};
-    background-color: ${({ theme }) => theme.colors.secondaryHover};
   }
 
   &:focus {

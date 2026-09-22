@@ -33,18 +33,6 @@ export const ButtonStyled = styled.button`
 export const MobileLabel = styled.span`
   display: inline;
 
-  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    display: none;
-  }
-`;
-
-export const TabletLabel = styled.span`
-  display: none;
-
-  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    display: inline;
-  }
-
   @media (min-width: ${BREAKPOINTS.tablet}px) {
     display: none;
   }

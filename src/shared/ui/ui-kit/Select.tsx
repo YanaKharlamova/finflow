@@ -13,6 +13,7 @@ import {
 type SelectOption<Value extends string> = {
   value: Value;
   label: ReactNode;
+  valueLabel?: ReactNode;
 };
 
 type Props<Value extends string> = {
@@ -39,6 +40,7 @@ export const Select = <Value extends string>({
   variant = SELECT_VARIANTS.compact,
 }: Props<Value>) => {
   const errorId = id ? `${id}-error` : undefined;
+  const valueLabel = options.find((option) => option.value === value)?.valueLabel;
 
   const handleChange = (nextValue: string) => {
     onValueChange(nextValue as Value);
@@ -54,7 +56,9 @@ export const Select = <Value extends string>({
           aria-describedby={error ? errorId : undefined}
           $variant={variant}
         >
-          <RadixSelect.Value placeholder={placeholder} />
+          <RadixSelect.Value placeholder={placeholder}>
+            {valueLabel}
+          </RadixSelect.Value>
           <ArrowIcon />
         </Trigger>
 

@@ -15,22 +15,22 @@ export const PERIOD_OPTIONS = [
   {
     value: PERIODS.last7Days,
     desktopLabel: "Last 7 days",
-    mobileLabel: "Last 7d",
+    mobileLabel: "7d",
   },
   {
     value: PERIODS.last30Days,
     desktopLabel: "Last 30 days",
-    mobileLabel: "Last 30d",
+    mobileLabel: "30d",
   },
   {
     value: PERIODS.last3Months,
     desktopLabel: "Last 3 months",
-    mobileLabel: "Last 3mo",
+    mobileLabel: "3m",
   },
   {
     value: PERIODS.thisYear,
     desktopLabel: "This year",
-    mobileLabel: "This year",
+    mobileLabel: "Year",
   },
 ] as const;
 

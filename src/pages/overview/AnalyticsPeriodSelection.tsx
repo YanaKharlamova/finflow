@@ -17,7 +17,8 @@ export const AnalyticsPeriodSelection = ({
 
   const options = PERIOD_OPTIONS.map((option) => ({
     value: option.value,
-    label: mobile ? option.mobileLabel : option.desktopLabel,
+    label: option.desktopLabel,
+    valueLabel: mobile ? option.mobileLabel : undefined,
   }));
 
   return (

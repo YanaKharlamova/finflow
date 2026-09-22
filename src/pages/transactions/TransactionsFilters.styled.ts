@@ -7,6 +7,13 @@ export const Root = styled.div`
   grid-template-rows: repeat(2, auto);
   gap: ${({ theme }) => theme.spacing.sm};
 
+  @media (min-width: ${BREAKPOINTS.mobile}px) and (max-width: ${BREAKPOINTS.mobileMd}px) {
+    > button,
+    > input {
+      font-size: ${({ theme }) => theme.typography.caption.fontSize};
+    }
+  }
+
   @media (min-width: ${BREAKPOINTS.tablet}px) {
     grid-template-columns:
       repeat(3, minmax(160px, max-content)) 1fr
