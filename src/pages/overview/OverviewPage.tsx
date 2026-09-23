@@ -75,7 +75,7 @@ export const OverviewPage = () => {
   };
 
   const selection = (
-    <Flex gap="sm">
+    <Flex gap="xs">
       <AnalyticsPeriodSelection
         selectedPeriod={selectedPeriod}
         onPeriodChange={handlePeriodChange}

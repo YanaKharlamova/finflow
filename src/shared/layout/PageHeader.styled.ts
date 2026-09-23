@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import { FinflowLogo } from "src/shared/ui/icons/FinflowLogo";
 import { FinflowLogoSmall } from "src/shared/ui/icons/FinflowLogoSmall";
-import { Button } from "src/shared/ui/ui-kit/Button";
+import { Flex } from "src/shared/ui/ui-kit/Flex";
+import { Popover } from "radix-ui";
 
 export const Root = styled.header`
   position: sticky;
@@ -17,23 +18,20 @@ export const Root = styled.header`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.xs};
-  padding: 10px ${({ theme }) => theme.spacing.sm};
+  padding: 10px ${({ theme }) => theme.spacing.xs};
   background: ${({ theme }) => theme.colors.white};
   box-shadow: 0 2px 6px rgb(23 34 59 / 8%);
+
+  @media (min-width: ${BREAKPOINTS.mobileMd}px) {
+    padding-inline: ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
-export const BrandContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  &::after {
-    width: 1px;
-    height: 24px;
-    flex: 0 0 1px;
-    background: ${({ theme }) => theme.colors.border};
-    content: "";
-  }
+export const HeaderDivider = styled.span`
+  width: 1px;
+  height: 24px;
+  flex: 0 0 1px;
+  background: ${({ theme }) => theme.colors.border};
 `;
 
 export const Brand = styled(FinflowLogo)`
@@ -50,28 +48,32 @@ export const BrandSmall = styled(FinflowLogoSmall)`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const PageTitle = styled.div`
-  margin-left: ${({ theme }) => theme.spacing.sm};
-`;
+export const DemoDataButtonGroup = styled(Flex)`
+  border: 2px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.sm};
+  overflow: hidden;
 
-export const Actions = styled.div`
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: ${({ theme }) => theme.spacing.xs};
+  > button {
+    border: 0;
+    border-radius: 0;
+  }
 
-  @media (min-width: ${BREAKPOINTS.tablet}px) {
-    gap: ${({ theme }) => theme.spacing.sm};
+  > button + button {
+    border-left: 1px solid ${({ theme }) => theme.colors.border};
+  }
+
+  > button:focus-visible {
+    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 `;
 
-export const DemoDataButton = styled(Button)`
-  flex: 0 0 auto;
-  padding-inline: ${({ theme }) => theme.spacing.sm};
-  white-space: nowrap;
-
-  @media (min-width: ${BREAKPOINTS.tablet}px) {
-    padding-inline: 16px;
-  }
+export const DemoDataPopoverContent = styled(Popover.Content)`
+  z-index: 1001;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 16px));
+  padding: ${({ theme }) => `${theme.spacing.sm} 12px`};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.sm};
+  background: ${({ theme }) => theme.colors.white};
+  box-shadow: 0 8px 24px rgb(23 34 59 / 12%);
 `;

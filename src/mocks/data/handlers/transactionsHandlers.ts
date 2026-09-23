@@ -17,6 +17,7 @@ import {
 import { isValidTransaction } from "src/mocks/data/handlers/types";
 import { parsePositiveInteger } from "src/mocks/data/handlers/helpers/parsePositiveInteger";
 import { sortTransactions } from "src/mocks/data/handlers/helpers/sortTransactions";
+import { SEED_TRANSACTIONS } from "src/mocks/data/seedTransactions";
 
 type Options = {
   search: string;
@@ -47,6 +48,22 @@ const filterTransactions = ({
 };
 
 export const transactionsHandlers = [
+  http.post("/api/transactions/demo-data", async () => {
+    await delay(600);
+
+    if (transactions.length > 0) {
+      return HttpResponse.json(
+        { error: "Demo data can only be added to an empty transaction list" },
+        { status: 409 },
+      );
+    }
+
+    transactions.push(
+      ...SEED_TRANSACTIONS.map((transaction) => ({ ...transaction })),
+    );
+
+    return new HttpResponse(null, { status: 204 });
+  }),
   http.get("/api/transactions", async ({ request }) => {
     await delay(600);
 

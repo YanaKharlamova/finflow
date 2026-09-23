@@ -38,7 +38,6 @@ export const Sidebar = styled.aside<{
   padding: ${({ $expanded }) => ($expanded ? "20px" : "20px 12px")};
   overflow: hidden;
   background: ${({ theme }) => theme.colors.primary};
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
   transform: translateX(${({ $expanded }) => ($expanded ? "0" : "-100%")});
   opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
   visibility: ${({ $expanded }) => ($expanded ? "visible" : "hidden")};
@@ -62,7 +61,6 @@ export const Sidebar = styled.aside<{
     transform: none;
     opacity: 1;
     visibility: visible;
-    border-right: 1px solid ${({ theme }) => theme.colors.border};
     transition:
       width ${({ theme }) => theme.transitions.slow},
       padding ${({ theme }) => theme.transitions.slow},

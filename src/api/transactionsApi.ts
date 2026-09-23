@@ -7,6 +7,20 @@ import type {
 
 export const transactionsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    addDemoData: builder.mutation<void, void>({
+      query: () => ({
+        url: "/transactions/demo-data",
+        method: "POST",
+      }),
+
+      invalidatesTags: (_result, error) =>
+        error
+          ? []
+          : [
+              { type: "Transaction", id: "LIST" },
+              { type: "Overview", id: "LIST" },
+            ],
+    }),
     getTransactions: builder.query<TransactionsResponse, TransactionsParams>({
       query: (params) => ({
         url: "/transactions",
@@ -45,6 +59,7 @@ export const transactionsApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useAddDemoDataMutation,
   useGetTransactionsQuery,
   useAddTransactionMutation,
   useDeleteTransactionMutation,

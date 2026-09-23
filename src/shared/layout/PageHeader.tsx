@@ -1,11 +1,8 @@
 import type { ReactNode } from "react";
 import {
-  Actions,
   Brand,
-  BrandContainer,
   BrandSmall,
-  DemoDataButton,
-  PageTitle,
+  HeaderDivider,
   Root,
 } from "src/shared/layout/PageHeader.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
@@ -15,6 +12,7 @@ import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import { DemoDataAction } from "src/shared/layout/DemoDataAction";
 
 type Props = {
   title: string;
@@ -30,35 +28,34 @@ export const PageHeader = ({
   onToggleSidebar,
 }: Props) => {
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
-  const compact = useMediaQuery(`(width <= ${BREAKPOINTS.tablet}px)`);
+  const compact = useMediaQuery(`(width < ${BREAKPOINTS.tabletLg}px)`);
 
   return (
     <Root>
       <Flex align="center">
-        <BrandContainer>{compact ? <BrandSmall /> : <Brand />}</BrandContainer>
+        <Flex align="center" gap="sm">
+          {compact ? <BrandSmall /> : <Brand />}
+          <HeaderDivider aria-hidden="true" />
+        </Flex>
 
-        <ToggleButton
-          type="button"
-          aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
-          aria-expanded={sidebarExpanded}
-          onClick={onToggleSidebar}
-        >
-          {mobile && sidebarExpanded ? <CloseIcon /> : <ToggleIcon />}
-        </ToggleButton>
+        <Flex align="center" gap="sm">
+          <ToggleButton
+            type="button"
+            aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
+            aria-expanded={sidebarExpanded}
+            onClick={onToggleSidebar}
+          >
+            {mobile && sidebarExpanded ? <CloseIcon /> : <ToggleIcon />}
+          </ToggleButton>
 
-        {compact ? null : (
-          <PageTitle>
-            <Typography variant="title">{title}</Typography>
-          </PageTitle>
-        )}
+          {compact ? null : <Typography variant="title">{title}</Typography>}
+        </Flex>
       </Flex>
 
-      <Actions>
-        <DemoDataButton variant="secondary">
-          {compact ? "Demo" : "Add demo data"}
-        </DemoDataButton>
+      <Flex align="center" justify="flex-end" gap="xs">
+        <DemoDataAction compact={compact} />
         {actions}
-      </Actions>
+      </Flex>
     </Root>
   );
 };

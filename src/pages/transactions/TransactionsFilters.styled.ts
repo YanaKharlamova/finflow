@@ -10,11 +10,11 @@ export const Root = styled.div`
   @media (min-width: ${BREAKPOINTS.mobile}px) and (max-width: ${BREAKPOINTS.mobileMd}px) {
     > button,
     > input {
-      font-size: ${({ theme }) => theme.typography.caption.fontSize};
+      font-size: 13px;
     }
   }
 
-  @media (min-width: ${BREAKPOINTS.tablet}px) {
+  @media (min-width: ${BREAKPOINTS.tabletLg}px) {
     grid-template-columns:
       repeat(3, minmax(160px, max-content)) 1fr
       minmax(160px, max-content);
