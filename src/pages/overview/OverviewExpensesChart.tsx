@@ -74,6 +74,9 @@ export const OverviewExpensesChart = ({
                   ? formatCurrencyToMajorUnits({ currency, amount })
                   : "-";
               }}
+              wrapperStyle={{
+                zIndex: 1000,
+              }}
             />
           </PieChart>
         </ResponsiveContainer>
