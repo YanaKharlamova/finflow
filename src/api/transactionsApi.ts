@@ -5,7 +5,7 @@ import type {
   TransactionsResponse,
 } from "src/shared/types/transaction";
 
-export const transactionsApi = baseApi.injectEndpoints({
+const transactionsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addDemoData: builder.mutation<void, void>({
       query: () => ({

@@ -13,7 +13,7 @@ import type {
   TransactionFilterUpdate,
 } from "src/shared/types/transaction";
 import { useGetTransactionsQuery } from "src/api/transactionsApi";
-import { useOutletContext, useSearchParams } from "react-router";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import type { AppLayoutContext } from "src/shared/layout/AppLayout";
 
 export const TransactionsPage = () => {

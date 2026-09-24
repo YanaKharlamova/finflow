@@ -9,7 +9,7 @@ import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
 import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesByCategory";
 import type { PeriodValue } from "src/pages/overview/types";
 import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "src/pages/overview/constants";
-import { useOutletContext, useSearchParams } from "react-router";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { useGetOverviewQuery } from "src/api/overviewApi";
 import type { AppLayoutContext } from "src/shared/layout/AppLayout";
 

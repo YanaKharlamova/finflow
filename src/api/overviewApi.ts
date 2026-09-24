@@ -1,7 +1,7 @@
 import { baseApi } from "src/api/baseApi";
 import type { OverviewData, PeriodValue } from "src/pages/overview/types";
 
-export const overviewApi = baseApi.injectEndpoints({
+const overviewApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getOverview: builder.query<OverviewData, PeriodValue>({
       query: (period) => ({
