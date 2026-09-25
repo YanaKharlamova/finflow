@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { NotFoundPage } from "src/pages/not-found/NotFoundPage";
 import { AppLayout } from "src/shared/layout/AppLayout";
 
 export const router = createBrowserRouter([
@@ -28,7 +27,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <NotFoundPage />,
+        lazy: async () => {
+          const { NotFoundPage } =
+            await import("src/pages/not-found/NotFoundPage");
+
+          return { Component: NotFoundPage };
+        },
       },
     ],
   },
