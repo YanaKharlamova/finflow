@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Route, Routes, useLocation } from "react-router-dom";
@@ -64,12 +64,11 @@ test("deletes a transaction and displays the empty state", async () => {
   const transactionRow = await screen.findByRole("row", {
     name: /grocery shopping/i,
   });
+  const deleteButton = within(transactionRow).getByRole("button", {
+    name: /delete grocery shopping/i,
+  });
 
-  await user.click(
-    within(transactionRow).getByRole("button", {
-      name: /delete grocery shopping/i,
-    }),
-  );
+  await user.click(deleteButton);
 
   await waitFor(() => {
     expect(
@@ -78,6 +77,56 @@ test("deletes a transaction and displays the empty state", async () => {
   });
 
   expect(await screen.findByText("No transactions yet")).toBeInTheDocument();
+});
+
+test("shows a row error when deleting a transaction fails and allows retrying", async () => {
+  transactions.push({
+    id: "test-transaction",
+    title: "Grocery shopping",
+    date: "2024-01-01",
+    type: "expense",
+    category: "food",
+    amountMinor: 2550,
+    currency: "USD",
+  });
+
+  const deleteRequest = vi.fn();
+
+  server.use(
+    http.delete("/api/transactions/:id", ({ params }) => {
+      deleteRequest(params.id);
+
+      return HttpResponse.json(
+        { error: "Failed to delete transaction" },
+        { status: 500 },
+      );
+    }),
+  );
+
+  const user = renderTransactionsPage();
+  const transactionRow = await screen.findByRole("row", {
+    name: /grocery shopping/i,
+  });
+  const deleteButton = within(transactionRow).getByRole("button", {
+    name: /delete grocery shopping/i,
+  });
+
+  await user.click(deleteButton);
+
+  const errorDetailsButton = await within(transactionRow).findByRole("button", {
+    name: /delete error details for grocery shopping/i,
+  });
+  expect(deleteButton).toBeEnabled();
+
+  await user.click(errorDetailsButton);
+
+  expect(await screen.findByText("Couldn’t delete. Try again.")).toBeVisible();
+
+  await user.click(deleteButton);
+
+  await waitFor(() => {
+    expect(deleteRequest).toHaveBeenCalledTimes(2);
+  });
 });
 
 test("searches transactions across all pages", async () => {
