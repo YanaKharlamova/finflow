@@ -9,6 +9,8 @@ import type {
   TransactionFilterData,
   TransactionFilterUpdate,
 } from "src/shared/types/transaction";
+import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 type Options = {
   filterData: TransactionFilterData;
@@ -19,6 +21,8 @@ export const TransactionFiltersBlock = ({
   filterData,
   onFilterChange,
 }: Options) => {
+  const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
+
   return (
     <Root>
       <SearchField>
@@ -27,7 +31,9 @@ export const TransactionFiltersBlock = ({
         <TransactionSearch
           value={filterData.search}
           type="search"
-          placeholder="Search transactions by title..."
+          placeholder={
+            mobile ? "Search by title" : "Search transactions by title..."
+          }
           onChange={(e) => onFilterChange({ search: e.target.value })}
         />
       </SearchField>

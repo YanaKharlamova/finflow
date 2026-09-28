@@ -131,6 +131,11 @@ export const FieldsRow = styled(Flex)`
 
   > div {
     flex: 1;
+    position: relative;
+
+    &:focus-within {
+      z-index: 1;
+    }
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
