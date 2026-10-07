@@ -30,7 +30,7 @@ export const ModalContent = styled(Dialog.Content)`
   box-shadow: 0 10px 30px rgb(15 23 42 / 15%);
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.xs};
 
   &:focus {
     outline: none;
@@ -68,7 +68,7 @@ export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 10px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const SelectionContainer = styled(RadioGroup.Root)`
@@ -139,6 +139,6 @@ export const FieldsRow = styled(Flex)`
   }
 
   @media (min-width: ${BREAKPOINTS.mobileLg}px) {
-    gap: ${({ theme }) => theme.spacing.md};
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;

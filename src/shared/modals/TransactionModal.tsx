@@ -334,7 +334,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               ) : null}
             </Flex>
 
-            <ButtonGroup gap="sm">
+            <ButtonGroup gap="xs">
               <Dialog.Close asChild>
                 <Button type="button" variant="secondary" disabled={isLoading}>
                   Cancel

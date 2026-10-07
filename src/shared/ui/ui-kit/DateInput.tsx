@@ -1,5 +1,9 @@
-import { type ChangeEvent, useRef } from "react";
+import { type ChangeEvent, useState } from "react";
+import { DayPicker } from "@daypicker/react";
+import "@daypicker/react/style.css";
+import { Popover } from "radix-ui";
 import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
+import { parseLocalDate } from "src/shared/helpers/parseLocalDate";
 import {
   isValidTransactionDate,
   MIN_TRANSACTION_DATE,
@@ -7,16 +11,17 @@ import {
 import { CalendarIcon } from "src/shared/ui/icons/CalendarIcon";
 import { ErrorMessage } from "src/shared/ui/ui-kit/FormControl.styled";
 import {
+  CalendarClearButton,
+  CalendarContent,
   DateInputControl,
   DateInputRoot,
   DatePickerButton,
   DateTextInput,
-  NativeDateInput,
 } from "src/shared/ui/ui-kit/DateInput.styled";
 
 const PICKER_LABEL = "Choose date from calendar";
 
-const formatAsISODate = (value: string): string => {
+const formatAsISODateInput = (value: string) => {
   // Format numeric input as YYYY-MM-DD for mobile keyboards.
   const digits = value.replace(/\D/g, "").slice(0, 8);
 
@@ -24,6 +29,8 @@ const formatAsISODate = (value: string): string => {
     .filter(Boolean)
     .join("-");
 };
+
+const MIN_DATE = parseLocalDate(MIN_TRANSACTION_DATE);
 
 type Props = {
   id: string;
@@ -44,43 +51,29 @@ export const DateInput = ({
   id,
   required,
 }: Props) => {
-  const pickerRef = useRef<HTMLInputElement>(null);
-  const pickerButtonRef = useRef<HTMLButtonElement>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const errorId = `${id}-error`;
 
-  const pickerValue = isValidTransactionDate(value) ? value : "";
-  const maxDate = formatLocalDate(new Date());
+  const today = new Date();
+  const maxDate = formatLocalDate(today);
+  const selectedDate =
+    isValidTransactionDate(value) && value <= maxDate
+      ? parseLocalDate(value)
+      : undefined;
 
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) =>
-    onValueChange(formatAsISODate(event.currentTarget.value));
+    onValueChange(formatAsISODateInput(event.currentTarget.value));
 
-  const handleOpenPicker = () => {
-    const picker = pickerRef.current;
-
-    if (!picker) {
-      return;
-    }
-
-    picker.focus({ preventScroll: true });
-
-    // Fallback: use showPicker() for modern browsers, click() for older engines.
-    try {
-      picker.showPicker();
-    } catch {
-      picker.click();
+  const handleSelectDate = (date: Date | undefined) => {
+    if (date) {
+      onValueChange(formatLocalDate(date));
+      setPickerOpen(false);
     }
   };
 
-  const handlePickerChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const picker = event.currentTarget;
-
-    onValueChange(picker.value);
-
-    // Cross-browser fix: allows Safari to close the picker and restores keyboard focus
-    window.requestAnimationFrame(() => {
-      picker.blur();
-      pickerButtonRef.current?.focus({ preventScroll: true });
-    });
+  const handleClearDate = () => {
+    onValueChange("");
+    setPickerOpen(false);
   };
 
   return (
@@ -101,26 +94,39 @@ export const DateInput = ({
           onChange={handleTextChange}
         />
 
-        <DatePickerButton
-          as="button"
-          ref={pickerButtonRef}
-          type="button"
-          aria-label={PICKER_LABEL}
-          onClick={handleOpenPicker}
-        >
-          <CalendarIcon width="20" height="20" />
-        </DatePickerButton>
+        <Popover.Root open={pickerOpen} onOpenChange={setPickerOpen}>
+          <Popover.Trigger asChild>
+            <DatePickerButton
+              as="button"
+              type="button"
+              aria-label={PICKER_LABEL}
+            >
+              <CalendarIcon width="20" height="20" />
+            </DatePickerButton>
+          </Popover.Trigger>
 
-        <NativeDateInput
-          ref={pickerRef}
-          type="date"
-          tabIndex={-1}
-          aria-label={PICKER_LABEL}
-          min={MIN_TRANSACTION_DATE}
-          max={maxDate}
-          value={pickerValue}
-          onChange={handlePickerChange}
-        />
+          <Popover.Portal>
+            <CalendarContent align="end" sideOffset={4} collisionPadding={8}>
+              <DayPicker
+                mode="single"
+                selected={selectedDate}
+                defaultMonth={selectedDate}
+                startMonth={MIN_DATE}
+                endMonth={today}
+                disabled={{ before: MIN_DATE, after: today }}
+                onSelect={handleSelectDate}
+              />
+
+              <CalendarClearButton
+                size="compact"
+                variant="secondary"
+                onClick={handleClearDate}
+              >
+                Clear
+              </CalendarClearButton>
+            </CalendarContent>
+          </Popover.Portal>
+        </Popover.Root>
       </DateInputControl>
 
       {error || reserveErrorSpace ? (

@@ -1,6 +1,7 @@
 import { Popover } from "radix-ui";
 import { useDeleteTransactionMutation } from "src/api/transactionsApi";
 import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
+import { parseLocalDate } from "src/shared/helpers/parseLocalDate";
 import { DemoDataPopoverContent as PopoverContent } from "src/shared/layout/PageHeader.styled";
 import { TRANSACTION_TYPES } from "src/shared/modals/constants";
 import type { Transaction } from "src/shared/types/transaction";
@@ -34,7 +35,7 @@ export const TransactionRow = ({ transaction }: Props) => {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
+  }).format(parseLocalDate(date));
 
   const categoryFormatted = category.split("-").join(" ");
   const expenseType = type === TRANSACTION_TYPES.expense;

@@ -1,5 +1,5 @@
 import { expect, test, vi } from "vitest";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { DateInput } from "src/shared/ui/ui-kit/DateInput";
@@ -23,9 +23,6 @@ const setup = (value = "") => {
     onValueChange,
     textInput: screen.getByRole("textbox", { name: "Date" }),
     pickerButton: screen.getByRole("button", { name: PICKER_LABEL }),
-    pickerInput: screen.getByLabelText(PICKER_LABEL, {
-      selector: 'input[type="date"]',
-    }) as HTMLInputElement,
   };
 };
 
@@ -43,80 +40,36 @@ test.each([
   expect(onValueChange).toHaveBeenCalledWith(expected);
 });
 
-test("opens the native picker from the calendar button", async () => {
+test("opens the calendar from the calendar button", async () => {
   const user = userEvent.setup();
-  const { pickerButton, pickerInput } = setup();
-  const showPicker = vi.fn();
-
-  Object.defineProperty(pickerInput, "showPicker", {
-    configurable: true,
-    value: showPicker,
-  });
+  const { pickerButton } = setup();
 
   await user.click(pickerButton);
 
-  expect(showPicker).toHaveBeenCalledOnce();
-  expect(pickerInput).toHaveFocus();
+  expect(screen.getByRole("dialog")).toBeInTheDocument();
 });
 
-test("falls back to clicking the native input when showPicker throws", async () => {
+test("clears an incomplete date from the calendar", async () => {
   const user = userEvent.setup();
-  const { pickerButton, pickerInput } = setup();
-  const pickerClick = vi.spyOn(pickerInput, "click").mockImplementation(() => {});
-
-  Object.defineProperty(pickerInput, "showPicker", {
-    configurable: true,
-    value: vi.fn(() => {
-      throw new Error("showPicker is unavailable");
-    }),
-  });
+  const { onValueChange, pickerButton } = setup("2026");
 
   await user.click(pickerButton);
+  await user.click(screen.getByRole("button", { name: "Clear" }));
 
-  expect(pickerClick).toHaveBeenCalledOnce();
+  expect(onValueChange).toHaveBeenCalledWith("");
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-test("commits a picked date and restores button focus on the next frame", () => {
-  const { onValueChange, pickerButton, pickerInput } = setup();
-  const frameCallbacks: FrameRequestCallback[] = [];
-  const originalAnimationFrame = Object.getOwnPropertyDescriptor(
-    window,
-    "requestAnimationFrame",
+test("commits a selected date and closes the calendar", async () => {
+  const user = userEvent.setup();
+  const { onValueChange, pickerButton } = setup("2024-01-15");
+
+  await user.click(pickerButton);
+  const calendar = screen.getByRole("dialog");
+  await user.click(
+    within(calendar).getByRole("button", { name: /January 20.*2024/i }),
   );
-  const pickerBlur = vi.spyOn(pickerInput, "blur");
-  const buttonFocus = vi.spyOn(pickerButton, "focus");
 
-  Object.defineProperty(window, "requestAnimationFrame", {
-    configurable: true,
-    value: vi.fn((callback: FrameRequestCallback) => {
-      frameCallbacks.push(callback);
-      return frameCallbacks.length;
-    }),
-  });
-
-  try {
-    fireEvent.change(pickerInput, {
-      target: { value: "2024-01-31" },
-    });
-
-    expect(onValueChange).toHaveBeenCalledWith("2024-01-31");
-    expect(frameCallbacks).toHaveLength(1);
-    expect(pickerBlur).not.toHaveBeenCalled();
-    expect(buttonFocus).not.toHaveBeenCalled();
-
-    frameCallbacks[0](0);
-
-    expect(pickerBlur).toHaveBeenCalledOnce();
-    expect(buttonFocus).toHaveBeenCalledWith({ preventScroll: true });
-  } finally {
-    if (originalAnimationFrame) {
-      Object.defineProperty(
-        window,
-        "requestAnimationFrame",
-        originalAnimationFrame,
-      );
-    } else {
-      Reflect.deleteProperty(window, "requestAnimationFrame");
-    }
-  }
+  expect(onValueChange).toHaveBeenCalledWith("2024-01-20");
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
