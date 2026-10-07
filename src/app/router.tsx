@@ -1,8 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { NotFoundPage } from "src/pages/not-found/NotFoundPage";
-import { OverviewPage } from "src/pages/overview/OverviewPage";
-import { TransactionsPage } from "src/pages/transactions/TransactionsPage";
 import { AppLayout } from "src/shared/layout/AppLayout";
 
 export const router = createBrowserRouter([
@@ -12,15 +9,30 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <OverviewPage />,
+        lazy: async () => {
+          const { OverviewPage } =
+            await import("src/pages/overview/OverviewPage");
+
+          return { Component: OverviewPage };
+        },
       },
       {
         path: "transactions",
-        element: <TransactionsPage />,
+        lazy: async () => {
+          const { TransactionsPage } =
+            await import("src/pages/transactions/TransactionsPage");
+
+          return { Component: TransactionsPage };
+        },
       },
       {
         path: "*",
-        element: <NotFoundPage />,
+        lazy: async () => {
+          const { NotFoundPage } =
+            await import("src/pages/not-found/NotFoundPage");
+
+          return { Component: NotFoundPage };
+        },
       },
     ],
   },

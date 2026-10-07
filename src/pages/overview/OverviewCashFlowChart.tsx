@@ -62,7 +62,9 @@ export const OverviewCashFlowChart = ({ data, currency }: Props) => {
         <ReferenceLine y={0} stroke={theme.colors.textSecondary} />
 
         <Legend
-          position="insideTopRight"
+          position="top"
+          align="right"
+          offset={8}
           iconType="circle"
           iconSize={8}
           height={40}

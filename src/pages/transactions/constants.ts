@@ -19,16 +19,23 @@ export const TRANSACTION_CATEGORY_OPTIONS = [
   ...CATEGORY_OPTIONS[TRANSACTION_TYPES.expense],
 ] as const;
 
+export const SORT_ORDERS = {
+  newest: "newest",
+  oldest: "oldest",
+  amountDesc: "amount-desc",
+  amountAsc: "amount-asc",
+} as const;
+
 export const TRANSACTION_SORT_OPTIONS = [
-  { value: "newest", label: "Newest first", mobileLabel: "Newest" },
-  { value: "oldest", label: "Oldest first", mobileLabel: "Oldest" },
+  { value: SORT_ORDERS.newest, label: "Newest first", mobileLabel: "Newest" },
+  { value: SORT_ORDERS.oldest, label: "Oldest first", mobileLabel: "Oldest" },
   {
-    value: "amount-desc",
+    value: SORT_ORDERS.amountDesc,
     label: "Amount: high to low",
     mobileLabel: "High to low",
   },
   {
-    value: "amount-asc",
+    value: SORT_ORDERS.amountAsc,
     label: "Amount: low to high",
     mobileLabel: "Low to high",
   },

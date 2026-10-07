@@ -1,23 +1,22 @@
-import type { CashFlowPoint } from "src/pages/overview/types";
 import {
   Chart,
   Header,
   Root,
 } from "src/pages/overview/OverviewCashFlowCharts.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
-import { CashFlowEmptyState } from "src/pages/overview/CashFlowEmptyState";
-import { OverviewCashFlowChart } from "src/pages/overview/OverviewCashFlowChart";
-import type { Currency } from "src/shared/types/transaction";
+import {
+  CashFlowContent,
+  type CashFlowContentProps,
+} from "src/pages/overview/CashFlowContent";
 
-type Props = {
-  data: CashFlowPoint[];
-  currency: Currency;
-  onModalToggle: (toggleState: boolean) => void;
-};
+export const OverviewCashFlow = (props: CashFlowContentProps) => {
+  const { dataLoading, dataFetching } = props;
 
-export const OverviewCashFlow = ({ data, currency, onModalToggle }: Props) => {
   return (
-    <Root aria-labelledby="cash-flow-title">
+    <Root
+      aria-labelledby="cash-flow-title"
+      aria-busy={dataLoading || dataFetching}
+    >
       <Header>
         <Typography id="cash-flow-title" as="h2" variant="subtitle">
           Cash flow
@@ -29,11 +28,7 @@ export const OverviewCashFlow = ({ data, currency, onModalToggle }: Props) => {
       </Header>
 
       <Chart>
-        {data.length > 0 ? (
-          <OverviewCashFlowChart data={data} currency={currency} />
-        ) : (
-          <CashFlowEmptyState onModalToggle={onModalToggle} />
-        )}
+        <CashFlowContent {...props} />
       </Chart>
     </Root>
   );

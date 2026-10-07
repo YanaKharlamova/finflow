@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 export type ButtonVariant = "primary" | "secondary" | "danger";
+export type ButtonSize = "default" | "compact";
 
 const variantStyles = {
   primary: css`
@@ -36,19 +38,38 @@ const variantStyles = {
   `,
 };
 
+const sizeStyles = {
+  default: css`
+    padding: 8px 12px;
+
+    @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+      padding: 10px 16px;
+    }
+  `,
+  compact: css`
+    padding: 8px;
+
+    @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+      padding: 10px;
+    }
+  `,
+};
+
 export const ButtonStyled = styled.button<{
   $variant: ButtonVariant;
+  $size: ButtonSize;
   $shimmer: boolean;
 }>`
-  padding: 10px 16px;
   border: 2px solid;
   border-radius: ${({ theme }) => theme.radii.sm};
   font: inherit;
+  font-size: ${({ theme }) => theme.typography.caption.fontSize};
   font-weight: 600;
   cursor: pointer;
   transition: all ${({ theme }) => theme.transitions.fast};
 
   ${({ $variant }) => variantStyles[$variant]};
+  ${({ $size }) => sizeStyles[$size]};
 
   &:focus {
     outline: none;
@@ -61,6 +82,10 @@ export const ButtonStyled = styled.button<{
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+    font-size: inherit;
   }
 
   ${({ $shimmer, theme }) =>

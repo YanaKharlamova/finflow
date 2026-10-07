@@ -1,4 +1,8 @@
-import { Root } from "src/pages/transactions/TransactionsFilters.styled";
+import { useState } from "react";
+import {
+  DateFilter,
+  Root,
+} from "src/pages/transactions/TransactionsFilters.styled";
 import { Select } from "src/shared/ui/ui-kit/Select";
 import {
   ALL_FILTER_VALUE,
@@ -6,7 +10,6 @@ import {
   TRANSACTION_SORT_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from "src/pages/transactions/constants";
-import { Input } from "src/shared/ui/ui-kit/Input";
 import { SELECT_VARIANTS } from "src/shared/ui/ui-kit/Select.styled";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
@@ -14,6 +17,9 @@ import type {
   TransactionFilterData,
   TransactionFilterUpdate,
 } from "src/shared/types/transaction";
+import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
+import { isValidTransactionDate } from "src/shared/helpers/isValidTransactionDate";
+import { DateInput } from "src/shared/ui/ui-kit/DateInput";
 
 type Options = {
   filterData: TransactionFilterData;
@@ -33,6 +39,14 @@ export const TransactionsFilters = ({
 
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
 
+  const [dateDraft, setDateDraft] = useState(date);
+  const [previousDate, setPreviousDate] = useState(date);
+
+  if (date !== previousDate) {
+    setPreviousDate(date);
+    setDateDraft(date);
+  }
+
   const typeOptions = TRANSACTION_TYPE_OPTIONS.map((option) => ({
     value: option.value,
     label: mobile ? option.mobileLabel : option.label,
@@ -49,10 +63,29 @@ export const TransactionsFilters = ({
     label: mobile ? option.mobileLabel : option.label,
   }));
 
-  const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
+  const todayStr = formatLocalDate(new Date());
 
-  const dateError =
-    date && date > todayStr ? "Date cannot be in the future" : "";
+  const getDateError = (value: string) => {
+    if (!value) {
+      return "";
+    }
+
+    if (!isValidTransactionDate(value)) {
+      return "Enter a valid date";
+    }
+
+    return value > todayStr ? "Date cannot be in the future" : "";
+  };
+
+  const dateError = getDateError(dateDraft);
+
+  const handleDateChange = (nextDate: string) => {
+    setDateDraft(nextDate);
+
+    if (!getDateError(nextDate)) {
+      onFilterChange({ date: nextDate });
+    }
+  };
 
   return (
     <Root>
@@ -60,9 +93,7 @@ export const TransactionsFilters = ({
         ariaLabel="Filter by transaction type"
         options={typeOptions}
         value={transactionType}
-        onValueChange={(transactionType) =>
-          onFilterChange({ transactionType })
-        }
+        onValueChange={(transactionType) => onFilterChange({ transactionType })}
         variant={SELECT_VARIANTS.field}
       />
 
@@ -74,15 +105,15 @@ export const TransactionsFilters = ({
         variant={SELECT_VARIANTS.field}
       />
 
-      <Input
-        type="date"
-        id="transactions-filter-date"
-        aria-label="Filter by date"
-        max={todayStr}
-        value={date}
-        error={dateError}
-        onChange={(event) => onFilterChange({ date: event.target.value })}
-      />
+      <DateFilter>
+        <DateInput
+          id="transactions-filter-date"
+          ariaLabel="Filter by date"
+          value={dateDraft}
+          error={dateError}
+          onValueChange={handleDateChange}
+        />
+      </DateFilter>
 
       <Select
         ariaLabel="Sort transactions"

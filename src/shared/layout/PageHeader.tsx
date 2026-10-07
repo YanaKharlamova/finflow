@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import {
   Brand,
-  PageTitle,
+  BrandSmall,
+  HeaderDivider,
   Root,
 } from "src/shared/layout/PageHeader.styled";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
@@ -11,6 +12,7 @@ import { ToggleIcon } from "src/shared/ui/icons/ToggleIcon";
 import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
+import { DemoDataAction } from "src/shared/layout/DemoDataAction";
 
 type Props = {
   title: string;
@@ -26,26 +28,34 @@ export const PageHeader = ({
   onToggleSidebar,
 }: Props) => {
   const mobile = useMediaQuery(`(width < ${BREAKPOINTS.mobileLg}px)`);
+  const compact = useMediaQuery(`(width < ${BREAKPOINTS.tabletLg}px)`);
 
   return (
     <Root>
       <Flex align="center">
-        <Brand />
+        <Flex align="center" gap="sm">
+          {compact ? <BrandSmall /> : <Brand />}
+          <HeaderDivider aria-hidden="true" />
+        </Flex>
 
-        <ToggleButton
-          type="button"
-          aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
-          aria-expanded={sidebarExpanded}
-          onClick={onToggleSidebar}
-        >
-          {mobile && sidebarExpanded ? <CloseIcon /> : <ToggleIcon />}
-        </ToggleButton>
+        <Flex align="center" gap="sm">
+          <ToggleButton
+            type="button"
+            aria-label={sidebarExpanded ? "Collapse menu" : "Expand menu"}
+            aria-expanded={sidebarExpanded}
+            onClick={onToggleSidebar}
+          >
+            {mobile && sidebarExpanded ? <CloseIcon /> : <ToggleIcon />}
+          </ToggleButton>
 
-        <PageTitle>
-          <Typography variant="pageTitle">{title}</Typography>
-        </PageTitle>
+          {compact ? null : <Typography variant="title">{title}</Typography>}
+        </Flex>
       </Flex>
-      {actions}
+
+      <Flex align="center" justify="flex-end" gap="xs">
+        <DemoDataAction compact={compact} />
+        {actions}
+      </Flex>
     </Root>
   );
 };

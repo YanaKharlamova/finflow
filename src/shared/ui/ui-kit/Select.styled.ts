@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { Select as RadixSelect } from "radix-ui";
 import { ArrowDownIcon } from "src/shared/ui/icons/ArrowDownIcon";
+import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 
 export const SELECT_VARIANTS = { compact: "compact", field: "field" } as const;
 
@@ -9,9 +10,15 @@ export type SelectVariant =
 
 const triggerVariants = {
   compact: css`
-    min-width: 100px;
+    width: 77px;
     padding: 5px 5px 3px 10px;
     font: inherit;
+    font-size: ${({ theme }) => theme.typography.caption.fontSize};
+
+    @media (min-width: ${BREAKPOINTS.mobileLg}px) {
+      width: 160px;
+      font-size: inherit;
+    }
   `,
   field: css`
     width: 100%;
@@ -31,6 +38,7 @@ export const Trigger = styled(RadixSelect.Trigger)<{
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.sm};
   color: ${({ theme }) => theme.colors.textPrimary};
+  text-align: start;
   background: ${({ theme }) => theme.colors.white};
   cursor: pointer;
 
@@ -50,7 +58,8 @@ export const ArrowIcon = styled(ArrowDownIcon)`
 
 export const Content = styled(RadixSelect.Content)`
   z-index: 1001;
-  width: var(--radix-select-trigger-width);
+  width: max-content;
+  min-width: max(100px, var(--radix-select-trigger-width));
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.sm};

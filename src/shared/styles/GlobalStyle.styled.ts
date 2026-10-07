@@ -12,12 +12,17 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    min-width: 320px;
+    min-width: 0;
     min-height: 100vh;
     margin: 0;
+    overflow-y: scroll;
     font-family: Inter, system-ui, sans-serif;
     color: ${({ theme }) => theme.colors.textPrimary};
     background: ${({ theme }) => theme.colors.background};
+
+    @supports (height: 100dvh) {
+      min-height: 100dvh;
+    }
   }
 
   button,

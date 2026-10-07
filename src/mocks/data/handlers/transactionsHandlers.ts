@@ -7,6 +7,7 @@ import type {
 import {
   ALL_FILTER_VALUE,
   DEFAULT_PAGE_SIZE,
+  TRANSACTION_SORT_OPTIONS,
 } from "src/pages/transactions/constants";
 import {
   DEFAULT_CURRENCY,
@@ -14,7 +15,9 @@ import {
   transactions,
 } from "src/mocks/data/handlers/constants";
 import { isValidTransaction } from "src/mocks/data/handlers/types";
-import { parsePositiveInteger } from "src/mocks/data/handlers/helpers";
+import { parsePositiveInteger } from "src/mocks/data/handlers/helpers/parsePositiveInteger";
+import { sortTransactions } from "src/mocks/data/handlers/helpers/sortTransactions";
+import { SEED_TRANSACTIONS } from "src/mocks/data/seedTransactions";
 
 type Options = {
   search: string;
@@ -45,6 +48,22 @@ const filterTransactions = ({
 };
 
 export const transactionsHandlers = [
+  http.post("/api/transactions/demo-data", async () => {
+    await delay(600);
+
+    if (transactions.length > 0) {
+      return HttpResponse.json(
+        { error: "Demo data can only be added to an empty transaction list" },
+        { status: 409 },
+      );
+    }
+
+    transactions.push(
+      ...SEED_TRANSACTIONS.map((transaction) => ({ ...transaction })),
+    );
+
+    return new HttpResponse(null, { status: 204 });
+  }),
   http.get("/api/transactions", async ({ request }) => {
     await delay(600);
 
@@ -60,7 +79,10 @@ export const transactionsHandlers = [
     const type = url.searchParams.get("type") || ALL_FILTER_VALUE;
     const category = url.searchParams.get("category") || ALL_FILTER_VALUE;
     const date = url.searchParams.get("date") || "";
-    const sort = url.searchParams.get("sort") || "newest";
+    const sortParam = url.searchParams.get("sort");
+    const sort =
+      TRANSACTION_SORT_OPTIONS.find(({ value }) => value === sortParam)
+        ?.value ?? "newest";
 
     const startElementIndex = (page - FIRST_PAGE) * limit;
     const endElementIndex = startElementIndex + limit;
@@ -72,22 +94,7 @@ export const transactionsHandlers = [
       date,
     });
 
-    const sortedElements = [...filteredTransactions].sort((a, b) => {
-      switch (sort) {
-        case "oldest":
-          return a.date.localeCompare(b.date);
-
-        case "amount-desc":
-          return b.amountMinor - a.amountMinor;
-
-        case "amount-asc":
-          return a.amountMinor - b.amountMinor;
-
-        case "newest":
-        default:
-          return b.date.localeCompare(a.date);
-      }
-    });
+    const sortedElements = sortTransactions(filteredTransactions, sort);
 
     const response: TransactionsResponse = {
       items: sortedElements.slice(startElementIndex, endElementIndex),
@@ -110,16 +117,36 @@ export const transactionsHandlers = [
       );
     }
 
-    const transaction: Transaction = {
-      ...newTransaction,
+    const { amount, ...transactionData } = newTransaction;
+
+    const transaction = {
+      ...transactionData,
       id: crypto.randomUUID(),
-      title: newTransaction.title.trim(),
+      title: transactionData.title.trim(),
       currency: DEFAULT_CURRENCY,
-      amountMinor: newTransaction.amount * 100,
-    };
+      amountMinor: Math.round(amount * 100),
+    } satisfies Transaction;
 
     transactions.push(transaction);
 
     return HttpResponse.json(transaction, { status: 201 });
+  }),
+  http.delete("/api/transactions/:id", async ({ params }) => {
+    await delay(600);
+
+    const { id } = params;
+
+    const elToDeleteIndex = transactions.findIndex((tr) => tr.id === id);
+
+    if (elToDeleteIndex === -1) {
+      return HttpResponse.json(
+        { error: "Transaction not found" },
+        { status: 404 },
+      );
+    }
+
+    transactions.splice(elToDeleteIndex, 1);
+
+    return new HttpResponse(null, { status: 204 });
   }),
 ];

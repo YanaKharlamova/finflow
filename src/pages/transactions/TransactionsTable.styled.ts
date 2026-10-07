@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { Popover } from "radix-ui";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import { Badge } from "src/shared/ui/ui-kit/Badge";
 
@@ -124,6 +125,32 @@ export const AmountCell = styled.td<{ $danger?: boolean }>`
 export const ActionsCell = styled.td`
   ${cellStyles};
   order: 5;
+
+  @media (min-width: ${BREAKPOINTS.tabletLg}px) {
+    padding-inline: ${({ theme }) => theme.spacing.sm};
+  }
+`;
+
+export const DeleteErrorTrigger = styled(Popover.Trigger)`
+  all: unset;
+  height: 20px;
+  flex: 0 0 20px;
+  order: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: ${({ theme }) => theme.colors.danger};
+  visibility: ${({ disabled }) => (disabled ? "hidden" : "visible")};
+  cursor: pointer;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
+  }
+
+  @media (min-width: ${BREAKPOINTS.tabletLg}px) {
+    order: 0;
+  }
 `;
 
 export const CategoryLabel = styled.span`

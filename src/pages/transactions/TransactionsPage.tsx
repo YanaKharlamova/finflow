@@ -13,9 +13,12 @@ import type {
   TransactionFilterUpdate,
 } from "src/shared/types/transaction";
 import { useGetTransactionsQuery } from "src/api/transactionsApi";
-import { useSearchParams } from "react-router";
+import { useOutletContext, useSearchParams } from "react-router-dom";
+import type { AppLayoutContext } from "src/shared/layout/AppLayout";
 
 export const TransactionsPage = () => {
+  const { backdropVisible, handleCloseSidebar } =
+    useOutletContext<AppLayoutContext>();
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,9 +50,9 @@ export const TransactionsPage = () => {
       sort,
     });
 
-  const dataLoading = isLoading || isFetching;
+  const showSkeleton = isLoading || (isFetching && !data);
 
-  const dataReady = data !== undefined && !dataLoading && !isError;
+  const dataReady = data && !isFetching && !isError;
 
   const transactions = data?.items ?? [];
 
@@ -73,6 +76,10 @@ export const TransactionsPage = () => {
   };
 
   const handleToggleModal = (toggleState: boolean) => {
+    if (toggleState && backdropVisible) {
+      handleCloseSidebar();
+    }
+
     setOpenTransactionModal(toggleState);
   };
 
@@ -129,7 +136,7 @@ export const TransactionsPage = () => {
         transactions={transactions}
         pagesAmount={pagesAmount}
         currentPage={currentPage}
-        dataInitialLoading={isLoading}
+        dataInitialLoading={showSkeleton}
         dataError={isError}
         hasActiveFilters={hasActiveFilters}
         onPageChange={handleSetPageParam}

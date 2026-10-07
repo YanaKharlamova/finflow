@@ -16,3 +16,5 @@ export const CATEGORY_OPTIONS = {
     { value: "other-expense", label: "Other" },
   ],
 } as const;
+
+export const AMOUNT_PATTERN = /^\d+(?:\.\d{1,2})?$/;

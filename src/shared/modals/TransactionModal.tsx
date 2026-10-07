@@ -15,11 +15,13 @@ import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { Button } from "src/shared/ui/ui-kit/Button";
 import { Input } from "src/shared/ui/ui-kit/Input";
+import { DateInput } from "src/shared/ui/ui-kit/DateInput";
 import { Select } from "src/shared/ui/ui-kit/Select";
 import { type ChangeEvent, type SubmitEvent, useState } from "react";
 import { useAddTransactionMutation } from "src/api/transactionsApi";
 
 import {
+  AMOUNT_PATTERN,
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
 } from "src/shared/modals/constants";
@@ -28,6 +30,8 @@ import { useMediaQuery } from "src/shared/hooks/useMediaQuery";
 import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import type { Category, TransactionType } from "src/shared/types/transaction";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
+import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
+import { isValidTransactionDate } from "src/shared/helpers/isValidTransactionDate";
 
 type Props = {
   open: boolean;
@@ -46,10 +50,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<Category | "">("");
   const [hasCategoryError, setHasCategoryError] = useState(false);
 
-  const todayStr = new Intl.DateTimeFormat("fr-CA").format(new Date());
+  const todayStr = formatLocalDate(new Date());
 
   const [transactionDate, setTransactionDate] = useState(todayStr);
-  const [transactionDateError, setTransactionDateError] = useState("");
 
   const [addTransaction, { isError, isLoading, reset }] =
     useAddTransactionMutation();
@@ -65,16 +68,24 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setSelectedCategory("");
     setHasCategoryError(false);
     setTransactionDate(todayStr);
-    setTransactionDateError("");
+  };
+
+  const closeModal = () => {
+    onModalToggle(false);
+    handleClearForm();
+    reset();
   };
 
   const handleOpenChange = (toggleState: boolean) => {
-    onModalToggle(toggleState);
-
     if (!toggleState) {
-      handleClearForm();
-      reset();
+      if (!isLoading) {
+        closeModal();
+      }
+
+      return;
     }
+
+    onModalToggle(true);
   };
 
   const handleSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,12 +115,20 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
       return "Enter a positive amount";
     }
 
+    if (!AMOUNT_PATTERN.test(value)) {
+      return "Use up to 2 decimal places";
+    }
+
     return "";
   };
 
   const getDateError = (value: string) => {
     if (!value) {
       return "Date is required!";
+    }
+
+    if (!isValidTransactionDate(value)) {
+      return "Enter a valid date!";
     }
 
     if (value > todayStr) {
@@ -119,7 +138,9 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     return "";
   };
 
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+  const transactionDateError = getDateError(transactionDate);
+
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const normalizedTitle = title.trim();
@@ -128,24 +149,33 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     const invalidTitle = !normalizedTitle;
     const amountError = getAmountError(transactionAmount);
     const invalidCategory = !selectedCategory;
-    const dateError = getDateError(transactionDate);
 
     setTransactionAmountError(amountError);
     setHasTitleError(invalidTitle);
     setHasCategoryError(invalidCategory);
-    setTransactionDateError(dateError);
 
-    if (invalidTitle || amountError || invalidCategory || dateError) {
+    if (
+      invalidTitle ||
+      amountError ||
+      invalidCategory ||
+      transactionDateError
+    ) {
       return;
     }
 
-    addTransaction({
-      title: normalizedTitle,
-      amount: normalizedAmount,
-      category: selectedCategory,
-      date: transactionDate,
-      type: transactionType,
-    });
+    try {
+      await addTransaction({
+        title: normalizedTitle,
+        amount: normalizedAmount,
+        category: selectedCategory,
+        date: transactionDate,
+        type: transactionType,
+      }).unwrap();
+
+      closeModal();
+    } catch {
+      return;
+    }
   };
 
   const handleSetTransactionAmount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -162,13 +192,6 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setHasCategoryError(false);
   };
 
-  const handleSetTransactionDate = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = e.target.value;
-
-    setTransactionDate(selectedDate);
-    setTransactionDateError(getDateError(selectedDate));
-  };
-
   return (
     <Dialog.Root open={open} onOpenChange={handleOpenChange}>
       <Dialog.Portal>
@@ -180,7 +203,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
               </ModalTitle>
 
               <Dialog.Close asChild>
-                <IconButton aria-label="close">
+                <IconButton aria-label="close" disabled={isLoading}>
                   <CloseIcon />
                 </IconButton>
               </Dialog.Close>
@@ -189,6 +212,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
             <FormContainer
               id="transaction-form"
               noValidate
+              autoComplete="off"
               onSubmit={handleSubmit}
             >
               <Flex direction="column" gap="xs">
@@ -249,6 +273,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   <Input
                     type="number"
                     inputMode="decimal"
+                    step="0.01"
                     id="transaction-amount"
                     error={transactionAmountError}
                     value={transactionAmount}
@@ -290,13 +315,11 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   Date
                 </Typography>
 
-                <Input
-                  type="date"
-                  max={todayStr}
+                <DateInput
                   id="transaction-date"
                   error={transactionDateError}
                   value={transactionDate}
-                  onChange={handleSetTransactionDate}
+                  onValueChange={setTransactionDate}
                   required
                   reserveErrorSpace
                 />
@@ -313,7 +336,7 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
 
             <ButtonGroup gap="sm">
               <Dialog.Close asChild>
-                <Button type="button" variant="secondary">
+                <Button type="button" variant="secondary" disabled={isLoading}>
                   Cancel
                 </Button>
               </Dialog.Close>

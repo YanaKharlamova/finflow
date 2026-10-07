@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { Badge } from "src/shared/ui/ui-kit/Badge";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 import type { TypographyColor } from "src/shared/ui/ui-kit/Typography.styled";
+import type { Currency } from "src/shared/types/transaction";
 
 type Props = {
   icon: ReactNode;
@@ -11,8 +12,9 @@ type Props = {
   subtitle: string;
   badgeText?: string;
   amount: string;
-  currency: string;
+  currency?: Currency;
   cardAccent?: TypographyColor;
+  dataFetching?: boolean;
 };
 
 export const OverviewCard = ({
@@ -23,6 +25,7 @@ export const OverviewCard = ({
   amount,
   currency,
   cardAccent = "primary",
+  dataFetching = false,
 }: Props) => {
   return (
     <Root direction="column" gap="md">
@@ -38,10 +41,15 @@ export const OverviewCard = ({
       </Flex>
 
       <Flex direction="column" gap="sm" justify="space-between">
-        <Typography variant="pageTitleSm" color={cardAccent}>
-          {amount} {currency}
+        <Typography
+          variant="pageTitleSm"
+          color={cardAccent}
+          shimmer={dataFetching}
+        >
+          {amount}
+          {currency ? ` ${currency}` : null}
         </Typography>
-        <Typography variant="caption" color="secondary">
+        <Typography variant="caption" color="secondary" shimmer={dataFetching}>
           {subtitle}
         </Typography>
       </Flex>

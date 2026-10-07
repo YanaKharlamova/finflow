@@ -1,5 +1,5 @@
-import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
 import { convertMinorToMajorUnits } from "src/shared/helpers/convertMinorToMajorUnits";
+import type { OverviewSummary } from "src/pages/overview/types";
 
 const formatAmount = (amount: number) =>
   new Intl.NumberFormat("en-US", {
@@ -7,10 +7,8 @@ const formatAmount = (amount: number) =>
     maximumFractionDigits: 2,
   }).format(convertMinorToMajorUnits(amount));
 
-export const getCardData = () => {
-  const {
-    summary: { currency, currentBalanceMinor, incomeMinor, expensesMinor },
-  } = MOCK_OVERVIEW_RESPONSE;
+export const getCardData = (data: OverviewSummary) => {
+  const { currency, currentBalanceMinor, incomeMinor, expensesMinor } = data;
 
   return {
     currentTotalBalance: formatAmount(currentBalanceMinor),

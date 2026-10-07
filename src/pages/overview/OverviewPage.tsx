@@ -1,35 +1,84 @@
 import { PageLayout } from "src/shared/layout/PageLayout";
 import { AddTransactionButton } from "src/pages/transactions/AddTransactionButton";
-import {
-  AnalyticsPeriodSelection,
-  type PeriodValue,
-} from "src/pages/overview/AnalyticsPeriodSelection";
-import { useState } from "react";
+import { AnalyticsPeriodSelection } from "src/pages/overview/AnalyticsPeriodSelection";
+import { useEffect, useState } from "react";
 import { TransactionModal } from "src/shared/modals/TransactionModal";
 import { OverviewTransactionsCards } from "src/pages/overview/OverviewTransactionsCards";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { OverviewCashFlow } from "src/pages/overview/OverviewCashFlow";
-import { MOCK_OVERVIEW_RESPONSE } from "src/pages/overview/mock";
-import type { Currency } from "src/shared/types/transaction";
 import { OverviewExpensesByCategory } from "src/pages/overview/OverviewExpensesByCategory";
-
-const DEFAULT_PERIOD: PeriodValue = "7d";
+import type { PeriodValue } from "src/pages/overview/types";
+import { DEFAULT_PERIOD, PERIOD_OPTIONS } from "src/pages/overview/constants";
+import { useOutletContext, useSearchParams } from "react-router-dom";
+import { useGetOverviewQuery } from "src/api/overviewApi";
+import type { AppLayoutContext } from "src/shared/layout/AppLayout";
 
 export const OverviewPage = () => {
-  const [selectedPeriod, setSelectedPeriod] =
-    useState<PeriodValue>(DEFAULT_PERIOD);
+  const { backdropVisible, handleCloseSidebar } =
+    useOutletContext<AppLayoutContext>();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const periodParam = searchParams.get("period");
+  const periodFromUrl = PERIOD_OPTIONS.find(
+    ({ value }) => value === periodParam,
+  )?.value;
+  const selectedPeriod = periodFromUrl ?? DEFAULT_PERIOD;
+
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetOverviewQuery(selectedPeriod);
+  const showSkeleton = isLoading || (isFetching && !data);
 
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
 
   const handleToggleModal = (toggleState: boolean) => {
+    if (toggleState && backdropVisible) {
+      handleCloseSidebar();
+    }
+
     setOpenTransactionModal(toggleState);
   };
 
+  useEffect(() => {
+    const canonicalPeriodInUrl =
+      periodFromUrl !== undefined && periodFromUrl !== DEFAULT_PERIOD;
+
+    if (periodParam === null || canonicalPeriodInUrl) {
+      return;
+    }
+
+    setSearchParams(
+      (previousParams) => {
+        const nextParams = new URLSearchParams(previousParams);
+        nextParams.delete("period");
+
+        return nextParams;
+      },
+      { replace: true },
+    );
+  }, [periodFromUrl, periodParam, setSearchParams]);
+
+  const handlePeriodChange = (period: PeriodValue) => {
+    setSearchParams(
+      (previousParams) => {
+        const nextParams = new URLSearchParams(previousParams);
+
+        if (period === DEFAULT_PERIOD) {
+          nextParams.delete("period");
+        } else {
+          nextParams.set("period", period);
+        }
+
+        return nextParams;
+      },
+      { replace: true },
+    );
+  };
+
   const selection = (
-    <Flex gap="sm">
+    <Flex gap="xs">
       <AnalyticsPeriodSelection
         selectedPeriod={selectedPeriod}
-        setSelectedPeriod={setSelectedPeriod}
+        onPeriodChange={handlePeriodChange}
       />
       <AddTransactionButton onModalToggle={handleToggleModal} />
     </Flex>
@@ -37,18 +86,31 @@ export const OverviewPage = () => {
 
   return (
     <PageLayout title="Overview" actions={selection}>
-      <OverviewTransactionsCards />
+      <OverviewTransactionsCards
+        data={data?.summary}
+        dataLoading={isLoading}
+        dataFetching={isFetching}
+        hasDataError={isError}
+      />
 
       <OverviewCashFlow
-        data={MOCK_OVERVIEW_RESPONSE.cashFlow}
-        currency={MOCK_OVERVIEW_RESPONSE.summary.currency as Currency}
+        data={data?.cashFlow}
+        dataLoading={showSkeleton}
+        dataFetching={isFetching}
+        hasDataError={isError}
+        currency={data?.summary?.currency}
         onModalToggle={handleToggleModal}
+        onRetry={refetch}
       />
 
       <OverviewExpensesByCategory
-        data={MOCK_OVERVIEW_RESPONSE.expensesByCategory}
-        totalExpensesMinor={MOCK_OVERVIEW_RESPONSE.summary.expensesMinor}
-        currency={MOCK_OVERVIEW_RESPONSE.summary.currency as Currency}
+        data={data?.expensesByCategory}
+        dataLoading={showSkeleton}
+        dataFetching={isFetching}
+        hasDataError={isError}
+        currency={data?.summary?.currency}
+        totalExpensesMinor={data?.summary?.expensesMinor}
+        onRetry={refetch}
       />
 
       <TransactionModal

@@ -18,7 +18,7 @@ export const CashFlowEmptyState = ({ onModalToggle }: Props) => {
         Add your first transaction to start analyzing your cash flow.
       </Typography>
 
-      <AddTransactionButton onModalToggle={onModalToggle} />
+      <AddTransactionButton onModalToggle={onModalToggle} fullLabel />
     </Root>
   );
 };

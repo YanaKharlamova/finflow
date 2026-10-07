@@ -5,9 +5,12 @@ import type {
 } from "src/shared/types/transaction";
 
 import {
+  AMOUNT_PATTERN,
   CATEGORY_OPTIONS,
   TRANSACTION_TYPES,
 } from "src/shared/modals/constants";
+import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
+import { isValidTransactionDate } from "src/shared/helpers/isValidTransactionDate";
 import { isNumber, isString } from "src/shared/types/typeguards";
 
 type NewTransaction = Omit<Transaction, "id" | "currency" | "amountMinor"> & {
@@ -16,6 +19,16 @@ type NewTransaction = Omit<Transaction, "id" | "currency" | "amountMinor"> & {
 
 const hasText = (value: unknown): value is string =>
   isString(value) && Boolean(value.trim());
+
+const isValidAmount = (value: unknown): value is number =>
+  isNumber(value) &&
+  Number.isFinite(value) &&
+  value > 0 &&
+  AMOUNT_PATTERN.test(String(value)) &&
+  Number.isSafeInteger(Math.round(value * 100));
+
+const isValidDate = (value: unknown): value is string =>
+  isValidTransactionDate(value) && value <= formatLocalDate(new Date());
 
 const isTransactionType = (value: unknown): value is TransactionType =>
   value === TRANSACTION_TYPES.income || value === TRANSACTION_TYPES.expense;
@@ -36,11 +49,9 @@ export const isValidTransaction = (value: unknown): value is NewTransaction => {
 
   return (
     hasText(title) &&
-    hasText(date) &&
+    isValidDate(date) &&
     isTransactionType(type) &&
     isCategory(category, type) &&
-    isNumber(amount) &&
-    Number.isFinite(amount) &&
-    amount > 0
+    isValidAmount(amount)
   );
 };

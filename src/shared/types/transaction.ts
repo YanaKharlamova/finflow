@@ -32,10 +32,10 @@ export type Transaction = {
 export type TransactionSort =
   (typeof TRANSACTION_SORT_OPTIONS)[number]["value"];
 
-export type TransactionCategoryFilter =
+type TransactionCategoryFilter =
   (typeof TRANSACTION_CATEGORY_OPTIONS)[number]["value"];
 
-export type TransactionTypeFilter =
+type TransactionTypeFilter =
   (typeof TRANSACTION_TYPE_OPTIONS)[number]["value"];
 
 export type TransactionFilterData = {
