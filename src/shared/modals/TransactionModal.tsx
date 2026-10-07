@@ -15,6 +15,7 @@ import { CloseIcon } from "src/shared/ui/icons/CloseIcon";
 import { Typography } from "src/shared/ui/ui-kit/Typography";
 import { Button } from "src/shared/ui/ui-kit/Button";
 import { Input } from "src/shared/ui/ui-kit/Input";
+import { DateInput } from "src/shared/ui/ui-kit/DateInput";
 import { Select } from "src/shared/ui/ui-kit/Select";
 import { type ChangeEvent, type SubmitEvent, useState } from "react";
 import { useAddTransactionMutation } from "src/api/transactionsApi";
@@ -30,6 +31,7 @@ import { BREAKPOINTS } from "src/shared/styles/breakpoints";
 import type { Category, TransactionType } from "src/shared/types/transaction";
 import { Flex } from "src/shared/ui/ui-kit/Flex";
 import { formatLocalDate } from "src/shared/helpers/formatLocalDate";
+import { isValidTransactionDate } from "src/shared/helpers/isValidTransactionDate";
 
 type Props = {
   open: boolean;
@@ -51,7 +53,6 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const todayStr = formatLocalDate(new Date());
 
   const [transactionDate, setTransactionDate] = useState(todayStr);
-  const [transactionDateError, setTransactionDateError] = useState("");
 
   const [addTransaction, { isError, isLoading, reset }] =
     useAddTransactionMutation();
@@ -67,7 +68,6 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     setSelectedCategory("");
     setHasCategoryError(false);
     setTransactionDate(todayStr);
-    setTransactionDateError("");
   };
 
   const closeModal = () => {
@@ -127,12 +127,18 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
       return "Date is required!";
     }
 
+    if (!isValidTransactionDate(value)) {
+      return "Enter a valid date!";
+    }
+
     if (value > todayStr) {
       return "Date cannot be in the future!";
     }
 
     return "";
   };
+
+  const transactionDateError = getDateError(transactionDate);
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -143,14 +149,17 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
     const invalidTitle = !normalizedTitle;
     const amountError = getAmountError(transactionAmount);
     const invalidCategory = !selectedCategory;
-    const dateError = getDateError(transactionDate);
 
     setTransactionAmountError(amountError);
     setHasTitleError(invalidTitle);
     setHasCategoryError(invalidCategory);
-    setTransactionDateError(dateError);
 
-    if (invalidTitle || amountError || invalidCategory || dateError) {
+    if (
+      invalidTitle ||
+      amountError ||
+      invalidCategory ||
+      transactionDateError
+    ) {
       return;
     }
 
@@ -181,13 +190,6 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
   const handleChangeCategory = (category: Category) => {
     setSelectedCategory(category);
     setHasCategoryError(false);
-  };
-
-  const handleSetTransactionDate = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = e.target.value;
-
-    setTransactionDate(selectedDate);
-    setTransactionDateError(getDateError(selectedDate));
   };
 
   return (
@@ -313,13 +315,11 @@ export const TransactionModal = ({ open, onModalToggle }: Props) => {
                   Date
                 </Typography>
 
-                <Input
-                  type="date"
-                  max={todayStr}
+                <DateInput
                   id="transaction-date"
                   error={transactionDateError}
                   value={transactionDate}
-                  onChange={handleSetTransactionDate}
+                  onValueChange={setTransactionDate}
                   required
                   reserveErrorSpace
                 />

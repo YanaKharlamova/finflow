@@ -128,6 +128,25 @@ test.each(requiredFieldCases)(
   },
 );
 
+test("does not submit a transaction with an invalid date", async () => {
+  const postRequest = mockSuccessfulPostTransaction();
+  const { user, form } = await setupTransactionModal();
+
+  await user.type(form.getByLabelText(/^title$/i), "Grocery shopping");
+  await user.type(form.getByLabelText(/^amount$/i), "25.50");
+  await user.click(form.getByLabelText(/^category$/i));
+  await user.click(await screen.findByRole("option", { name: /^food$/i }));
+
+  const dateInput = form.getByLabelText(/^date$/i);
+  await user.clear(dateInput);
+  await user.type(dateInput, "02021006");
+
+  await user.click(form.getByRole("button", { name: /^add transaction$/i }));
+
+  expect(form.getByText("Enter a valid date!")).toBeInTheDocument();
+  expect(postRequest).not.toHaveBeenCalled();
+});
+
 test("keeps entered data and allows retry after a failed request", async () => {
   const postRequest = mockFailedPostTransaction();
   const { user, dialog, form } = await setupTransactionModal();
