@@ -1,5 +1,7 @@
 # FinFlow
 
+[![CI](https://github.com/YanaKharlamova/finflow/actions/workflows/ci.yml/badge.svg)](https://github.com/YanaKharlamova/finflow/actions/workflows/ci.yml)
+
 FinFlow is a responsive finance dashboard for tracking transactions and analyzing income, expenses, cash flow, and spending by category.
 
 ## Features
