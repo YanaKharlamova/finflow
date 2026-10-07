@@ -1,75 +1,78 @@
-# React + TypeScript + Vite
+# FinFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FinFlow is a responsive finance dashboard for tracking transactions and analyzing income, expenses, cash flow, and spending by category.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Financial overview with balance, income, expenses, cash flow, and category analytics
+- Transaction creation and deletion
+- Search, filtering, sorting, and pagination
+- Responsive layout for desktop and mobile
+- Loading, fetching, empty, and error states
+- Mock API powered by MSW
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
+- Redux Toolkit
+- RTK Query
+- React Router
+- Recharts
+- Radix UI
+- styled-components
+- MSW
+- Vitest
+- React Testing Library
 
-## Expanding the ESLint configuration
+## Technical Highlights
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- RTK Query for server-state management, caching, and cache invalidation
+- URL-synchronized analytics periods and transaction pagination
+- Mock REST API implemented with MSW
+- Route-level lazy loading
+- Responsive desktop and mobile layouts
+- Separate loading, fetching, empty, and error states
+- Integration testing with Vitest, React Testing Library, and MSW
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Testing
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Tests cover key user flows and application behavior, including:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Transaction creation, deletion, and retry flows
+- Required-field and date validation
+- Date filtering, search, and pagination
+- Overview rendering and period changes
+- Empty and error states
 
+## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+The application uses an in-browser mock API, so no backend setup is required. Mock transaction data is stored in memory and resets after a page reload.
+
+## Scripts
+
+```bash
+npm run dev        # Start the development server
+npm run build      # Create a production build
+npm run preview    # Preview the production build
+npm run test:run   # Run tests once
+npm run typecheck  # Check TypeScript types
+npm run lint       # Run ESLint and Knip
+```
+
+## Deployment
+
+The project is configured for deployment on Vercel and supports direct navigation and page refresh for React Router routes.
