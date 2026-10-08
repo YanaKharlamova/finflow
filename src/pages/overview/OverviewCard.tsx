@@ -31,7 +31,9 @@ export const OverviewCard = ({
     <Root direction="column" gap="md">
       <Flex justify="space-between" align="flex-start">
         <Flex align="center" gap="sm">
-          {icon}
+          <Typography as="span" color={cardAccent} variant="inherit">
+            {icon}
+          </Typography>
           <Typography color="secondary" variant="subtitle">
             {title}
           </Typography>
