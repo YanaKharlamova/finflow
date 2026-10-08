@@ -13,6 +13,24 @@ FinFlow is a responsive finance dashboard for tracking transactions and analyzin
 - Loading, fetching, empty, and error states
 - Mock API powered by MSW
 
+## Screenshots
+
+### Overview
+
+![Cash flow overview](./docs/overview-cash-flow.png)
+
+![Expenses by category overview](./docs/overview-expenses-by-category.png)
+
+### Transactions
+
+![Transactions and pagination](./docs/transactions-pagination.png)
+
+### Mobile
+
+| Overview | Add transaction | Transactions |
+| --- | --- | --- |
+| <img src="./docs/overview-mobile.png" alt="Mobile overview" width="240" /> | <img src="./docs/overview-mobile-modal.png" alt="Mobile add transaction form" width="240" /> | <img src="./docs/transactions-mobile.png" alt="Mobile transactions" width="240" /> |
+
 ## Tech Stack
 
 - React
@@ -78,21 +96,3 @@ npm run lint       # Run ESLint and Knip
 ## Deployment
 
 The project is configured for deployment on Vercel and supports direct navigation and page refresh for React Router routes.
-
-## Screenshots
-
-### Overview
-
-![Cash flow overview](./docs/overview-cash-flow.png)
-
-![Expenses by category overview](./docs/overview-expenses-by-category.png)
-
-### Transactions
-
-![Transactions and pagination](./docs/transactions-pagination.png)
-
-### Mobile
-
-| Overview | Add transaction | Transactions |
-| --- | --- | --- |
-| <img src="./docs/overview-mobile.png" alt="Mobile overview" width="240" /> | <img src="./docs/overview-mobile-modal.png" alt="Mobile add transaction form" width="240" /> | <img src="./docs/transactions-mobile.png" alt="Mobile transactions" width="240" /> |
