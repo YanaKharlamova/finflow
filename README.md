@@ -4,6 +4,8 @@
 
 FinFlow is a responsive finance dashboard for tracking transactions and analyzing income, expenses, cash flow, and spending by category.
 
+**[View Live Demo →](https://finflow-three-beta.vercel.app)**
+
 ## Features
 
 - Financial overview with balance, income, expenses, cash flow, and category analytics
@@ -95,4 +97,4 @@ npm run lint       # Run ESLint and Knip
 
 ## Deployment
 
-The project is configured for deployment on Vercel and supports direct navigation and page refresh for React Router routes.
+The project is [deployed on Vercel](https://finflow-three-beta.vercel.app/) and supports direct navigation and page refresh for React Router routes.
