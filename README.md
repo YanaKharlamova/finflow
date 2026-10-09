@@ -67,9 +67,9 @@ Tests cover key user flows and application behavior, including:
 - Transaction creation, deletion, and retry flows
 - Browser-level transaction creation with Playwright
 - Required-field and date validation
-- Date filtering, search, and pagination
-- Overview rendering and period changes
-- Empty and error states
+- Date filter updates, search, and pagination
+- Overview data rendering, demo data, and period changes
+- Transaction empty and error states
 
 ## Getting Started
 
@@ -77,6 +77,12 @@ Install dependencies:
 
 ```bash
 npm install
+```
+
+Install Chromium to run the Playwright test:
+
+```bash
+npx playwright install chromium
 ```
 
 Start the development server:
