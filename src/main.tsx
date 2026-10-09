@@ -11,12 +11,18 @@ async function enableMocking() {
   return worker.start();
 }
 
-enableMocking().then(() => {
-  createRoot(document.getElementById("root")!).render(
+const root = createRoot(document.getElementById("root")!);
+
+const renderApp = (startupError = false) => {
+  root.render(
     <StrictMode>
       <Provider store={store}>
-        <App />
+        <App startupError={startupError} />
       </Provider>
     </StrictMode>,
   );
-});
+};
+
+enableMocking()
+  .then(() => renderApp())
+  .catch(() => renderApp(true));

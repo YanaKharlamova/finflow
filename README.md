@@ -47,6 +47,7 @@ FinFlow is a responsive finance dashboard for tracking transactions and analyzin
 - MSW
 - Vitest
 - React Testing Library
+- Playwright
 
 ## Technical Highlights
 
@@ -57,12 +58,14 @@ FinFlow is a responsive finance dashboard for tracking transactions and analyzin
 - Responsive desktop and mobile layouts
 - Separate loading, fetching, empty, and error states
 - Integration testing with Vitest, React Testing Library, and MSW
+- Browser smoke testing with Playwright
 
 ## Testing
 
 Tests cover key user flows and application behavior, including:
 
 - Transaction creation, deletion, and retry flows
+- Browser-level transaction creation with Playwright
 - Required-field and date validation
 - Date filtering, search, and pagination
 - Overview rendering and period changes
@@ -91,6 +94,7 @@ npm run dev        # Start the development server
 npm run build      # Create a production build
 npm run preview    # Preview the production build
 npm run test:run   # Run tests once
+npm run test:e2e   # Run the Playwright browser test
 npm run typecheck  # Check TypeScript types
 npm run lint       # Run ESLint and Knip
 ```
